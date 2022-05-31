@@ -1,7 +1,7 @@
 const db = require("../models");
 const Product = db.products;
 const Op = db.Sequelize.Op;
-// Create and Save a new Tutorial
+// Create and Save a new Product
 exports.create = (req, res) => {
 	if (!req.body.title) {
 		res.status(400).send({
@@ -9,14 +9,14 @@ exports.create = (req, res) => {
 		});
 		return;
 	}
-	// Create a Tutorial
+	// Create a Product
 	const product = {
 		title: req.body.title,
 		description: req.body.description,
 		category: req.body.category,
 		isPublished: req.body.isPublished ? req.body.isPublished : false,
 	};
-	// Save Tutorial in the database
+	// Save Product in the database
 	Product.create(product)
 		.then((data) => {
 			res.send(data);
@@ -27,7 +27,7 @@ exports.create = (req, res) => {
 			});
 		});
 };
-// Retrieve all Tutorials from the database.
+// Retrieve all Products from the database.
 exports.findAll = (req, res) => {
 	const title = req.query.title;
 	let condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -43,7 +43,7 @@ exports.findAll = (req, res) => {
 			});
 		});
 };
-// Find a single Tutorial with an id
+// Find a single Product with an id
 exports.findOne = (req, res) => {
 	const id = req.params.id;
 	Product.findByPk(id, { include: ["comments", "images"] })
@@ -62,7 +62,7 @@ exports.findOne = (req, res) => {
 			});
 		});
 };
-// Update a Tutorial by the id in the request
+// Update a Product by the id in the request
 exports.update = (req, res) => {
 	const id = req.params.id;
 	Product.update(req.body, {
@@ -85,7 +85,7 @@ exports.update = (req, res) => {
 			});
 		});
 };
-// Delete a Tutorial with the specified id in the request
+// Delete a Product with the specified id in the request
 exports.delete = (req, res) => {
 	const id = req.params.id;
 	Product.destroy({
@@ -109,7 +109,7 @@ exports.delete = (req, res) => {
 		});
 };
 
-// Find all published Tutorials
+// Find all published Products
 exports.findAllPublished = (req, res) => {
 	Product.findAll({ include: ["comments"], where: { isPublished: true } })
 		.then((data) => {

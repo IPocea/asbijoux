@@ -1,0 +1,30 @@
+<form>
+  <h1>Login</h1>
+  <label for="username"
+    ><fa-icon id="user-icon" [icon]="faUser"></fa-icon
+  ></label>
+  <input
+    [(ngModel)]="username"
+    (mouseenter)="changeIconUserColor()"
+    (mouseleave)="changeIconUserColor()"
+    type="text"
+    name="username"
+    id=""
+    placeholder="Username"
+  />
+
+  <label for="password"
+    ><fa-icon id="password-icon" [icon]="faLock"></fa-icon
+  ></label>
+  <input
+    [(ngModel)]="password"
+    (mouseenter)="changeIconPasswordColor()"
+    (mouseleave)="changeIconPasswordColor()"
+    type="password"
+    name="password"
+    id=""
+    placeholder="Password"
+  />
+  <button type="submit" (click)="logIn()">Login</button>
+  <p [class]="errorMessageClass">{{ errorMessage }}</p>
+</form>

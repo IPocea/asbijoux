@@ -1,0 +1,74 @@
+@import "../../styles/variables.scss";
+:host {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  background-color: $login;
+  form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: $white;
+    border-top: 3px solid $blue;
+    box-shadow: 0 3px 2px 0px #cabcbc;
+    padding: 20px 40px;
+    h1 {
+      color: $blue;
+      font-weight: normal;
+    }
+
+    input {
+      padding: 10px;
+      text-indent: 20px;
+      border-radius: 5px;
+    }
+    label {
+      position: relative;
+      #user-icon,
+      #password-icon {
+        position: absolute;
+        right: 93%;
+        z-index: 1;
+        color: #b9b7b7;
+      }
+      #user-icon {
+        top: 20px;
+      }
+      #password-icon {
+        bottom: -40px;
+      }
+    }
+    button {
+      background-color: $blue;
+      color: $white;
+      border-radius: 5px;
+      padding: 10px;
+      border: none;
+      font-size: large;
+    }
+    button:hover {
+      background-color: rgb(7, 7, 172);
+    }
+    button:active {
+      background-color: rgb(5, 5, 74);
+    }
+  }
+}
+
+.error-message-on {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 20px;
+  border-radius: 5px;
+}
+.error-message-off {
+  display: none;
+}
+
+@media (min-width: 662px) {
+  form {
+    width: 20%;
+  }
+}

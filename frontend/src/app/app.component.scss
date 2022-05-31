@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  #main-container {
+    flex: 1;
+  }
+  app-footer {
+    text-align: center;
+  }
+}
