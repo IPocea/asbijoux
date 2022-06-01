@@ -1,0 +1,63 @@
+@import "../../styles/variables.scss";
+:host {
+  #not-logged-in {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+    #admin-relog {
+      margin-top: 25px;
+      cursor: pointer;
+      color: $blue;
+    }
+    #admin-relog:hover {
+      color: $blueHover;
+    }
+    #admin-relog:active {
+      color: $blueActive;
+    }
+    img {
+      width: 50%;
+      border: 1px solid pink;
+      border-radius: 15%;
+      box-shadow: 0 0 0 3px rgb(30, 15, 18);
+    }
+  }
+  #logged-in {
+    display: flex;
+    height: 91vh;
+    margin: 0 5px;
+    #left-side-admin {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      background-color: $adminLeftSide;
+      width: 30%;
+      ul {
+        li {
+          list-style-type: none;
+          list-style-position: inside;
+          color: #dee2e6;
+          padding: 15px;
+          margin: 5px 0;
+        }
+        li:hover {
+          background-color: #000000;
+          color: #ffffff;
+          cursor: pointer;
+        }
+      }
+    }
+    #right-side-admin {
+      display: flex;
+      background-color: $adminRightSide;
+      width: 70%;
+    }
+  }
+}
+
+.is-active {
+  background-color: #000000;
+  box-shadow: -3px 0 0 0 rgb(11, 130, 209);
+}

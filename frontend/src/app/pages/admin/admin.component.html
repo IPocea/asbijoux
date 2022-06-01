@@ -1,1 +1,42 @@
-<p>admin works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoggedIn && !isLoading">
+  <div *ngIf="content" [class]="errorMessageClass" id="not-logged-in">
+    <p>{{ content }}</p>
+    <p>Va rugam sa va reconectati!</p>
+    <p id="admin-relog" (click)="relog()">Reconectare</p>
+    <img
+      src="http://localhost:8080/api/images/files/1654078711449-asbijoux-asbijoux-atelierelor-medalion-si-cercei.PNG"
+      alt="AsBijoux Atelierelor Constanta Medalion si Cercei"
+    />
+  </div>
+</ng-container>
+<ng-container *ngIf="isLoggedIn && !isLoading">
+  <div id="logged-in">
+    <div id="left-side-admin">
+      <ul>
+        <li *ngIf="user" [class]="classUser" (click)="getProfile()">
+          {{ user.username }}
+        </li>
+        <li [class]="classAddProduct" (click)="addProduct()">Adauga produs</li>
+        <li [class]="classViewProducts" (click)="viewProduct()">
+          Vizualizeaza produsele
+        </li>
+        <li [class]="classCategory" (click)="getCategories()">Categorii</li>
+      </ul>
+    </div>
+    <div id="right-side-admin">
+      <app-profile *ngIf="isProfileSelected"></app-profile>
+      <app-add-product
+        *ngIf="isAddProductSelected"
+        [API_KEY]="API_KEY"
+      ></app-add-product>
+      <app-view-products *ngIf="isViewProductsSelected"></app-view-products>
+      <app-categories *ngIf="isCategorySelected"></app-categories>
+    </div>
+  </div>
+</ng-container>

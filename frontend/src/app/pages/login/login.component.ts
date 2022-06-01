@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   faUser = faUser;
   isUserIconFlagged: boolean = false;
   isPasswordIconFlagged: boolean = false;
+  isLoading: boolean = false;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -42,11 +43,13 @@ export class LoginComponent implements OnInit {
     }
     this.isPasswordIconFlagged = !this.isPasswordIconFlagged;
   }
-  logIn(): void {
+  logIn(e: Event): void {
+    e.preventDefault();
     if (this.username === '' || this.password === '') {
       this.errorMessage = 'Te rugam sa introduci un username si o parola';
       this.errorMessageClass = 'error-message-on';
     }
+    this.isLoading = true;
     this.authService
       .login(this.username.trim(), this.password)
       .pipe(take(1))
@@ -54,11 +57,13 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.tokenStorage.saveToken(data.accessToken);
           this.tokenStorage.saveUser(data);
+          this.isLoading = false;
           this.router.navigate(['/n@dmin']);
         },
         (err) => {
           this.errorMessage = err.error.message;
           this.errorMessageClass = 'error-message-on';
+          this.isLoading = false;
         }
       );
   }

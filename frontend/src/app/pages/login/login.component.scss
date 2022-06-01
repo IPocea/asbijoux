@@ -48,23 +48,12 @@
       font-size: large;
     }
     button:hover {
-      background-color: rgb(7, 7, 172);
+      background-color: $blueHover;
     }
     button:active {
-      background-color: rgb(5, 5, 74);
+      background-color: $blueActive;
     }
   }
-}
-
-.error-message-on {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  padding: 20px;
-  border-radius: 5px;
-}
-.error-message-off {
-  display: none;
 }
 
 @media (min-width: 662px) {
