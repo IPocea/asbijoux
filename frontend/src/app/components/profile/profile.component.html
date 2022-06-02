@@ -1,1 +1,18 @@
-<p>profile works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <div id="profile-container">
+    <h2>{{ user.username }}</h2>
+    <p>Email: {{ user.email }}</p>
+    <img
+      src="http://localhost:8080/api/images/files/1654145307510-asbijoux-ionita-grigore.jpg"
+      alt="User Picture"
+    />
+    <p>Privilegii: {{ user.roles[0].slice(user.roles[0].indexOf("_") + 1) }}</p>
+    <p id="profile-sign-out" (click)="signOut()">Delogare</p>
+  </div>
+</ng-container>

@@ -43,7 +43,7 @@
           margin: 5px 0;
         }
         li:hover {
-          background-color: #000000;
+          background-color: $black;
           color: #ffffff;
           cursor: pointer;
         }
@@ -58,6 +58,6 @@
 }
 
 .is-active {
-  background-color: #000000;
+  background-color: $black;
   box-shadow: -3px 0 0 0 rgb(11, 130, 209);
 }

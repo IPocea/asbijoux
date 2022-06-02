@@ -1,0 +1,40 @@
+@import "../../styles/variables.scss";
+:host {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  #profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid $adminLeftSide;
+    border-radius: 5px;
+    img {
+      max-width: 300px;
+      border-radius: 5px;
+      border: 1px solid $adminLeftSide;
+    }
+    #profile-sign-out {
+      color: $blue;
+      cursor: pointer;
+    }
+    #profile-sign-out:hover {
+      color: $blueHover;
+    }
+    #profile-sign-out:active {
+      color: $blueActive;
+    }
+  }
+}
+
+@media (min-width: 662px) {
+  :host {
+    #profile-container {
+      img {
+        width: 300px;
+      }
+    }
+  }
+}

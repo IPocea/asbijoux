@@ -1,1 +1,39 @@
-<p>add-product works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <div *ngIf="options && filteredOptions" id="add-product-container">
+    <h2>Adauga un produs nou</h2>
+    <input
+      [(ngModel)]="title"
+      type="text"
+      name="title"
+      id="add-product-title"
+      placeholder="Adauga un titlu"
+    />
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Categorii</mat-label>
+        <input
+          type="text"
+          placeholder="Alege sau adauga o categorie"
+          aria-label="Categorii"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+</ng-container>

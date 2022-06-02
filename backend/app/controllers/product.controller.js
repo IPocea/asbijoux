@@ -43,6 +43,20 @@ exports.findAll = (req, res) => {
 			});
 		});
 };
+// Find all categories of Product
+exports.findAllCategories = (req, res) => {
+	Product.findAndCountAll({ group: ["category"] })
+		.then((data) => {
+			res.send(data);
+		})
+		.catch((err) => {
+			res.status(500).send({
+				message:
+					err.message ||
+					"O eroare a aparut in incercarea de a regasi categoriile.",
+			});
+		});
+};
 // Find a single Product with an id
 exports.findOne = (req, res) => {
 	const id = req.params.id;
@@ -111,7 +125,10 @@ exports.delete = (req, res) => {
 
 // Find all published Products
 exports.findAllPublished = (req, res) => {
-	Product.findAll({ include: ["comments"], where: { isPublished: true } })
+	Product.findAll({
+		include: ["comments", "images"],
+		where: { isPublished: true },
+	})
 		.then((data) => {
 			res.send(data);
 		})

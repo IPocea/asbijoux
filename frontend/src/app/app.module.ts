@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { httpInterceptorProviders } from './helpers/http.interceptor';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -23,6 +23,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,10 @@ import { CategoriesComponent } from './components/categories/categories.componen
     FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

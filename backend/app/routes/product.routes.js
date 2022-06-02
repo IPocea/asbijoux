@@ -10,6 +10,8 @@ module.exports = (app) => {
 	router.get("/published", products.findAllPublished);
 	// Retrieve a single Product with id
 	router.get("/:id", products.findOne);
+	// Retrieve all categories of the Products
+	router.get("/find/categories", products.findAllCategories);
 	// Update a Product with id
 	router.put(`/${process.env.API_KEY}/:id`, products.update);
 	// Delete a Product with id
