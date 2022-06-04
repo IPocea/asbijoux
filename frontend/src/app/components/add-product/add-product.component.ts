@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -16,6 +16,7 @@ export class AddProductComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   isLoading: boolean = false;
   title: string = '';
+  productDescription: string = '';
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
@@ -46,6 +47,7 @@ export class AddProductComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
+  testBtn(): void {}
   // testValue(): void {
   //   console.log(this.myControl.value);
   // }

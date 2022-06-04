@@ -35,5 +35,34 @@
         </mat-autocomplete>
       </mat-form-field>
     </form>
+    <h4>Descriere produs:</h4>
+    <quill-editor
+      [(ngModel)]="productDescription"
+      placeholder="Scrie aici"
+      [styles]="{ height: '150px', backgroundColor: '#FFF' }"
+    ></quill-editor>
+    <h4>Adauga poze:</h4>
+    <div>
+      <input type="file" name="file" id="" />
+      <input type="file" name="file" id="" />
+      <input type="file" name="file" id="" />
+      <input type="file" name="file" id="" /><input
+        type="file"
+        name="file"
+        id=""
+      />
+      <input type="file" name="file" id="" /><input
+        type="file"
+        name="file"
+        id=""
+      />
+      <input type="file" name="file" id="" /><input
+        type="file"
+        name="file"
+        id=""
+      />
+      <input type="file" name="file" id="" />
+    </div>
+    <button>Adauga produs</button>
   </div>
 </ng-container>
