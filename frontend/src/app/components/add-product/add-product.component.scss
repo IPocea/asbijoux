@@ -1,14 +1,62 @@
 @import "../../styles/variables.scss";
 
-#add-product-container {
-  padding: 10px;
-}
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
+:host {
   width: 100%;
-}
+  #add-product-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #add-product-title {
+      padding: 10px;
+    }
+    #add-product-category-and-publish {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .add-product-suggestions {
+      font-size: small;
+      color: $adminLeftSide;
+    }
+    #add-product-file-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #add-product-file-container input[type="file"] {
+      width: 100%;
+    }
+    #add-product-btn {
+      padding: 15px;
+      background-color: $blue;
+      color: $login;
+      border: none;
+    }
+    #add-product-btn:hover {
+      background-color: $blueHover;
+    }
+    #add-product-btn:active {
+      background-color: $blueActive;
+    }
+  }
 
-.example-full-width {
-  width: 100%;
+  @media screen and (min-width: 663px) {
+    #add-product-container {
+      #add-product-category-and-publish {
+        display: flex;
+        flex-direction: row;
+        mat-form-field {
+          width: 45%;
+        }
+      }
+      #add-product-file-container input[type="file"] {
+        width: 30%;
+      }
+    }
+  }
 }

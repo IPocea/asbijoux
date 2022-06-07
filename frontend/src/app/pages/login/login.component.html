@@ -33,6 +33,6 @@
       placeholder="Password"
     />
     <button type="submit" (click)="logIn($event)">Login</button>
-    <p [class]="errorMessageClass">{{ errorMessage }}</p>
+    <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
   </form>
 </ng-container>

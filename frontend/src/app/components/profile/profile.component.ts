@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user.interface';
-import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,16 +11,13 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 export class ProfileComponent implements OnInit {
   user: IUser | null = null;
   isLoading: boolean = false;
-  constructor(
-    private tokenStorage: TokenStorageService,
-    private router: Router
-  ) {}
+  constructor(private storageService: StorageService, private router: Router) {}
 
   ngOnInit(): void {
-    this.user = this.tokenStorage.getUser();
+    this.user = this.storageService.getUser();
   }
   signOut(): void {
-    this.tokenStorage.signOut();
+    this.storageService.signOut();
     this.isLoading = true;
     this.router.navigate(['pagina-principala']);
   }

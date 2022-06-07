@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { take } from 'rxjs';
 
 @Component({
@@ -11,7 +11,7 @@ import { take } from 'rxjs';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  errorMessageClass: string = 'error-message-off';
+  errorMessageClass: string = 'error-message-on';
   errorMessage: string = '';
   username: string = '';
   password: string = '';
@@ -23,23 +23,27 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private tokenStorage: TokenStorageService
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
+    if (this.storageService.getUser().username) {
       this.router.navigate(['n@dmin']);
     }
   }
   changeIconUserColor(): void {
     if (!this.isUserIconFlagged) {
+      document.getElementById('user-icon').style.color = 'black';
     } else {
+      document.getElementById('user-icon').style.color = '#b9b7b7';
     }
     this.isUserIconFlagged = !this.isUserIconFlagged;
   }
   changeIconPasswordColor(): void {
     if (!this.isPasswordIconFlagged) {
+      document.getElementById('password-icon').style.color = 'black';
     } else {
+      document.getElementById('password-icon').style.color = '#b9b7b7';
     }
     this.isPasswordIconFlagged = !this.isPasswordIconFlagged;
   }
@@ -47,7 +51,7 @@ export class LoginComponent implements OnInit {
     e.preventDefault();
     if (this.username === '' || this.password === '') {
       this.errorMessage = 'Te rugam sa introduci un username si o parola';
-      this.errorMessageClass = 'error-message-on';
+      return;
     }
     this.isLoading = true;
     this.authService
@@ -55,14 +59,12 @@ export class LoginComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (data) => {
-          this.tokenStorage.saveToken(data.accessToken);
-          this.tokenStorage.saveUser(data);
+          this.storageService.saveUser(data);
           this.isLoading = false;
           this.router.navigate(['/n@dmin']);
         },
         (err) => {
           this.errorMessage = err.error.message;
-          this.errorMessageClass = 'error-message-on';
           this.isLoading = false;
         }
       );

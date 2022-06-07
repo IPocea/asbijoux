@@ -13,6 +13,7 @@
     border-top: 3px solid $blue;
     box-shadow: 0 3px 2px 0px #cabcbc;
     padding: 20px 40px;
+    margin: 10px 0;
     h1 {
       color: $blue;
       font-weight: normal;
@@ -28,7 +29,7 @@
       #user-icon,
       #password-icon {
         position: absolute;
-        right: 93%;
+        right: 87%;
         z-index: 1;
         color: #b9b7b7;
       }
@@ -54,10 +55,48 @@
       background-color: $blueActive;
     }
   }
-}
+  @media screen and (min-width: 839px) {
+    form {
+      width: 20%;
+      label {
+        #user-icon,
+        #password-icon {
+          right: 92%;
+        }
+      }
+    }
+  }
 
-@media (min-width: 662px) {
-  form {
-    width: 20%;
+  @media screen and (min-width: 663px) {
+    form {
+      label {
+        #user-icon,
+        #password-icon {
+          right: 89%;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1296px) {
+    form {
+      label {
+        #user-icon,
+        #password-icon {
+          right: 92%;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1700px) {
+    form {
+      label {
+        #user-icon,
+        #password-icon {
+          right: 93%;
+        }
+      }
+    }
   }
 }

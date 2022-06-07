@@ -4,6 +4,6 @@ export interface IProductSimple {
   description: string;
   category: string;
   isPublished: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

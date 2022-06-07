@@ -5,12 +5,12 @@
 </ng-container>
 
 <ng-container *ngIf="!isLoggedIn && !isLoading">
-  <div *ngIf="content" [class]="errorMessageClass" id="not-logged-in">
-    <p>{{ content }}</p>
+  <div *ngIf="errorNoToken" [class]="errorMessageClass" id="not-logged-in">
+    <p>{{ errorNoToken }}</p>
     <p>Va rugam sa va reconectati!</p>
     <p id="admin-relog" (click)="relog()">Reconectare</p>
     <img
-      src="http://localhost:8080/api/images/files/1654078711449-asbijoux-asbijoux-atelierelor-medalion-si-cercei.PNG"
+      src="assets/asbijoux-atelierelor-medalion-si-cercei.PNG"
       alt="AsBijoux Atelierelor Constanta Medalion si Cercei"
     />
   </div>

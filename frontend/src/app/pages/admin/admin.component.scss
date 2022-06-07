@@ -26,14 +26,13 @@
   }
   #logged-in {
     display: flex;
-    height: 91vh;
+    flex-direction: column;
     margin: 0 5px;
     #left-side-admin {
       display: flex;
       flex-direction: column;
       padding: 10px;
       background-color: $adminLeftSide;
-      width: 30%;
       ul {
         li {
           list-style-type: none;
@@ -52,8 +51,19 @@
     #right-side-admin {
       display: flex;
       background-color: $adminRightSide;
-      width: 70%;
       overflow: scroll;
+    }
+  }
+  @media (min-width: 819px) {
+    #logged-in {
+      flex-direction: row;
+      height: 91vh;
+      #left-side-admin {
+        width: 30%;
+      }
+      #right-side-admin {
+        width: 70%;
+      }
     }
   }
 }

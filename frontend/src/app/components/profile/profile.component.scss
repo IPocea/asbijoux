@@ -27,13 +27,11 @@
       color: $blueActive;
     }
   }
-}
-
-@media (min-width: 662px) {
-  :host {
+  @media screen and (min-width: 663px) {
     #profile-container {
       img {
-        width: 300px;
+        max-width: 350px;
+        width: 350px;
       }
     }
   }

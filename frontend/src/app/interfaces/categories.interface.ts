@@ -1,4 +1,4 @@
-import { IProductSimple } from './product-simple-interface';
+import { IProductSimple } from './product.interface';
 
 export interface ICategories {
   count: ICategory[];

@@ -27,6 +27,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { QuillModule } from 'ngx-quill';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { QuillModule } from 'ngx-quill';
     ReactiveFormsModule,
     MatInputModule,
     QuillModule.forRoot(),
+    MatSelectModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

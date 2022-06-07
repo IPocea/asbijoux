@@ -1,68 +1,82 @@
-<ng-container *ngIf="isLoading">
-  <div class="spinner-container">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="!isLoading">
-  <div *ngIf="options && filteredOptions" id="add-product-container">
-    <h2>Adauga un produs nou</h2>
-    <input
-      [(ngModel)]="title"
-      type="text"
-      name="title"
-      id="add-product-title"
-      placeholder="Adauga un titlu"
-    />
-    <form class="example-form">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Categorii</mat-label>
-        <input
-          type="text"
-          placeholder="Alege sau adauga o categorie"
-          aria-label="Categorii"
-          matInput
-          [formControl]="myControl"
-          [matAutocomplete]="auto"
-        />
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let option of filteredOptions | async"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
-    <h4>Descriere produs:</h4>
-    <quill-editor
-      [(ngModel)]="productDescription"
-      placeholder="Scrie aici"
-      [styles]="{ height: '150px', backgroundColor: '#FFF' }"
-    ></quill-editor>
-    <h4>Adauga poze:</h4>
-    <div>
-      <input type="file" name="file" id="" />
-      <input type="file" name="file" id="" />
-      <input type="file" name="file" id="" />
-      <input type="file" name="file" id="" /><input
-        type="file"
-        name="file"
-        id=""
-      />
-      <input type="file" name="file" id="" /><input
-        type="file"
-        name="file"
-        id=""
-      />
-      <input type="file" name="file" id="" /><input
-        type="file"
-        name="file"
-        id=""
-      />
-      <input type="file" name="file" id="" />
+<div id="add-product-component">
+  <ng-container *ngIf="isLoading">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
     </div>
-    <button>Adauga produs</button>
-  </div>
-</ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading">
+    <div
+      *ngIf="categoryOptions && categoryFilteredOptions"
+      id="add-product-container"
+    >
+      <h2>Adauga un produs nou</h2>
+      <input
+        [(ngModel)]="title"
+        type="text"
+        name="title"
+        id="add-product-title"
+        placeholder="Adauga un titlu"
+      />
+      <form id="add-product-category-and-publish">
+        <mat-form-field appearance="fill">
+          <mat-label>Categorii</mat-label>
+          <input
+            type="text"
+            placeholder="Alege sau adauga o categorie"
+            aria-label="Categorii"
+            matInput
+            [formControl]="categoryControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of categoryFilteredOptions | async"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Publicat</mat-label>
+          <mat-select name="public select" [(ngModel)]="publicSelectValue">
+            <mat-option
+              *ngFor="let publicChoice of publicChoices"
+              [value]="publicChoice.value"
+            >
+              {{ publicChoice.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <h4>Descriere produs:</h4>
+      <quill-editor
+        [(ngModel)]="productDescription"
+        placeholder="Scrie aici"
+        [styles]="{ height: '150px', backgroundColor: '#FFF' }"
+      ></quill-editor>
+      <h4>Adauga poze:</h4>
+      <p class="add-product-suggestions">
+        Dimensiunea unei poze nu trebuie sa depaseasca 3.5 MB.
+      </p>
+      <div id="add-product-file-container">
+        <input
+          *ngFor="let in of counter(10)"
+          class="add-product-images"
+          type="file"
+          name="file"
+          accept="image/*"
+          (change)="checkSize($event)"
+        />
+      </div>
+      <button id="add-product-btn" (click)="addFullProduct()">
+        Adauga produs
+      </button>
+      <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" [class]="successMessageClass">
+        {{ successMessage }}
+      </p>
+    </div>
+  </ng-container>
+</div>
