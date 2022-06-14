@@ -85,7 +85,9 @@ export class AddProductComponent implements OnInit {
     this.errorMessage = '';
     const product: IProductSimple = {
       title: this.title,
-      category: this.categoryControl.value.toLowerCase(),
+      category:
+        this.categoryControl.value.slice(0, 1).toUpperCase() +
+        this.categoryControl.value.slice(1).toLowerCase(),
       isPublished: this.publicSelectValue,
       description: this.productDescription,
     };
@@ -108,7 +110,6 @@ export class AddProductComponent implements OnInit {
       }
     }
     this.isLoading = true;
-
     this.productService
       .addProduct(this.API_KEY, product)
       .pipe(take(1))
@@ -129,6 +130,7 @@ export class AddProductComponent implements OnInit {
         (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
+          return;
         }
       );
   }

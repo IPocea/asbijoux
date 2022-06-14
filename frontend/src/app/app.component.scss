@@ -5,10 +5,29 @@
     text-align: center;
   }
   @media screen and (min-width: 841px) {
-    justify-content: space-between;
-    height: 100%;
-    #main-container {
-      flex: 1;
+    .main {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas: "header" "main-container" "footer";
+      .header {
+        padding: 10px;
+        grid-area: header;
+      }
+
+      .main-container {
+        grid-area: body;
+      }
+
+      .footer {
+        padding: 10px;
+        grid-area: footer;
+      }
     }
+    // justify-content: space-between;
+    // height: 100%;
+    // #main-container {
+    //   flex: 1;
+    // }
   }
 }

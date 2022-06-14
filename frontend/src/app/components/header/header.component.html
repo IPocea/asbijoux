@@ -1,1 +1,106 @@
-<p>header works!</p>
+<div class="header-container-under-820px">
+  <mat-sidenav-container>
+    <mat-sidenav class="left-sidenav" mode="over" [opened]="isSideNavLeft">
+      <ng-container *ngIf="categories.length">
+        <ul>
+          <li
+            *ngFor="let category of categories"
+            (click)="goToCategory(category)"
+          >
+            {{ category }}
+          </li>
+        </ul>
+      </ng-container>
+      <ng-container *ngIf="!categories.length">
+        <a>Categoriile sunt in curs de incarcare</a>
+      </ng-container>
+    </mat-sidenav>
+    <mat-sidenav
+      position="end"
+      class="right-sidenav"
+      mode="over"
+      [opened]="isSideNavRight"
+    >
+      <ul>
+        <li>Telefon: <a href="tel:+40723126654">0723 126 654</a></li>
+        <li>
+          Email:
+          <a href="mailto:grigore.ionita@yahoo.com">grigore.ionita@yahoo.com</a>
+        </li>
+        <li>Adresa: Str. Atelierelor nr. 17, Constanta</li>
+      </ul>
+    </mat-sidenav>
+    <section>
+      <div>
+        <mat-icon (click)="showMenu()">menu</mat-icon>
+        <h1 routerLink="/pagina-principala">AsBijoux</h1>
+      </div>
+      <div>
+        <mat-icon (click)="test()" id="header-search-icon">search</mat-icon>
+        <mat-icon (click)="showContactSidenav()" id="header-contact-icon"
+          >contacts</mat-icon
+        >
+      </div>
+    </section>
+  </mat-sidenav-container>
+</div>
+<div class="header-container-820px-plus">
+  <div class="header-left-side">
+    <div class="header-categories">
+      <h2
+        [ngClass]="isCategoryEnabled ? 'header-left-side-active' : ''"
+        (click)="showCategories()"
+      >
+        Categorii Produse
+      </h2>
+      <div *ngIf="isCategoryEnabled" class="categories-container">
+        <ng-container *ngIf="categories.length">
+          <a
+            *ngFor="let category of categories"
+            (click)="goToCategory(category)"
+            >{{ category }}</a
+          >
+        </ng-container>
+        <ng-container *ngIf="!categories.length">
+          <a>Categoriile sunt in curs de incarcare</a>
+        </ng-container>
+      </div>
+    </div>
+    <div class="header-contact">
+      <h2
+        [ngClass]="isContactEnabled ? 'header-left-side-active' : ''"
+        (click)="showContact()"
+      >
+        Contact
+      </h2>
+      <div *ngIf="isContactEnabled" class="contact-container">
+        <a href="tel:+40723126654">Telefon: 0723 126 654</a>
+        <a href="mailto:grigore.ionita@yahoo.com"
+          >Email: grigore.ionita@yahoo.com</a
+        >
+        <a>Adresa: Str. Atelierelor nr. 17, Constanta</a>
+      </div>
+    </div>
+  </div>
+  <h1 routerLink="/pagina-principala">AsBijoux</h1>
+  <div class="search-menu">
+    <mat-form-field appearance="outline">
+      <mat-label>Cauta Produs</mat-label>
+      <input
+        id="search-input"
+        matInput
+        type="text"
+        (keyup.enter)="searchProduct()"
+        [(ngModel)]="searchValue"
+      />
+      <button
+        matSuffix
+        class="search-btn"
+        (click)="searchProduct()"
+        mat-icon-button
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>

@@ -28,6 +28,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { QuillModule } from 'ngx-quill';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     QuillModule.forRoot(),
     MatSelectModule,
+    MatSnackBarModule,
+    MatSidenavModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

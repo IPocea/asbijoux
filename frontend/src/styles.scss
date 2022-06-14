@@ -2,6 +2,7 @@
 @import "./../node_modules/quill/dist/quill.core.css";
 @import "./../node_modules/quill/dist/quill.snow.css";
 @import "./../node_modules/quill/dist/quill.bubble.css";
+@import "./app/styles/variables.scss";
 
 * {
   margin: 0;
@@ -28,9 +29,9 @@ body {
   right: calc(47% - 56.5486677px / 2);
 }
 .error-message-on {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
+  color: $errorColor;
+  background-color: $errorBackground;
+  border-color: $errorBorder;
   padding: 20px;
   border-radius: 5px;
 }
@@ -38,9 +39,9 @@ body {
   display: none;
 }
 .success-message-on {
-  color: #032208;
-  background-color: #0fe937;
-  border-color: #0aa427;
+  color: $successColor;
+  background-color: $successBackGround;
+  border-color: $successBorder;
   padding: 20px;
   border-radius: 5px;
 }
