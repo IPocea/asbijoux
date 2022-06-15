@@ -43,9 +43,55 @@ exports.findAll = (req, res) => {
 			});
 		});
 };
+// Find all Products with selected category
+exports.findAllByCategory = (req, res) => {
+	const category = req.query.category;
+	let condition = category
+		? {
+				category: {
+					[Op.and]: {
+						[Op.startsWith]: `${category}`,
+						[Op.endsWith]: `${category}`,
+					},
+				},
+		  }
+		: null;
+	Product.findAll({ include: ["comments", "images"], where: condition })
+		.then((data) => {
+			if (data) {
+				res.send(data);
+			} else {
+				res.status(404).send({
+					message: `Nu pot gasi produsele cu categoria=${category}.`,
+				});
+			}
+		})
+		.catch((err) => {
+			res.status(500).send({
+				message:
+					err.message ||
+					"O eroare a aparut in incercarea de a regasi produsele.",
+			});
+		});
+};
 // Find all categories of Product
 exports.findAllCategories = (req, res) => {
 	Product.findAndCountAll({ group: ["category"] })
+		.then((data) => {
+			res.send(data);
+		})
+		.catch((err) => {
+			res.status(500).send({
+				message:
+					err.message ||
+					"O eroare a aparut in incercarea de a regasi categoriile.",
+			});
+		});
+};
+
+// Find all published Categories
+exports.findAllPublishedCategories = (req, res) => {
+	Product.findAndCountAll({ where: { isPublished: true }, group: ["category"] })
 		.then((data) => {
 			res.send(data);
 		})

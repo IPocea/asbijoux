@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICategories } from '../interfaces/categories.interface';
-import { IProductSimple } from '../interfaces/product.interface';
+import {
+  IProductComplete,
+  IProductSimple,
+} from '../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +17,11 @@ export class ProductService {
       'http://localhost:8080/api/products/find/categories'
     );
   }
+  getAlllPublishedCategories(): Observable<ICategories> {
+    return this.http.get<ICategories>(
+      'http://localhost:8080/api/products/find/published/categories'
+    );
+  }
   addProduct(
     API_KEY: string,
     product: IProductSimple
@@ -21,6 +29,11 @@ export class ProductService {
     return this.http.post<IProductSimple>(
       `http://localhost:8080/api/products/${API_KEY}/`,
       product
+    );
+  }
+  getAllBySelectedCategory(params: string): Observable<IProductComplete[]> {
+    return this.http.get<IProductComplete[]>(
+      `http://localhost:8080/api/products/find/category?category=${params}`
     );
   }
 }

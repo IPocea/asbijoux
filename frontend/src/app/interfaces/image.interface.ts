@@ -8,5 +8,5 @@ export interface IImageSimple {
   createdAt?: string;
   updatedAt?: string;
   productId: number | null;
-  product: IProductSimple | null;
+  product?: IProductSimple | null;
 }

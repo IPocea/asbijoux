@@ -13,8 +13,13 @@ export class HeaderComponent implements OnInit {
   searchValue: string = '';
   isCategoryEnabled: boolean = false;
   isContactEnabled: boolean = false;
+  isArticleEnabled: boolean = true;
+  isFullArticleDisplayed: boolean = false;
   isSideNavLeft: boolean = false;
   isSideNavRight: boolean = false;
+  articleDisplayMessage: string = 'Arata mai mult';
+  articleContent: string =
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ad ipsa repellendus repudiandae dolorum eveniet perferendis quod non, ab voluptatum doloribus iusto optio quasi laudantium placeat mollitia aperiam dignissimos odit.';
   categories: string[] = [];
   constructor(
     private productService: ProductService,
@@ -36,6 +41,12 @@ export class HeaderComponent implements OnInit {
       this.showMessage();
     } else {
       this.router.navigate(['/cautare', this.searchValue]);
+    }
+  }
+  searchProductMobile(): void {
+    this.searchProduct();
+    if (this.searchValue) {
+      this.isArticleEnabled = true;
     }
   }
   showCategories(): void {
@@ -63,12 +74,20 @@ export class HeaderComponent implements OnInit {
       duration: 3000,
     });
   }
+  showFullArticle(): void {
+    this.isFullArticleDisplayed = !this.isFullArticleDisplayed;
+    if (this.isFullArticleDisplayed) {
+      this.articleDisplayMessage = 'Arata mai putin';
+    } else {
+      this.articleDisplayMessage = 'Arata mai mult';
+    }
+  }
   goToCategory(page: string): void {
     this.router.navigate(['/categorii', page]);
   }
   getCategories(): void {
     this.productService
-      .getAllCategories()
+      .getAlllPublishedCategories()
       .pipe(take(1))
       .subscribe(
         (data) => {
@@ -83,6 +102,6 @@ export class HeaderComponent implements OnInit {
   }
 
   test(): void {
-    console.log('works');
+    this.isArticleEnabled = !this.isArticleEnabled;
   }
 }

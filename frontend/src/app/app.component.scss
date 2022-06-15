@@ -4,7 +4,7 @@
   app-footer {
     text-align: center;
   }
-  @media screen and (min-width: 841px) {
+  @media screen and (min-width: 821px) {
     .main {
       min-height: 100vh;
       display: grid;
@@ -24,10 +24,5 @@
         grid-area: footer;
       }
     }
-    // justify-content: space-between;
-    // height: 100%;
-    // #main-container {
-    //   flex: 1;
-    // }
   }
 }

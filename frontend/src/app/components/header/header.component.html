@@ -41,66 +41,112 @@
           >contacts</mat-icon
         >
       </div>
+      <mat-form-field
+        *ngIf="!isArticleEnabled"
+        class="header-search-bar"
+        appearance="outline"
+      >
+        <mat-label>Cauta Produs</mat-label>
+        <input
+          matInput
+          type="text"
+          (keyup.enter)="searchProductMobile()"
+          [(ngModel)]="searchValue"
+        />
+        <button
+          matSuffix
+          class="search-btn"
+          (click)="searchProductMobile()"
+          mat-icon-button
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
     </section>
+    <article *ngIf="isArticleEnabled">
+      <blockquote
+        [ngClass]="isFullArticleDisplayed ? 'blockquote-full' : 'blockquote'"
+      >
+        <q>
+          {{ articleContent }}
+        </q>
+      </blockquote>
+      <footer class="blockquote-footer">
+        <cite>— AsBijoux </cite>
+        <p (click)="showFullArticle()">{{ articleDisplayMessage }}</p>
+      </footer>
+    </article>
   </mat-sidenav-container>
 </div>
 <div class="header-container-820px-plus">
-  <div class="header-left-side">
-    <div class="header-categories">
-      <h2
-        [ngClass]="isCategoryEnabled ? 'header-left-side-active' : ''"
-        (click)="showCategories()"
-      >
-        Categorii Produse
-      </h2>
-      <div *ngIf="isCategoryEnabled" class="categories-container">
-        <ng-container *ngIf="categories.length">
-          <a
-            *ngFor="let category of categories"
-            (click)="goToCategory(category)"
-            >{{ category }}</a
+  <div class="header-top">
+    <div class="header-left-side">
+      <div class="header-categories">
+        <h2
+          [ngClass]="isCategoryEnabled ? 'header-left-side-active' : ''"
+          (click)="showCategories()"
+        >
+          Categorii Produse
+        </h2>
+        <div *ngIf="isCategoryEnabled" class="categories-container">
+          <ng-container *ngIf="categories.length">
+            <a
+              *ngFor="let category of categories"
+              (click)="goToCategory(category)"
+              >{{ category }}</a
+            >
+          </ng-container>
+          <ng-container *ngIf="!categories.length">
+            <a>Categoriile sunt in curs de incarcare</a>
+          </ng-container>
+        </div>
+      </div>
+      <div class="header-contact">
+        <h2
+          [ngClass]="isContactEnabled ? 'header-left-side-active' : ''"
+          (click)="showContact()"
+        >
+          Contact
+        </h2>
+        <div *ngIf="isContactEnabled" class="contact-container">
+          <a href="tel:+40723126654">Telefon: 0723 126 654</a>
+          <a href="mailto:grigore.ionita@yahoo.com"
+            >Email: grigore.ionita@yahoo.com</a
           >
-        </ng-container>
-        <ng-container *ngIf="!categories.length">
-          <a>Categoriile sunt in curs de incarcare</a>
-        </ng-container>
+          <a>Adresa: Str. Atelierelor nr. 17, Constanta</a>
+        </div>
       </div>
     </div>
-    <div class="header-contact">
-      <h2
-        [ngClass]="isContactEnabled ? 'header-left-side-active' : ''"
-        (click)="showContact()"
-      >
-        Contact
-      </h2>
-      <div *ngIf="isContactEnabled" class="contact-container">
-        <a href="tel:+40723126654">Telefon: 0723 126 654</a>
-        <a href="mailto:grigore.ionita@yahoo.com"
-          >Email: grigore.ionita@yahoo.com</a
+    <h1 routerLink="/pagina-principala">AsBijoux</h1>
+    <div class="search-menu">
+      <mat-form-field appearance="outline">
+        <mat-label>Cauta Produs</mat-label>
+        <input
+          id="search-input"
+          matInput
+          type="text"
+          (keyup.enter)="searchProduct()"
+          [(ngModel)]="searchValue"
+        />
+        <button
+          matSuffix
+          class="search-btn"
+          (click)="searchProduct()"
+          mat-icon-button
         >
-        <a>Adresa: Str. Atelierelor nr. 17, Constanta</a>
-      </div>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
     </div>
   </div>
-  <h1 routerLink="/pagina-principala">AsBijoux</h1>
-  <div class="search-menu">
-    <mat-form-field appearance="outline">
-      <mat-label>Cauta Produs</mat-label>
-      <input
-        id="search-input"
-        matInput
-        type="text"
-        (keyup.enter)="searchProduct()"
-        [(ngModel)]="searchValue"
-      />
-      <button
-        matSuffix
-        class="search-btn"
-        (click)="searchProduct()"
-        mat-icon-button
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+  <div class="header-bottom">
+    <article>
+      <blockquote class="blockquote">
+        <q> {{ articleContent }} </q>
+      </blockquote>
+      <footer class="blockquote-footer">
+        <cite>— AsBijoux </cite>
+      </footer>
+    </article>
   </div>
 </div>

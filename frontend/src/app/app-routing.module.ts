@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'cautare/:name', component: SearchComponent },
   { path: 'logare', component: LoginComponent },
   { path: 'n@dmin', component: AdminComponent },
-  { path: 'produs/:title', component: ProductComponent },
+  { path: 'produs/:category/:title/:id', component: ProductComponent },
   { path: '', redirectTo: '/pagina-principala', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
