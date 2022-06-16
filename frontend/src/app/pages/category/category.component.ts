@@ -11,6 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class CategoryComponent implements OnInit {
   products: IProductComplete[];
+  isLoading: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -26,11 +27,13 @@ export class CategoryComponent implements OnInit {
     });
   }
   getData(params: string): void {
+    this.isLoading = true;
     this.productService
       .getAllBySelectedCategory(params)
       .pipe(take(1))
       .subscribe(
         (data) => {
+          this.isLoading = false;
           if (!data.length) {
             this.router.navigate(['/pagina-principala']);
           } else {
@@ -46,7 +49,9 @@ export class CategoryComponent implements OnInit {
             }
           }
         },
-        (err) => {}
+        (err) => {
+          this.isLoading = false;
+        }
       );
   }
   goToProduct(product: IProductComplete): void {

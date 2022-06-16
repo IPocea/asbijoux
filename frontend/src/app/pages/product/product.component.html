@@ -1,1 +1,8 @@
-<p>product works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!isLoading && product"
+  ><div class="product-container">works</div></ng-container
+>
