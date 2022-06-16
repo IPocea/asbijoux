@@ -91,6 +91,9 @@ export class AddProductComponent implements OnInit {
       isPublished: this.publicSelectValue,
       description: this.productDescription,
     };
+    const mainImage = document.getElementById(
+      'add-product-main-image'
+    ) as HTMLInputElement;
     const imagesLength =
       document.getElementsByClassName('add-product-images').length;
     const images = [];
@@ -115,6 +118,13 @@ export class AddProductComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (data) => {
+          if (mainImage.value) {
+            const formMainImage = new FormData();
+            formMainImage.append('file', mainImage.files[0]);
+            formMainImage.append('productId', data.id.toString());
+            formMainImage.append('isMainImage', 'true');
+            this.addSingleImage(this.API_KEY, formMainImage);
+          }
           for (let i = 0; i < images.length; i++) {
             const image = images[i];
             if (image.files[0] !== undefined) {
@@ -126,10 +136,22 @@ export class AddProductComponent implements OnInit {
           }
           this.resetData(images);
           this.getCategories();
+          setTimeout(() => {
+            document.getElementById('add-product-btn').scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          }, 500);
         },
         (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
+          setTimeout(() => {
+            document.getElementById('add-product-btn').scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          }, 500);
           return;
         }
       );

@@ -19,6 +19,7 @@ const upload = async (req, res) => {
 			name: req.file.filename,
 			url: baseUrl + req.file.filename,
 			productId: req.body.productId,
+			isMainImage: req.body.isMainImage ? req.body.isMainImage : false,
 		});
 
 		res.status(200).send({

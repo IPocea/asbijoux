@@ -62,7 +62,14 @@
       </p>
       <div id="add-product-file-container">
         <input
-          *ngFor="let in of counter(10)"
+          type="file"
+          name="file"
+          id="add-product-main-image"
+          accept="image/*"
+          (change)="checkSize($event)"
+        />
+        <input
+          *ngFor="let in of counter(9)"
           class="add-product-images"
           type="file"
           name="file"

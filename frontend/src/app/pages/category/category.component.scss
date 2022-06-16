@@ -15,17 +15,19 @@
       border-radius: 0.25rem;
       margin-bottom: 5px;
       img {
-        max-width: 100%;
-        height: 100%;
+        object-fit: contain;
+        width: 100%;
+        height: 240px;
         cursor: pointer;
       }
       .card-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         padding: 10px;
-        // height: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        h5 {
+          text-align: center;
+        }
       }
       button {
         color: #212529;
@@ -66,7 +68,7 @@
       .card-container {
         .btn-fill-left:hover {
           color: $white;
-          box-shadow: inset 500px 0px 0px 0.09px #2f3b47;
+          box-shadow: inset 385px 0px 0px 0.09px #2f3b47;
         }
       }
     }
@@ -75,6 +77,13 @@
     .category-container {
       .card-container {
         width: 31%;
+        img {
+          height: 280px;
+        }
+        .btn-fill-left:hover {
+          color: $white;
+          box-shadow: inset 300px 0px 0px 0.09px #2f3b47;
+        }
         .btn-fill-left:active {
           color: #212529 !important;
           box-shadow: 0px 0px 0px 1px #212529 !important;
@@ -105,7 +114,14 @@
   @media screen and (min-width: 1227px) {
     .category-container {
       .card-container {
-        width: 23%;
+        width: 18%;
+        // img {
+        //   height: 280px;
+        // }
+        .btn-fill-left:hover {
+          color: $white;
+          box-shadow: inset 230px 0px 0px 0.09px #2f3b47;
+        }
         .btn-fill-left:active {
           color: #212529 !important;
           box-shadow: 0px 0px 0px 1px #212529 !important;
@@ -113,32 +129,32 @@
       }
     }
   }
-  @media screen and (min-width: 1464px) {
+  @media screen and (min-width: 1296px) {
     .category-container {
       .card-container {
         .btn-fill-left:hover {
           color: $white;
-          box-shadow: inset 440px 0px 0px 0.09px #2f3b47;
+          box-shadow: inset 300px 0px 0px 0.09px #2f3b47;
         }
       }
     }
   }
-  @media screen and (min-width: 1921px) {
+  @media screen and (min-width: 1670px) {
     .category-container {
       .card-container {
         .btn-fill-left:hover {
           color: $white;
-          box-shadow: inset 650px 0px 0px 0.09px #2f3b47;
+          box-shadow: inset 350px 0px 0px 0.09px #2f3b47;
         }
       }
     }
   }
-  @media screen and (min-width: 2500px) {
+  @media screen and (min-width: 1925px) {
     .category-container {
       .card-container {
         .btn-fill-left:hover {
           color: $white;
-          box-shadow: inset 950px 0px 0px 0.09px #2f3b47;
+          box-shadow: inset 550px 0px 0px 0.09px #2f3b47;
         }
       }
     }

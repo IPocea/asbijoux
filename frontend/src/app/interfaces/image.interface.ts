@@ -9,4 +9,5 @@ export interface IImageSimple {
   updatedAt?: string;
   productId: number | null;
   product?: IProductSimple | null;
+  isMainImage?: boolean | null;
 }

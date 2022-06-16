@@ -35,6 +35,15 @@ export class CategoryComponent implements OnInit {
             this.router.navigate(['/pagina-principala']);
           } else {
             this.products = data.filter((ele) => ele.isPublished);
+            for (let product of this.products) {
+              product.images.sort((a, b) =>
+                a.isMainImage > b.isMainImage
+                  ? -1
+                  : b.isMainImage > a.isMainImage
+                  ? 1
+                  : 0
+              );
+            }
           }
         },
         (err) => {}

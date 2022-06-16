@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
 		url: {
 			type: DataTypes.STRING,
 		},
+		isMainImage: {
+			type: DataTypes.BOOLEAN,
+		},
 	});
 	return Image;
 };

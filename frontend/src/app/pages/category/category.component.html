@@ -12,8 +12,9 @@
       src="assets/asbijoux-atelierelor-main-image.jpg"
       alt="AsBijoux Constanta"
     />
+
     <div class="card-content">
-      <h5>{{ product.title }}</h5>
+      <h5 [title]="product.title">{{ product.title }}</h5>
     </div>
     <button (click)="goToProduct(product)" class="btn-fill-left">
       Arata produs
