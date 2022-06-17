@@ -31,17 +31,8 @@
     #add-product-file-container input[type="file"] {
       width: 100%;
     }
-    #add-product-btn {
-      padding: 15px;
-      background-color: $blue;
-      color: $login;
-      border: none;
-    }
-    #add-product-btn:hover {
-      background-color: $blueHover;
-    }
-    #add-product-btn:active {
-      background-color: $blueActive;
+    button[type="submit"] {
+      border-radius: 0;
     }
   }
 

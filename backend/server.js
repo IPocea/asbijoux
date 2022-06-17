@@ -6,7 +6,6 @@ require("dotenv").config();
 app.use(
 	cors({
 		credentials: true,
-		// origin: ["http://192.168.0.106:4200"],
 		origin: ["http://localhost:4200"],
 	})
 );

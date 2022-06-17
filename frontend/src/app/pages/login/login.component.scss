@@ -40,20 +40,6 @@
         bottom: -40px;
       }
     }
-    button {
-      background-color: $blue;
-      color: $white;
-      border-radius: 5px;
-      padding: 10px;
-      border: none;
-      font-size: large;
-    }
-    button:hover {
-      background-color: $blueHover;
-    }
-    button:active {
-      background-color: $blueActive;
-    }
   }
   @media screen and (min-width: 839px) {
     form {

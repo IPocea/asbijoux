@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { IUser } from 'src/app/interfaces/user.interface';
+import { ScrollService } from 'src/app/services/scroll.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -31,7 +32,8 @@ export class AdminComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private storageService: StorageService,
-    private userService: UserService
+    private userService: UserService,
+    private scroll: ScrollService
   ) {}
 
   ngOnInit(): void {
@@ -63,9 +65,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.scrollToEle();
-    }, 500);
+    this.scrollToEle();
   }
   relog(): void {
     this.storageService.signOut();
@@ -136,9 +136,6 @@ export class AdminComponent implements OnInit, AfterViewInit {
     }
   }
   scrollToEle() {
-    document.getElementById('right-side-admin').scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    this.scroll.scrollTo('right-side-admin');
   }
 }

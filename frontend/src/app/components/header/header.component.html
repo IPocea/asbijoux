@@ -65,7 +65,9 @@
     </section>
     <article *ngIf="isArticleEnabled">
       <blockquote
-        [ngClass]="isFullArticleDisplayed ? 'blockquote-full' : 'blockquote'"
+        [ngClass]="
+          isFullArticleDisplayed ? 'blockquote blockquote-full' : 'blockquote'
+        "
       >
         <q>
           {{ articleContent }}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { IProductComplete } from 'src/app/interfaces/product.interface';
+import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class CategoryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -39,13 +41,7 @@ export class CategoryComponent implements OnInit {
           } else {
             this.products = data.filter((ele) => ele.isPublished);
             for (let product of this.products) {
-              product.images.sort((a, b) =>
-                a.isMainImage > b.isMainImage
-                  ? -1
-                  : b.isMainImage > a.isMainImage
-                  ? 1
-                  : 0
-              );
+              this.imageService.sortImages(product);
             }
           }
         },

@@ -1,0 +1,30 @@
+<div class="container">
+  <ng-container *ngIf="product.images.length">
+    <div class="img-container">
+      <img
+        #mainImage
+        [src]="product.images[0].url"
+        [alt]="product.images[0].name"
+      />
+    </div>
+    <div class="img-prev">
+      <img
+        (click)="selectImage($event)"
+        *ngFor="let image of product.images"
+        [ngClass]="
+          image.isMainImage ? 'img-slide active-product-image' : 'img-slide'
+        "
+        [src]="image.url"
+        [alt]="image.name"
+      />
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!product.images.length">
+    <div class="img-container">
+      <img
+        src="assets/asbijoux-atelierelor-main-image.jpg"
+        alt="AsBijoux Atelierlor Constanta"
+      />
+    </div>
+  </ng-container>
+</div>

@@ -3,6 +3,107 @@
     <mat-spinner></mat-spinner>
   </div>
 </ng-container>
-<ng-container *ngIf="!isLoading && product"
-  ><div class="product-container">works</div></ng-container
+<ng-container *ngIf="!isLoading && product">
+  <div class="product-container">
+    <div class="product-gallery">
+      <app-image-gallery [product]="product"></app-image-gallery>
+    </div>
+    <div class="product-content">
+      <div class="product-description">
+        <h2>{{ product.title }}</h2>
+        <div [innerHTML]="product.description"></div>
+      </div>
+    </div>
+    <div class="product-comments">
+      <div class="product-comments-container">
+        <div *ngIf="!product.comments.length" class="product-comment-intro">
+          <p>
+            In acest moment nu sunt comentarii la acest produs. Va invitam sa
+            introduceti un comentariu
+          </p>
+        </div>
+        <ng-container *ngIf="product.comments.length">
+          <div *ngFor="let comment of product.comments" class="product-comment">
+            <h4>{{ comment.name }}</h4>
+            <small>
+              {{ comment.createdAt.slice(8, 10) }}-{{
+                comment.createdAt.slice(5, 7)
+              }}-{{ comment.createdAt.slice(0, 4) }}, ora
+              {{ +comment.createdAt.slice(11, 13) + 3 }}:{{
+                comment.createdAt.slice(14, 16)
+              }}
+            </small>
+            <p>{{ comment.text }}</p>
+          </div>
+          <div class="product-comment-intro">
+            <p>Va invitam sa introduceti un comentariu la acest produs.</p>
+            <small>Campurile cu * sunt obligatorii.</small>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="commentPreview">
+          <div id="product-comment-preview">
+            <h4>{{ commentPreview.name }}</h4>
+            <p>{{ commentPreview.text }}</p>
+            <small
+              >Va multumim pentru comentariu. Acesta va fi preluat de catre un
+              administrator pentru verificare.</small
+            >
+          </div>
+        </ng-container>
+        <div class="product-add-comment">
+          <div class="product-comment-data">
+            <mat-form-field appearance="fill">
+              <mat-label>Nume</mat-label>
+              <input type="text" matInput [formControl]="nameFormControl" />
+              <mat-error *ngIf="nameFormControl.hasError('required')">
+                Numele este <strong>obligatoriu</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input
+                type="email"
+                matInput
+                [formControl]="emailFormControl"
+                placeholder="Optional"
+              />
+              <mat-error *ngIf="emailFormControl.hasError('email')">
+                Va rugam sa introduceti o adresa de email valida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <mat-form-field
+            class="product-comment-textarea"
+            style.fontSize="20px"
+            appearance="fill"
+          >
+            <mat-label>Introduceti aici comentariul dumneavoastra</mat-label>
+            <textarea
+              maxlength="990"
+              [formControl]="commentFormControl"
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="2"
+              cdkAutosizeMaxRows="7"
+            ></textarea>
+            <mat-error *ngIf="commentFormControl.hasError('required')">
+              Comentariul nu poate fi un text gol
+            </mat-error>
+          </mat-form-field>
+          <button
+            (click)="addComment($event)"
+            type="submit"
+            [disabled]="isCommentLoading"
+            [ngClass]="
+              isCommentLoading
+                ? 'add-btn-primary comment-loading'
+                : 'add-btn-primary'
+            "
+          >
+            {{ textBtn }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div></ng-container
 >

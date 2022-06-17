@@ -30,6 +30,8 @@ import { QuillModule } from 'ngx-quill';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     ViewProductsComponent,
     AddProductComponent,
     CategoriesComponent,
+    ImageGalleryComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +68,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatSelectModule,
     MatSnackBarModule,
     MatSidenavModule,
+    TextFieldModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

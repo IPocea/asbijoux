@@ -45,3 +45,17 @@ body {
   padding: 20px;
   border-radius: 5px;
 }
+.add-btn-primary {
+  background-color: $blue;
+  color: $white;
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
+  font-size: large;
+}
+.add-btn-primary:hover {
+  background-color: $blueHover;
+}
+.add-btn-primary:active {
+  background-color: $blueActive;
+}

@@ -32,7 +32,9 @@
       id="password"
       placeholder="Password"
     />
-    <button type="submit" (click)="logIn($event)">Login</button>
+    <button class="add-btn-primary" type="submit" (click)="logIn($event)">
+      Login
+    </button>
     <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
   </form>
 </ng-container>

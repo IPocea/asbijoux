@@ -1,4 +1,4 @@
-import { IComments } from './comments.interface';
+import { IComment } from './comments.interface';
 import { IImageSimple } from './image.interface';
 
 export interface IProductSimple {
@@ -19,5 +19,5 @@ export interface IProductComplete {
   createdAt?: string;
   updatedAt?: string;
   images: IImageSimple[];
-  comments: IComments[];
+  comments: IComment[];
 }

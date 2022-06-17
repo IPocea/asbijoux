@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit {
     event.stopPropagation();
   }
   showMessage(): void {
-    this.snackBar.open('Va rugam sa introduceti cel putin un caracter', '', {
+    this.snackBar.open('Va rugam sa introduceti cel putin o litera', '', {
       duration: 3000,
     });
   }

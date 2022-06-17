@@ -77,7 +77,12 @@
           (change)="checkSize($event)"
         />
       </div>
-      <button id="add-product-btn" (click)="addFullProduct()">
+      <button
+        type="submit"
+        class="add-btn-primary"
+        id="add-product-btn"
+        (click)="addFullProduct($event)"
+      >
         Adauga un produs
       </button>
       <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>

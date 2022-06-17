@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ICategories } from '../interfaces/categories.interface';
+import { ICategories } from '../interfaces';
 import {
   IProductComplete,
   IProductSimple,

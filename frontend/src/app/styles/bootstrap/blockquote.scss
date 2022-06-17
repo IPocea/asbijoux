@@ -10,7 +10,11 @@
 }
 .blockquote {
   overflow: hidden;
-  max-height: 70px;
+  height: 70px;
+}
+.blockquote-full {
+  height: 100%;
+  overflow: visible;
 }
 .blockquote > :last-child {
   margin-bottom: 0;
@@ -22,6 +26,7 @@
   font-size: 0.875em;
   color: #6c757d;
 }
+
 // .blockquote-footer::before {
 //   content: "— ";
 // }

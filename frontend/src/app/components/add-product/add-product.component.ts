@@ -6,6 +6,7 @@ import { IProductSimple } from 'src/app/interfaces/product.interface';
 import { IPublic } from 'src/app/interfaces/public.interface';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
+import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
   selector: 'app-add-product',
@@ -31,7 +32,8 @@ export class AddProductComponent implements OnInit {
   publicSelectValue: boolean = true;
   constructor(
     private productService: ProductService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private scroll: ScrollService
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +73,8 @@ export class AddProductComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  addFullProduct(): void {
+  addFullProduct(ev: Event): void {
+    ev.preventDefault();
     this.successMessage = '';
     if (
       this.title.trim() === '' ||
@@ -136,22 +139,12 @@ export class AddProductComponent implements OnInit {
           }
           this.resetData(images);
           this.getCategories();
-          setTimeout(() => {
-            document.getElementById('add-product-btn').scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }, 500);
+          this.scroll.scrollTo('add-product-btn');
         },
         (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
-          setTimeout(() => {
-            document.getElementById('add-product-btn').scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }, 500);
+          this.scroll.scrollTo('add-product-btn');
           return;
         }
       );
