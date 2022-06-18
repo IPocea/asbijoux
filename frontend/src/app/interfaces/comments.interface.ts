@@ -15,3 +15,13 @@ export interface ICommentPreview {
   name: string;
   text: string;
 }
+export interface IReplyComment {
+  id?: number;
+  name: string;
+  text: string;
+  isActivated: boolean;
+  commentId: number | null;
+  createdAt?: string;
+  updatedAt?: string;
+  comment: IComment;
+}

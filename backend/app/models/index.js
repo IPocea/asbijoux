@@ -19,6 +19,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.products = require("./product.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
 db.images = require("./image.model.js")(sequelize, Sequelize);
+db.replyComments = require("./replyComment.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {
 	through: "user_roles",
 	foreignKey: "roleId",
@@ -35,6 +36,10 @@ db.products.hasMany(db.images, { as: "images" });
 db.comments.belongsTo(db.products, {
 	foreignKey: "productId",
 	as: "product",
+});
+db.replyComments.belongsTo(db.comments, {
+	foreignKey: "commentId",
+	as: "comment",
 });
 db.images.belongsTo(db.products, {
 	foreignKey: "productId",

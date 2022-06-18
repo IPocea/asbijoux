@@ -21,78 +21,8 @@
         }
       }
     }
-    .product-comments {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 10px;
-      padding: 15px 0;
-      background-color: #f2f2f2;
+    .product-comments-component {
       width: 100%;
-      .product-comments-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 95%;
-        .product-comment,
-        #product-comment-preview {
-          display: flex;
-          flex-direction: column;
-          background-color: $white;
-          padding: 16px 10px;
-          gap: 10px;
-          border-radius: 4px 4px 0 0;
-          small {
-            color: #3f51b5;
-          }
-        }
-        #product-comment-preview {
-          small {
-            color: rgba(0, 0, 0, 0.6);
-          }
-        }
-        .product-comment-intro {
-          padding: 16px 10px;
-          background-color: $white;
-          p {
-            margin-bottom: 5px;
-          }
-          small {
-            color: rgba(0, 0, 0, 0.6);
-          }
-        }
-        .product-add-comment {
-          display: flex;
-          flex-direction: column;
-          .product-comment-data {
-            mat-form-field {
-              width: 100%;
-            }
-          }
-          .product-comment-textarea {
-            width: 100%;
-          }
-          button[type="submit"] {
-            border-radius: 4px 4px 0px 0px;
-            margin-top: 2px;
-          }
-        }
-      }
-    }
-  }
-  @media screen and (min-width: 650px) {
-    .product-container {
-      .product-comments {
-        .product-add-comment {
-          .product-comment-data {
-            display: flex;
-            gap: 10px;
-            mat-form-field {
-              width: 49%;
-            }
-          }
-        }
-      }
     }
   }
   @media screen and (min-width: 750px) {
@@ -111,50 +41,5 @@
         }
       }
     }
-  }
-}
-@media screen and (min-width: 850px) {
-  .product-container {
-    .product-comments {
-      .product-add-comment {
-        .product-comment-data {
-          flex-direction: column;
-          // width: 70%;
-          mat-form-field {
-            width: 40% !important;
-          }
-        }
-        button[type="submit"] {
-          width: 40%;
-        }
-      }
-    }
-  }
-}
-@media screen and (min-width: 1060px) {
-  .product-container {
-    .product-comments {
-      .product-add-comment {
-        .product-comment-data {
-          flex-direction: column;
-          width: 300px;
-          mat-form-field {
-            width: 100% !important;
-          }
-        }
-        button[type="submit"] {
-          width: 300px;
-        }
-      }
-    }
-  }
-}
-
-.comment-loading {
-  opacity: 0.6;
-  cursor: not-allowed;
-  &:hover,
-  &:active {
-    background-color: $blue;
   }
 }

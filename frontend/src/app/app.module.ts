@@ -32,6 +32,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { CommentsComponent } from './components/comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     AddProductComponent,
     CategoriesComponent,
     ImageGalleryComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,

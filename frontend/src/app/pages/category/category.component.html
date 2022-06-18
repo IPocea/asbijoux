@@ -28,14 +28,14 @@
       </button>
       <div class="card-footer">
         <small *ngIf="product.createdAt <= product.updatedAt"
-          >Adaugat pe {{ product.createdAt.slice(8, 10) }}-{{
+          >Adaugat in {{ product.createdAt.slice(8, 10) }}-{{
             product.createdAt.slice(5, 7)
           }}-{{ product.createdAt.slice(0, 4) }}</small
         >
         <small *ngIf="product.createdAt > product.updatedAt"
-          >Actualizat in{{ product.createdAt.slice(8, 10) }}-{{
-            product.createdAt.slice(5, 7)
-          }}-{{ product.createdAt.slice(0, 4) }}</small
+          >Actualizat in{{ product.updatedAt.slice(8, 10) }}-{{
+            product.updatedAt.slice(5, 7)
+          }}-{{ product.updatedAt.slice(0, 4) }}</small
         >
       </div>
     </div>

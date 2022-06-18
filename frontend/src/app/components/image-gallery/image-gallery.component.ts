@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { IProductComplete } from 'src/app/interfaces/product.interface';
+import { IProductComplete } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-image-gallery',
