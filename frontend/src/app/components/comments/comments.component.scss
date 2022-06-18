@@ -26,6 +26,17 @@
           color: #3f51b5;
         }
       }
+      .product-comment {
+        .add-reply-container {
+          display: none;
+          flex-direction: column;
+          textarea {
+            font-family: Roboto, "Helvetica Neue", sans-serif;
+            resize: none;
+            padding: 5px;
+          }
+        }
+      }
       #product-comment-preview {
         small {
           color: rgba(0, 0, 0, 0.6);
@@ -46,6 +57,11 @@
           border-radius: 4px 4px 0 0;
           small {
             color: #3f51b5;
+          }
+          textarea {
+            font-family: Roboto, "Helvetica Neue", sans-serif;
+            resize: none;
+            padding: 5px;
           }
         }
       }
@@ -78,6 +94,11 @@
       }
     }
   }
+  @media screen and (min-width: 600px) {
+    .error {
+      left: 26%;
+    }
+  }
   @media screen and (min-width: 650px) {
     .product-comments {
       .product-comments-container {
@@ -91,6 +112,11 @@
           }
         }
       }
+    }
+  }
+  @media screen and (min-width: 760px) {
+    .error {
+      left: 33%;
     }
   }
   @media screen and (min-width: 850px) {
@@ -113,6 +139,11 @@
           }
         }
       }
+    }
+  }
+  @media screen and (min-width: 1000px) {
+    .error {
+      left: 39%;
     }
   }
   @media screen and (min-width: 1060px) {
@@ -161,4 +192,40 @@
   &:active {
     background-color: $blue;
   }
+}
+
+.admin-comment-btns {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  color: #3f51b5;
+  font-size: smaller;
+  span {
+    cursor: pointer;
+  }
+}
+.admin-comment-btns {
+  span:hover {
+    color: $blueHover;
+  }
+}
+.admin-comment-btns {
+  span:active {
+    color: $blueActive;
+  }
+}
+.edit-comment-active {
+  display: block;
+}
+.edit-comment-inactive {
+  display: none;
+}
+.error {
+  max-width: 45%;
+  max-height: 15%;
+  position: fixed;
+  top: 50%;
+  left: 22%;
+  z-index: 1;
+  overflow: hidden;
 }

@@ -10,6 +10,7 @@ export interface IComment {
   product?: IProductSimple;
   createdAt?: string;
   updatedAt?: string;
+  reply_comments?: IReplyComment[];
 }
 export interface ICommentPreview {
   name: string;
@@ -23,5 +24,5 @@ export interface IReplyComment {
   commentId: number | null;
   createdAt?: string;
   updatedAt?: string;
-  comment: IComment;
+  comment?: IComment;
 }

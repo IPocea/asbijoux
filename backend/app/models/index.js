@@ -37,6 +37,7 @@ db.comments.belongsTo(db.products, {
 	foreignKey: "productId",
 	as: "product",
 });
+db.comments.hasMany(db.replyComments, { as: "reply_comments" });
 db.replyComments.belongsTo(db.comments, {
 	foreignKey: "commentId",
 	as: "comment",

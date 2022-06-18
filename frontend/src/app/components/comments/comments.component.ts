@@ -1,14 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
+  IComment,
   ICommentPreview,
   IProductComplete,
   IReplyComment,
 } from 'src/app/interfaces';
 import { CommentService } from 'src/app/services/comment.service';
+import { ImageService } from 'src/app/services/image.service';
+import { ProductService } from 'src/app/services/product.service';
 import { ReplyService } from 'src/app/services/reply.service';
 import { ScrollService } from 'src/app/services/scroll.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-comments',
@@ -17,36 +22,41 @@ import { ScrollService } from 'src/app/services/scroll.service';
 })
 export class CommentsComponent implements OnInit {
   @Input() product: IProductComplete;
+  API_KEY: string = '';
   isCommentLoading: boolean = false;
+  isLoading: boolean = false;
+  errorMessage: string = '';
+  editActive: string = 'edit-comment-active';
+  editInactive: string = 'edit-comment-inactive';
   nameFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [Validators.email]);
   commentFormControl = new FormControl('', [Validators.required]);
   textBtn: string = 'Adaugati comentariul';
+  addReplyTextBtn: string = 'Raspunde';
   commentPreview: ICommentPreview = null;
-  replyComment: IReplyComment = null;
-  replyComments: IReplyComment[] = [];
+
   constructor(
     private commentService: CommentService,
+    private replyService: ReplyService,
     private scroll: ScrollService,
-    private reply: ReplyService
+    private userService: UserService,
+    private productService: ProductService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
     this.commentPreview = null;
-    this.replyComments = [];
-    for (let comment of this.product.comments) {
-      this.reply
-        .getReplyCommentByCommentId(comment.id)
-        .pipe(take(1))
-        .subscribe(
-          (data) => {
-            if (data.length) {
-              this.replyComments.push(data[0]);
-            }
-          },
-          (err) => {}
-        );
-    }
+    this.userService
+      .getAdminComments()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.API_KEY = data;
+        },
+        (err) => {
+          this.API_KEY = '';
+        }
+      );
   }
   addComment(ev: Event) {
     ev.preventDefault();
@@ -98,9 +108,173 @@ export class CommentsComponent implements OnInit {
         );
     }
   }
+  openReplyContainer(ev: any) {
+    ev.target.parentElement.nextElementSibling.style = 'display: flex;';
+    ev.target.className = this.editInactive;
+  }
+  addReplyComment(comment: IComment, ev: any, index: number): void {
+    if (!ev.target.parentElement.previousElementSibling.value.trim()) {
+      this.errorMessage = 'Comentariul nu poate fi un text gol.';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 2000);
+      return;
+    }
+    const replyComment: IReplyComment = {
+      name: 'Administrator',
+      text: ev.target.parentElement.previousElementSibling.value,
+      isActivated: true,
+      commentId: comment.id,
+    };
+    this.isLoading = true;
+    this.replyService
+      .addReplyComment(this.API_KEY, replyComment)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          console.log(data);
+
+          this.product.comments[index].reply_comments.push(data);
+          this.commentService.sortComments(this.product);
+          this.isLoading = false;
+        },
+        (err) => {
+          this.errorMessage = err.message.message;
+          this.isLoading = false;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 2000);
+        }
+      );
+  }
+  cancelAddReply(ev: any): void {
+    ev.target.parentElement.parentElement.style = 'display: none;';
+    ev.target.parentElement.parentElement.previousElementSibling.firstChild.className =
+      this.editActive;
+    ev.target.parentElement.parentElement.firstChild.value = '';
+  }
+  openEditAdminComment(ev: any): void {
+    this.enableEdit(ev);
+  }
+  deleteAdminComment(reply: IReplyComment) {
+    const result = confirm(
+      `Esti singur ca doresti sa stergi acest comentariu?`
+    );
+    if (result) {
+      this.isLoading = true;
+      this.replyService
+        .deleteReplyComment(this.API_KEY, reply.id)
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            let index = 0;
+            for (let i = 0; i < this.product.comments.length; i++) {
+              if (this.product.comments[i].id === reply.commentId) {
+                index = i;
+                break;
+              }
+            }
+            this.product.comments.splice(index, 1);
+            this.isLoading = false;
+          },
+          (err) => {
+            this.errorMessage = err.message.message;
+            this.isLoading = false;
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 2000);
+          }
+        );
+    }
+  }
+  cancelEditAdminComment(reply: IReplyComment, ev: any): void {
+    this.enableCancelEdit(ev);
+    ev.target.parentElement.previousElementSibling.value = reply.text;
+  }
+  modifyAdminComment(reply: IReplyComment, ev: any): void {
+    if (!ev.target.parentElement.previousElementSibling.value.trim()) {
+      this.errorMessage = 'Comentariul nu poate fi un text gol.';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 2000);
+      return;
+    }
+    const replyComment: IReplyComment = {
+      name: 'Administrator',
+      text: ev.target.parentElement.previousElementSibling.value,
+      isActivated: true,
+      commentId: reply.commentId,
+    };
+
+    this.disableEdit(ev);
+    this.isLoading = true;
+    this.replyService
+      .modifyReplyComment(this.API_KEY, reply.id, replyComment)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.productService
+            .getProduct(this.product.id.toString())
+            .pipe(take(1))
+            .subscribe(
+              (data) => {
+                this.product = data;
+                this.imageService.sortImages(this.product);
+                this.product.comments = data.comments.filter(
+                  (ele) => ele.isActivated
+                );
+                this.isLoading = false;
+                this.commentService.sortComments(this.product);
+              },
+              (err) => {
+                this.isLoading = false;
+              }
+            );
+        },
+        (err) => {
+          this.errorMessage = err.message.message;
+          this.isLoading = false;
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 2000);
+        }
+      );
+  }
   clearForm(): void {
     this.nameFormControl = new FormControl('', [Validators.required]);
     this.emailFormControl = new FormControl('', [Validators.email]);
     this.commentFormControl = new FormControl('', [Validators.required]);
+  }
+  enableEdit(ev: any): void {
+    ev.target.previousElementSibling.className = this.editInactive;
+    ev.target.className = this.editInactive;
+    ev.target.nextElementSibling.className = this.editActive;
+    ev.target.nextElementSibling.nextElementSibling.className = this.editActive;
+    ev.target.parentElement.previousElementSibling.className = this.editActive;
+    ev.target.parentElement.previousElementSibling.previousElementSibling.className =
+      this.editInactive;
+  }
+  disableEdit(ev: any): void {
+    ev.target.className = this.editInactive;
+    ev.target.previousElementSibling.className = this.editInactive;
+    ev.target.previousElementSibling.previousElementSibling.className =
+      this.editActive;
+    ev.target.previousElementSibling.previousElementSibling.previousElementSibling.className =
+      this.editActive;
+    ev.target.parentElement.previousElementSibling.className =
+      this.editInactive;
+    ev.target.parentElement.previousElementSibling.previousElementSibling.className =
+      this.editActive;
+  }
+  enableCancelEdit(ev: any): void {
+    ev.target.nextElementSibling.className = this.editInactive;
+    ev.target.className = this.editInactive;
+    ev.target.previousElementSibling.className = this.editActive;
+    ev.target.previousElementSibling.previousElementSibling.className =
+      this.editActive;
+    ev.target.parentElement.previousElementSibling.className =
+      this.editInactive;
+    ev.target.parentElement.previousElementSibling.previousElementSibling.className =
+      this.editActive;
   }
 }

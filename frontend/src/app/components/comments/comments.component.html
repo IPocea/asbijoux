@@ -1,122 +1,189 @@
-<div class="product-comments">
-  <div class="product-comments-container">
-    <div *ngIf="!product.comments.length" class="product-comment-intro">
-      <p>
-        In acest moment nu sunt comentarii la acest produs. Va invitam sa
-        introduceti un comentariu
-      </p>
-    </div>
-    <ng-container *ngIf="product.comments.length">
-      <ng-container *ngFor="let comment of product.comments">
-        <div class="product-comment">
-          <h4>{{ comment.name }}</h4>
-          <small>
-            {{ comment.createdAt.slice(8, 10) }}-{{
-              comment.createdAt.slice(5, 7)
-            }}-{{ comment.createdAt.slice(0, 4) }}, ora
-            {{ +comment.createdAt.slice(11, 13) + 3 }}:{{
-              comment.createdAt.slice(14, 16)
-            }}
-          </small>
-          <p>{{ comment.text }}</p>
-        </div>
-        <ng-container *ngIf="replyComments.length">
-          <ng-container *ngFor="let reply of replyComments">
-            <div class="product-reply-comments-container">
-              <div
-                *ngIf="reply.commentId === comment.id"
-                class="product-reply-comments"
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!isLoading">
+  <div class="product-comments">
+    <div class="product-comments-container">
+      <div *ngIf="!product.comments.length" class="product-comment-intro">
+        <p>
+          In acest moment nu sunt comentarii la acest produs. Va invitam sa
+          introduceti un comentariu
+        </p>
+      </div>
+      <ng-container *ngIf="product.comments.length">
+        <ng-container
+          *ngFor="let comment of product.comments; let index = index"
+        >
+          <div class="product-comment">
+            <h4>{{ comment.name }}</h4>
+            <small>
+              {{ comment.createdAt.slice(8, 10) }}-{{
+                comment.createdAt.slice(5, 7)
+              }}-{{ comment.createdAt.slice(0, 4) }}, ora
+              {{ +comment.createdAt.slice(11, 13) + 3 }}:{{
+                comment.createdAt.slice(14, 16)
+              }}
+            </small>
+            <p>{{ comment.text }}</p>
+            <p
+              *ngIf="API_KEY && !comment.reply_comments.length"
+              class="admin-comment-btns"
+            >
+              <span
+                class="edit-comment-active"
+                (click)="openReplyContainer($event)"
+                >{{ addReplyTextBtn }}</span
               >
-                <h4>{{ reply.name }}</h4>
-                <small *ngIf="reply.createdAt >= reply.updatedAt">
-                  {{ reply.createdAt.slice(8, 10) }}-{{
-                    reply.createdAt.slice(5, 7)
-                  }}-{{ reply.createdAt.slice(0, 4) }}, ora
-                  {{ +reply.createdAt.slice(11, 13) + 3 }}:{{
-                    reply.createdAt.slice(14, 16)
-                  }}
-                </small>
-                <small *ngIf="reply.createdAt < reply.updatedAt">
-                  Editat in {{ reply.updatedAt.slice(8, 10) }}-{{
-                    reply.updatedAt.slice(5, 7)
-                  }}-{{ reply.updatedAt.slice(0, 4) }}, ora
-                  {{ +reply.updatedAt.slice(11, 13) + 3 }}:{{
-                    reply.updatedAt.slice(14, 16)
-                  }}
-                </small>
-                <p>{{ reply.text }}</p>
-              </div>
+            </p>
+            <div class="add-reply-container">
+              <textarea
+                name="admin comment container"
+                cols="20"
+                rows="10"
+                maxlength="990"
+              ></textarea>
+              <p class="admin-comment-btns">
+                <span (click)="cancelAddReply($event)">Anuleaza</span>
+                <span (click)="addReplyComment(comment, $event, index)"
+                  >Adauga</span
+                >
+              </p>
             </div>
+          </div>
+          <ng-container *ngIf="comment.reply_comments.length">
+            <ng-container *ngFor="let reply of comment.reply_comments">
+              <div
+                *ngIf="reply.isActivated"
+                class="product-reply-comments-container"
+              >
+                <div class="product-reply-comments">
+                  <h4>{{ reply.name }}</h4>
+                  <small *ngIf="reply.createdAt >= reply.updatedAt">
+                    {{ reply.createdAt.slice(8, 10) }}-{{
+                      reply.createdAt.slice(5, 7)
+                    }}-{{ reply.createdAt.slice(0, 4) }}, ora
+                    {{ +reply.createdAt.slice(11, 13) + 3 }}:{{
+                      reply.createdAt.slice(14, 16)
+                    }}
+                  </small>
+                  <small *ngIf="reply.createdAt < reply.updatedAt">
+                    Editat in {{ reply.updatedAt.slice(8, 10) }}-{{
+                      reply.updatedAt.slice(5, 7)
+                    }}-{{ reply.updatedAt.slice(0, 4) }}, ora
+                    {{ +reply.updatedAt.slice(11, 13) + 3 }}:{{
+                      reply.updatedAt.slice(14, 16)
+                    }}
+                  </small>
+                  <p class="edit-comment-active">{{ reply.text }}</p>
+                  <textarea
+                    class="edit-comment-inactive"
+                    name="edit container"
+                    cols="20"
+                    rows="10"
+                    maxlength="990"
+                    >{{ reply.text }}</textarea
+                  >
+                  <p *ngIf="API_KEY" class="admin-comment-btns">
+                    <span
+                      class="edit-comment-active"
+                      (click)="deleteAdminComment(reply)"
+                      >Sterge</span
+                    >
+                    <span
+                      class="edit-comment-active"
+                      (click)="openEditAdminComment($event)"
+                      >Editeaza</span
+                    >
+                    <span
+                      class="edit-comment-inactive"
+                      (click)="cancelEditAdminComment(reply, $event)"
+                      >Anuleaza</span
+                    >
+                    <span
+                      class="edit-comment-inactive"
+                      (click)="modifyAdminComment(reply, $event)"
+                      >Modifica</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </ng-container>
           </ng-container>
         </ng-container>
+        <div class="product-comment-intro">
+          <p>Va invitam sa introduceti un comentariu la acest produs.</p>
+          <small>Campurile cu * sunt obligatorii.</small>
+        </div>
       </ng-container>
-      <div class="product-comment-intro">
-        <p>Va invitam sa introduceti un comentariu la acest produs.</p>
-        <small>Campurile cu * sunt obligatorii.</small>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="commentPreview">
-      <div id="product-comment-preview">
-        <h4>{{ commentPreview.name }}</h4>
-        <p>{{ commentPreview.text }}</p>
-        <small
-          >Va multumim pentru comentariu. Acesta va fi preluat de catre un
-          administrator pentru verificare.</small
+      <ng-container *ngIf="commentPreview">
+        <div id="product-comment-preview">
+          <h4>{{ commentPreview.name }}</h4>
+          <p>{{ commentPreview.text }}</p>
+          <small
+            >Va multumim pentru comentariu. Acesta va fi preluat de catre un
+            administrator pentru verificare.</small
+          >
+        </div>
+      </ng-container>
+      <div class="product-add-comment">
+        <div class="product-comment-data">
+          <mat-form-field appearance="fill">
+            <mat-label>Nume</mat-label>
+            <input type="text" matInput [formControl]="nameFormControl" />
+            <mat-error *ngIf="nameFormControl.hasError('required')">
+              Numele este <strong>obligatoriu</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input
+              type="email"
+              matInput
+              [formControl]="emailFormControl"
+              placeholder="Optional"
+            />
+            <mat-error *ngIf="emailFormControl.hasError('email')">
+              Va rugam sa introduceti o adresa de email valida
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field
+          class="product-comment-textarea"
+          style.fontSize="20px"
+          appearance="fill"
         >
-      </div>
-    </ng-container>
-    <div class="product-add-comment">
-      <div class="product-comment-data">
-        <mat-form-field appearance="fill">
-          <mat-label>Nume</mat-label>
-          <input type="text" matInput [formControl]="nameFormControl" />
-          <mat-error *ngIf="nameFormControl.hasError('required')">
-            Numele este <strong>obligatoriu</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Email</mat-label>
-          <input
-            type="email"
+          <mat-label>Introduceti aici comentariul dumneavoastra</mat-label>
+          <textarea
+            maxlength="990"
+            [formControl]="commentFormControl"
             matInput
-            [formControl]="emailFormControl"
-            placeholder="Optional"
-          />
-          <mat-error *ngIf="emailFormControl.hasError('email')">
-            Va rugam sa introduceti o adresa de email valida
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="7"
+          ></textarea>
+          <mat-error *ngIf="commentFormControl.hasError('required')">
+            Comentariul nu poate fi un text gol
           </mat-error>
         </mat-form-field>
+        <button
+          (click)="addComment($event)"
+          type="submit"
+          [disabled]="isCommentLoading"
+          [ngClass]="
+            isCommentLoading
+              ? 'add-btn-primary comment-loading'
+              : 'add-btn-primary'
+          "
+        >
+          {{ textBtn }}
+        </button>
       </div>
-      <mat-form-field
-        class="product-comment-textarea"
-        style.fontSize="20px"
-        appearance="fill"
-      >
-        <mat-label>Introduceti aici comentariul dumneavoastra</mat-label>
-        <textarea
-          maxlength="990"
-          [formControl]="commentFormControl"
-          matInput
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="2"
-          cdkAutosizeMaxRows="7"
-        ></textarea>
-        <mat-error *ngIf="commentFormControl.hasError('required')">
-          Comentariul nu poate fi un text gol
-        </mat-error>
-      </mat-form-field>
-      <button
-        (click)="addComment($event)"
-        type="submit"
-        [disabled]="isCommentLoading"
-        [ngClass]="
-          isCommentLoading
-            ? 'add-btn-primary comment-loading'
-            : 'add-btn-primary'
-        "
-      >
-        {{ textBtn }}
-      </button>
     </div>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="errorMessage">
+  <div class="error-message-on error">{{ errorMessage }}</div>
+</ng-container>

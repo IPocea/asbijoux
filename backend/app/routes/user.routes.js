@@ -17,4 +17,9 @@ module.exports = function (app) {
 		[authJwt.verifyToken, authJwt.isAdmin],
 		controller.adminBoard
 	);
+	app.get(
+		"/api/send-comments-key/admin",
+		[authJwt.verifyToken, authJwt.isAdmin],
+		controller.adminComments
+	);
 };

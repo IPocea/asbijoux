@@ -11,3 +11,6 @@ exports.adminBoard = (req, res) => {
 exports.moderatorBoard = (req, res) => {
 	res.status(200).send("Moderator Content.");
 };
+exports.adminComments = (req, res) => {
+	res.status(200).send(process.env.API_KEY_COMMENTS);
+};

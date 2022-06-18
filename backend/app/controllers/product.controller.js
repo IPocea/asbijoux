@@ -31,7 +31,17 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
 	const title = req.query.title;
 	let condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-	Product.findAll({ include: ["comments", "images"], where: condition })
+	Product.findAll({
+		include: [
+			{
+				model: db.comments,
+				as: "comments",
+				include: { model: db.replyComments, as: "reply_comments" },
+			},
+			{ model: db.images, as: "images" },
+		],
+		where: condition,
+	})
 		.then((data) => {
 			res.send(data);
 		})
@@ -56,7 +66,17 @@ exports.findAllByCategory = (req, res) => {
 				},
 		  }
 		: null;
-	Product.findAll({ include: ["comments", "images"], where: condition })
+	Product.findAll({
+		include: [
+			{
+				model: db.comments,
+				as: "comments",
+				include: { model: db.replyComments, as: "reply_comments" },
+			},
+			{ model: db.images, as: "images" },
+		],
+		where: condition,
+	})
 		.then((data) => {
 			if (data) {
 				res.send(data);
@@ -106,7 +126,16 @@ exports.findAllPublishedCategories = (req, res) => {
 // Find a single Product with an id
 exports.findOne = (req, res) => {
 	const id = req.params.id;
-	Product.findByPk(id, { include: ["comments", "images"] })
+	Product.findByPk(id, {
+		include: [
+			{
+				model: db.comments,
+				as: "comments",
+				include: { model: db.replyComments, as: "reply_comments" },
+			},
+			{ model: db.images, as: "images" },
+		],
+	})
 		.then((data) => {
 			if (data) {
 				res.send(data);
@@ -172,7 +201,14 @@ exports.delete = (req, res) => {
 // Find all published Products
 exports.findAllPublished = (req, res) => {
 	Product.findAll({
-		include: ["comments", "images"],
+		include: [
+			{
+				model: db.comments,
+				as: "comments",
+				include: { model: db.replyComments, as: "reply_comments" },
+			},
+			{ model: db.images, as: "images" },
+		],
 		where: { isPublished: true },
 	})
 		.then((data) => {

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { IUser } from 'src/app/interfaces/user.interface';
+import { AuthService } from 'src/app/services/auth.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
@@ -12,7 +13,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit, AfterViewInit {
-  token: string | null = '';
   user: IUser | null = null;
   isLoggedIn: boolean = false;
   isLoading: boolean = false;
@@ -33,11 +33,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
     private router: Router,
     private storageService: StorageService,
     private userService: UserService,
-    private scroll: ScrollService
+    private scroll: ScrollService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.user = this.storageService.getUser();
     if (!this.user.username) {
       this.router.navigate(['logare']);
@@ -56,6 +56,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
         (err) => {
           this.errorNoToken = JSON.parse(err.error).message;
           this.errorMessageClass = 'error-message-on';
+          this.isLoggedIn = false;
           this.isLoading = false;
           return;
         }
@@ -65,12 +66,25 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.scrollToEle();
+    if (this.isLoggedIn) {
+      this.scrollToEle();
+    }
   }
   relog(): void {
     this.storageService.signOut();
-    this.isLoading = true;
-    this.router.navigate(['logare']);
+    this.authService
+      .logout()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.isLoggedIn = false;
+          this.isLoading = true;
+          this.router.navigate(['logare']);
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
   }
   getProfile(): void {
     this.setClassActive(0);
