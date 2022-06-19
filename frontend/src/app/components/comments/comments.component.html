@@ -53,7 +53,9 @@
             </div>
           </div>
           <ng-container *ngIf="comment.reply_comments.length">
-            <ng-container *ngFor="let reply of comment.reply_comments">
+            <ng-container
+              *ngFor="let reply of comment.reply_comments; let index = index"
+            >
               <div
                 *ngIf="reply.isActivated"
                 class="product-reply-comments-container"
@@ -61,20 +63,10 @@
                 <div class="product-reply-comments">
                   <h4>{{ reply.name }}</h4>
                   <small *ngIf="reply.createdAt >= reply.updatedAt">
-                    {{ reply.createdAt.slice(8, 10) }}-{{
-                      reply.createdAt.slice(5, 7)
-                    }}-{{ reply.createdAt.slice(0, 4) }}, ora
-                    {{ +reply.createdAt.slice(11, 13) + 3 }}:{{
-                      reply.createdAt.slice(14, 16)
-                    }}
+                    {{ reply.createdAt | customDate }}
                   </small>
                   <small *ngIf="reply.createdAt < reply.updatedAt">
-                    Editat in {{ reply.updatedAt.slice(8, 10) }}-{{
-                      reply.updatedAt.slice(5, 7)
-                    }}-{{ reply.updatedAt.slice(0, 4) }}, ora
-                    {{ +reply.updatedAt.slice(11, 13) + 3 }}:{{
-                      reply.updatedAt.slice(14, 16)
-                    }}
+                    Editat in {{ reply.updatedAt | customDate }}
                   </small>
                   <p class="edit-comment-active">{{ reply.text }}</p>
                   <textarea
@@ -88,7 +80,7 @@
                   <p *ngIf="API_KEY" class="admin-comment-btns">
                     <span
                       class="edit-comment-active"
-                      (click)="deleteAdminComment(reply)"
+                      (click)="deleteAdminComment(reply, index)"
                       >Sterge</span
                     >
                     <span

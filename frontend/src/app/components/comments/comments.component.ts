@@ -115,9 +115,7 @@ export class CommentsComponent implements OnInit {
   addReplyComment(comment: IComment, ev: any, index: number): void {
     if (!ev.target.parentElement.previousElementSibling.value.trim()) {
       this.errorMessage = 'Comentariul nu poate fi un text gol.';
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 2000);
+      this.hideError();
       return;
     }
     const replyComment: IReplyComment = {
@@ -132,18 +130,13 @@ export class CommentsComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (data) => {
-          console.log(data);
-
           this.product.comments[index].reply_comments.push(data);
-          this.commentService.sortComments(this.product);
           this.isLoading = false;
         },
         (err) => {
           this.errorMessage = err.message.message;
           this.isLoading = false;
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 2000);
+          this.hideError();
         }
       );
   }
@@ -156,7 +149,7 @@ export class CommentsComponent implements OnInit {
   openEditAdminComment(ev: any): void {
     this.enableEdit(ev);
   }
-  deleteAdminComment(reply: IReplyComment) {
+  deleteAdminComment(reply: IReplyComment, replyIndex: number) {
     const result = confirm(
       `Esti singur ca doresti sa stergi acest comentariu?`
     );
@@ -167,22 +160,23 @@ export class CommentsComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           (data) => {
-            let index = 0;
+            let commentIndex = 0;
             for (let i = 0; i < this.product.comments.length; i++) {
               if (this.product.comments[i].id === reply.commentId) {
-                index = i;
+                commentIndex = i;
                 break;
               }
             }
-            this.product.comments.splice(index, 1);
+            this.product.comments[commentIndex].reply_comments.splice(
+              replyIndex,
+              1
+            );
             this.isLoading = false;
           },
           (err) => {
             this.errorMessage = err.message.message;
             this.isLoading = false;
-            setTimeout(() => {
-              this.errorMessage = '';
-            }, 2000);
+            this.hideError();
           }
         );
     }
@@ -194,9 +188,7 @@ export class CommentsComponent implements OnInit {
   modifyAdminComment(reply: IReplyComment, ev: any): void {
     if (!ev.target.parentElement.previousElementSibling.value.trim()) {
       this.errorMessage = 'Comentariul nu poate fi un text gol.';
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 2000);
+      this.hideError();
       return;
     }
     const replyComment: IReplyComment = {
@@ -234,9 +226,7 @@ export class CommentsComponent implements OnInit {
         (err) => {
           this.errorMessage = err.message.message;
           this.isLoading = false;
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 2000);
+          this.hideError();
         }
       );
   }
@@ -276,5 +266,10 @@ export class CommentsComponent implements OnInit {
       this.editInactive;
     ev.target.parentElement.previousElementSibling.previousElementSibling.className =
       this.editActive;
+  }
+  hideError(): void {
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 2000);
   }
 }

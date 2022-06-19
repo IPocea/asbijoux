@@ -33,6 +33,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommentsComponent } from './components/comments/comments.component';
+import { CustomDatePipe } from './pipes/custom-date.pipe';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { CommentsComponent } from './components/comments/comments.component';
     CategoriesComponent,
     ImageGalleryComponent,
     CommentsComponent,
+    CustomDatePipe,
   ],
   imports: [
     BrowserModule,
