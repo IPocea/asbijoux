@@ -1,1 +1,40 @@
 @import "../../styles/variables.scss";
+:host {
+  .home-container {
+    padding: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    img {
+      width: 100%;
+      object-fit: contain;
+      max-height: 340px;
+    }
+    .about-us {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 5px;
+      box-shadow: 0 -1px 0px 0 rgb(63 63 68 / 15%);
+      h1 {
+        margin: 10px 0;
+      }
+      h2 {
+        text-align: center;
+      }
+      p,
+      h4,
+      ul,
+      ol {
+        text-indent: 20px;
+      }
+      ul,
+      ol {
+        li {
+          list-style-position: inside;
+        }
+      }
+    }
+  }
+}

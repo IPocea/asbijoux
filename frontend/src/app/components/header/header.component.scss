@@ -70,6 +70,11 @@
     }
     article {
       padding: 5px 0;
+      blockquote {
+        q {
+          font-style: italic;
+        }
+      }
       footer {
         display: flex;
         justify-content: space-between;
@@ -176,6 +181,11 @@
         display: flex;
         padding: 0 15px;
         article {
+          blockquote {
+            q {
+              font-style: italic;
+            }
+          }
           footer {
             cite {
               font-family: "Pacifico", Roboto;

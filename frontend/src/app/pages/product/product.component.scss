@@ -4,10 +4,12 @@
     display: flex;
     flex-direction: column;
     padding: 5px;
+    .product-gallery {
+      width: calc(100% - 5px);
+    }
     .product-content {
-      .product-gallery {
-        width: calc(100% - 5px);
-      }
+      display: flex;
+      flex-direction: column;
       .product-description {
         display: flex;
         flex-direction: column;
@@ -18,6 +20,52 @@
         }
         div:nth-child(2) {
           list-style-position: inside;
+        }
+      }
+      .product-logo-container {
+        display: grid;
+        place-items: center;
+        .product-logo {
+          display: grid;
+          place-items: center;
+          height: 150px;
+          width: 270px;
+          border: 1px solid black;
+          p {
+            font-family: "Pacifico", Roboto;
+            text-shadow: 0px 0px 0px black;
+            animation: logo-movement 10s linear infinite;
+            // text-shadow: 130px 45px 1px black;
+          }
+          @keyframes logo-movement {
+            0% {
+              text-shadow: 0px 0px 0px black;
+            }
+            12.5% {
+              text-shadow: 100px 57px 1px black;
+            }
+            25% {
+              text-shadow: 0px 0px 0px black;
+            }
+            37.5% {
+              text-shadow: -100px -57px 1px black;
+            }
+            50% {
+              text-shadow: 0px 0px 0px black;
+            }
+            62.5% {
+              text-shadow: -100px 57px 1px black;
+            }
+            75% {
+              text-shadow: 0px 0px 0px black;
+            }
+            87.5% {
+              text-shadow: 100px -57px 1px black;
+            }
+            100% {
+              text-shadow: 0px 0px 0px black;
+            }
+          }
         }
       }
     }
@@ -36,8 +84,12 @@
         display: flex;
         flex-direction: column;
         width: 48%;
-        .product-description {
+        .product-description,
+        .product-logo-container {
+          // width: 100%;
+          height: 50%;
           width: 100%;
+          overflow: auto;
         }
       }
     }

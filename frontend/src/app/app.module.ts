@@ -34,6 +34,7 @@ import { ImageGalleryComponent } from './components/image-gallery/image-gallery.
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { CustomDatePipe } from './pipes/custom-date.pipe';
     MatSnackBarModule,
     MatSidenavModule,
     TextFieldModule,
+    MatPaginatorModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

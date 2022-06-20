@@ -78,6 +78,7 @@ export class AddProductComponent implements OnInit {
     this.successMessage = '';
     if (
       this.title.trim() === '' ||
+      this.categoryControl.value === null ||
       this.categoryControl.value.trim() === '' ||
       this.productDescription === null ||
       this.productDescription === ''

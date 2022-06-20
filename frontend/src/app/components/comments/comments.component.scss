@@ -9,6 +9,10 @@
     padding: 15px 0;
     background-color: #f2f2f2;
     width: 100%;
+    .product-comments-title {
+      padding: 16px 10px;
+      margin-bottom: 10px;
+    }
     .product-comments-container {
       display: flex;
       flex-direction: column;
