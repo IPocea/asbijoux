@@ -41,4 +41,9 @@ export class ProductService {
       `http://localhost:8080/api/products/${id}`
     );
   }
+  getProductsByTitle(title: string): Observable<IProductComplete[]> {
+    return this.http.get<IProductComplete[]>(
+      `http://localhost:8080/api/products?title=${title}`
+    );
+  }
 }

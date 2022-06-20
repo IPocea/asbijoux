@@ -1,1 +1,87 @@
-<p>search works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading && selectedProducts">
+  <div class="search-component-container">
+    <div
+      [ngClass]="
+        isNotFound ? 'search-result-number' : 'search-result-number m-2'
+      "
+    >
+      <div *ngIf="!products.length" class="product-not-found">
+        <p>
+          Ne pare rau insa nu am identificat nici un produs dupa titlul
+          <b>{{ title }}:</b>
+        </p>
+        <div class="product-not-found-logo">
+          <h3>Product</h3>
+          <h3>not</h3>
+          <h3>found</h3>
+        </div>
+        <p>Te invitam sa vizualizezi alte produse.</p>
+        <h2>Categorii:</h2>
+        <div *ngIf="categories.length" class="categories-in-not-found">
+          <p
+            (click)="goToCategory(category)"
+            *ngFor="let category of categories"
+          >
+            {{ category }}
+          </p>
+        </div>
+      </div>
+      <p *ngIf="products.length === 1">
+        A fost identificat {{ products.length }} produs dupa titlul
+        <b>{{ title }}</b
+        >:
+      </p>
+      <p *ngIf="products.length > 1">
+        Au fost identificate {{ products.length }} produse dupa titlul
+        <b>{{ title }}</b
+        >:
+      </p>
+    </div>
+    <div id="search-component-card-container" class="search-container">
+      <div *ngFor="let product of selectedProducts" class="card-container">
+        <img
+          (click)="goToProduct(product)"
+          *ngIf="product.images.length"
+          [src]="product.images[0].url"
+          [alt]="product.images[0].name"
+        />
+        <img
+          (click)="goToProduct(product)"
+          *ngIf="!product.images.length"
+          src="assets/asbijoux-atelierelor-main-image.jpg"
+          alt="AsBijoux Constanta"
+        />
+
+        <div class="card-content">
+          <h5 [title]="product.title">{{ product.title }}</h5>
+        </div>
+        <button (click)="goToProduct(product)" class="btn-fill-left">
+          Arata produs
+        </button>
+        <div class="card-footer">
+          <small *ngIf="product.createdAt >= product.updatedAt"
+            >Adaugat in {{ product.createdAt | customDate: 0 }}</small
+          >
+          <small *ngIf="product.createdAt < product.updatedAt"
+            >Actualizat in {{ product.updatedAt | customDate: 0 }}</small
+          >
+        </div>
+      </div>
+    </div>
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex"
+      aria-label="Select page"
+    >
+    </mat-paginator></div
+></ng-container>

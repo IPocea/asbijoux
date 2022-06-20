@@ -38,10 +38,13 @@
         <h1 routerLink="/pagina-principala">AsBijoux</h1>
       </div>
       <div>
-        <mat-icon (click)="test()" id="header-search-icon">search</mat-icon>
+        <mat-icon (click)="enableSearch()" id="header-search-icon"
+          >search</mat-icon
+        >
         <mat-icon (click)="showContactSidenav()" id="header-contact-icon"
           >contacts</mat-icon
         >
+        <mat-icon *ngIf="isAdminLoggedIn">account_circle</mat-icon>
       </div>
       <mat-form-field
         *ngIf="!isArticleEnabled"

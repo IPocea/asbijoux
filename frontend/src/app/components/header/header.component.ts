@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   searchValue: string = '';
+  isAdminLoggedIn: boolean = false;
   isCategoryEnabled: boolean = false;
   isContactEnabled: boolean = false;
   isArticleEnabled: boolean = true;
@@ -101,7 +102,7 @@ export class HeaderComponent implements OnInit {
       );
   }
 
-  test(): void {
+  enableSearch(): void {
     this.isArticleEnabled = !this.isArticleEnabled;
   }
 }
