@@ -35,6 +35,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ImageGalleryComponent,
     CommentsComponent,
     CustomDatePipe,
+    SnackbarComponent,
   ],
   imports: [
     BrowserModule,

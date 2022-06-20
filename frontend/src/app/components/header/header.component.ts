@@ -3,6 +3,8 @@ import { take } from 'rxjs/operators';
 import { ProductService } from 'src/app/services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +27,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -71,9 +74,10 @@ export class HeaderComponent implements OnInit {
     event.stopPropagation();
   }
   showMessage(): void {
-    this.snackBar.open('Va rugam sa introduceti cel putin o litera', '', {
-      duration: 3000,
-    });
+    // this.snackBar.open('Va rugam sa introduceti cel putin o litera', '', {
+    //   duration: 3000,
+    // });
+    this.snackBar.openFromComponent(SnackbarComponent, { duration: 3000 });
   }
   showFullArticle(): void {
     this.isFullArticleDisplayed = !this.isFullArticleDisplayed;
@@ -104,5 +108,24 @@ export class HeaderComponent implements OnInit {
 
   enableSearch(): void {
     this.isArticleEnabled = !this.isArticleEnabled;
+  }
+  goToHome(): void {
+    this.userService
+      .getAdminComments()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.isAdminLoggedIn = true;
+        },
+        (err) => {
+          this.isAdminLoggedIn = false;
+        }
+      );
+    this.router.navigate(['/pagina-principala']);
+  }
+  goToAccount(): void {
+    if (this.isAdminLoggedIn) {
+      this.router.navigate(['/logare']);
+    }
   }
 }

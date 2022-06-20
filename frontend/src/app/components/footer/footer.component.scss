@@ -1,1 +1,56 @@
-
+@import "../../styles/variables.scss";
+:host {
+  padding: 30px;
+  color: $white;
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 15px;
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+      .footer-title {
+        font-family: "Pacifico", Roboto;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          a {
+            text-decoration: none;
+            color: $white;
+            border-bottom: 1px solid #333333;
+          }
+          a:hover {
+            border-bottom: 1px solid $white;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (min-width: 390px) {
+    .footer-container {
+      div {
+        flex-direction: row;
+      }
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .footer-container {
+      div {
+        div {
+          div {
+            flex-direction: row;
+          }
+        }
+      }
+    }
+  }
+}

@@ -35,7 +35,7 @@
     <section>
       <div>
         <mat-icon (click)="showMenu()">menu</mat-icon>
-        <h1 routerLink="/pagina-principala">AsBijoux</h1>
+        <h1 (click)="goToHome()">AsBijoux</h1>
       </div>
       <div>
         <mat-icon (click)="enableSearch()" id="header-search-icon"
@@ -44,7 +44,9 @@
         <mat-icon (click)="showContactSidenav()" id="header-contact-icon"
           >contacts</mat-icon
         >
-        <mat-icon *ngIf="isAdminLoggedIn">account_circle</mat-icon>
+        <mat-icon (click)="goToAccount()" *ngIf="isAdminLoggedIn"
+          >account_circle</mat-icon
+        >
       </div>
       <mat-form-field
         *ngIf="!isArticleEnabled"
@@ -124,7 +126,7 @@
         </div>
       </div>
     </div>
-    <h1 routerLink="/pagina-principala">AsBijoux</h1>
+    <h1 (click)="goToHome()">AsBijoux</h1>
     <div class="search-menu">
       <mat-form-field appearance="outline">
         <mat-label>Cauta Produs</mat-label>
@@ -144,6 +146,11 @@
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
+      <div class="header-account-icon">
+        <mat-icon (click)="goToAccount()" *ngIf="isAdminLoggedIn"
+          >account_circle</mat-icon
+        >
+      </div>
     </div>
   </div>
   <div class="header-bottom">
