@@ -59,8 +59,10 @@ export class CareouselComponent implements OnInit, OnDestroy {
               this.productsId.push(data.productId);
               this.titlesArray.push(data.product.title);
             }
-            console.log(this.imgArray);
-            setTimeout(this.toggleImage.bind(this), 500);
+            this.srcLeftItem = this.imgArray[0];
+            this.srcMain = this.imgArray[1];
+            this.srcRightItem = this.imgArray[2];
+            setTimeout(this.toggleImage.bind(this), 2000);
             this.int = setInterval(this.toggleImage.bind(this), 7000);
             this.isLoading = false;
           }
