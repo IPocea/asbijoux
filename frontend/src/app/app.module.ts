@@ -36,6 +36,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { CareouselComponent } from './components/careousel/careousel.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     CommentsComponent,
     CustomDatePipe,
     SnackbarComponent,
+    CareouselComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,33 @@
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <div class="carousel-container">
+    <img
+      (click)="goToProduct(srcLeftItem)"
+      id="carousel-left-item"
+      [class]="carouselClass"
+      [src]="srcLeftItem"
+      [title]="titleLeft"
+      alt="AsBijoux Reparatii Bijuterii Constanta"
+    />
+    <img
+      (click)="goToProduct(srcMain)"
+      [class]="carouselClass"
+      [src]="srcMain"
+      [title]="titleMain"
+      alt="AsBijoux Bijuterii Constanta"
+    />
+    <img
+      (click)="goToProduct(srcRightItem)"
+      id="carousel-right-item"
+      [class]="carouselClass"
+      [src]="srcRightItem"
+      [title]="titleRight"
+      alt="AsBijoux Bijuterii Confectionate Manual Constanta"
+    />
+  </div>
+</ng-container>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   currentYear: number;
-  constructor() {}
+  constructor(private router: Router, private scroll: ScrollService) {}
 
   ngOnInit(): void {
     const today = new Date();
     this.currentYear = today.getFullYear();
+  }
+  goToHome(): void {
+    this.scroll.scrollTo('app-component-header');
+    this.router.navigate(['/pagina-principala']);
   }
 }

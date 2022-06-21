@@ -1,14 +1,13 @@
 @import "../../styles/variables.scss";
 :host {
-  .home-container {
+  #home-component-container {
     padding: 5px;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    img {
+    #carousel-component-container {
       width: 100%;
-      object-fit: contain;
       max-height: 340px;
     }
     .about-us {

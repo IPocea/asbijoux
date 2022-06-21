@@ -19,6 +19,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.products = require("./product.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
 db.images = require("./image.model.js")(sequelize, Sequelize);
+db.carouselImages = require("./carousel-image.model.js")(sequelize, Sequelize);
 db.replyComments = require("./replyComment.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {
 	through: "user_roles",
@@ -33,6 +34,7 @@ db.user.belongsToMany(db.role, {
 db.ROLES = ["user", "admin", "moderator"];
 db.products.hasMany(db.comments, { as: "comments" });
 db.products.hasMany(db.images, { as: "images" });
+db.products.hasMany(db.carouselImages, { as: "carousel_images" });
 db.comments.belongsTo(db.products, {
 	foreignKey: "productId",
 	as: "product",
@@ -43,6 +45,10 @@ db.replyComments.belongsTo(db.comments, {
 	as: "comment",
 });
 db.images.belongsTo(db.products, {
+	foreignKey: "productId",
+	as: "product",
+});
+db.carouselImages.belongsTo(db.products, {
 	foreignKey: "productId",
 	as: "product",
 });

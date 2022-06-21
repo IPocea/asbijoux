@@ -1,0 +1,36 @@
+:host {
+  .carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    img {
+      cursor: pointer;
+      width: 100%;
+      object-fit: contain;
+      height: 340px;
+    }
+    #carousel-left-item,
+    #carousel-right-item {
+      display: none;
+      height: 200px;
+    }
+    .carousel-item {
+      opacity: 0;
+      transition: 1s all;
+    }
+    .active {
+      opacity: 1;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .carousel-container {
+      img {
+        width: 33%;
+      }
+      #carousel-left-item,
+      #carousel-right-item {
+        display: block;
+      }
+    }
+  }
+}
