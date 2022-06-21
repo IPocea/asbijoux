@@ -174,7 +174,7 @@ export class CommentsComponent implements OnInit {
       .subscribe(
         (res) => {
           this.productService
-            .getProduct(this.product.id.toString())
+            .getProductActiveComments(this.product.id.toString())
             .pipe(take(1))
             .subscribe(
               (data) => {

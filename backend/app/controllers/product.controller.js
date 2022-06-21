@@ -151,6 +151,35 @@ exports.findOne = (req, res) => {
 			});
 		});
 };
+exports.findOneActiveComments = (req, res) => {
+	const id = req.params.id;
+	Product.findByPk(id, {
+		include: [
+			{
+				model: db.comments,
+				as: "comments",
+				required: false, // if no comment exist will still return empty array even if we have where condition bellow
+				where: { [Op.or]: [{ isActivated: true }, { isActivated: null }] },
+				include: { model: db.replyComments, as: "reply_comments" },
+			},
+			{ model: db.images, as: "images" },
+		],
+	})
+		.then((data) => {
+			if (data) {
+				res.send(data);
+			} else {
+				res.status(404).send({
+					message: `Nu pot gasi produsul cu id=${id}.`,
+				});
+			}
+		})
+		.catch((err) => {
+			res.status(500).send({
+				message: "Eroare in regasirea produsului cu id " + id,
+			});
+		});
+};
 // Update a Product by the id in the request
 exports.update = (req, res) => {
 	const id = req.params.id;

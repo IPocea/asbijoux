@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import {
-  IComment,
-  ICommentPreview,
-  IProductComplete,
-} from 'src/app/interfaces';
+import { IProductComplete } from 'src/app/interfaces';
 import { CommentService } from 'src/app/services/comment.service';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -27,8 +23,7 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private imageService: ImageService,
-    private commentService: CommentService,
-    private scroll: ScrollService
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
@@ -42,15 +37,12 @@ export class ProductComponent implements OnInit {
   getData(id: string): void {
     this.isLoading = true;
     this.productService
-      .getProduct(id)
+      .getProductActiveComments(id)
       .pipe(take(1))
       .subscribe(
         (data) => {
           this.product = data;
           this.imageService.sortImages(this.product);
-          this.product.comments = data.comments.filter(
-            (ele) => ele.isActivated
-          );
           this.commentService.sortComments(this.product);
           this.isLoading = false;
         },

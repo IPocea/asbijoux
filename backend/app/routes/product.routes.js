@@ -10,6 +10,8 @@ module.exports = (app) => {
 	router.get("/published", products.findAllPublished);
 	// Retrieve a single Product with id
 	router.get("/:id", products.findOne);
+	// Retrieve a single Product by id with active comments
+	router.get("/active-comments/:id", products.findOneActiveComments);
 	// Retrieve all categories of the Products
 	router.get("/find/categories", products.findAllCategories);
 	// Retrieve all published categories

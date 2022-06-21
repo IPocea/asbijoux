@@ -41,6 +41,11 @@ export class ProductService {
       `http://localhost:8080/api/products/${id}`
     );
   }
+  getProductActiveComments(id: string): Observable<IProductComplete> {
+    return this.http.get<IProductComplete>(
+      `http://localhost:8080/api/products/active-comments/${id}`
+    );
+  }
   getProductsByTitle(title: string): Observable<IProductComplete[]> {
     return this.http.get<IProductComplete[]>(
       `http://localhost:8080/api/products?title=${title}`
