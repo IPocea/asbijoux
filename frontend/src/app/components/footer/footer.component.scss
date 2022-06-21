@@ -1,8 +1,8 @@
 @import "../../styles/variables.scss";
 :host {
-  padding: 30px;
   color: $white;
   .footer-container {
+    padding: 40px 30px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -35,7 +35,7 @@
       }
     }
   }
-  @media screen and (min-width: 390px) {
+  @media screen and (min-width: 450px) {
     .footer-container {
       div {
         flex-direction: row;
