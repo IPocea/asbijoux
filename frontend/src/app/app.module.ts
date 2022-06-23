@@ -22,7 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
-import { CategoriesComponent } from './components/categories/categories.component';
+import { CommentsAdminComponent } from './components/comments-admin/comments-admin.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,6 +37,7 @@ import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { CareouselComponent } from './components/careousel/careousel.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
 
 @NgModule({
   declarations: [
@@ -53,12 +54,13 @@ import { CareouselComponent } from './components/careousel/careousel.component';
     ProfileComponent,
     ViewProductsComponent,
     AddProductComponent,
-    CategoriesComponent,
+    CommentsAdminComponent,
     ImageGalleryComponent,
     CommentsComponent,
     CustomDatePipe,
     SnackbarComponent,
     CareouselComponent,
+    EditProductComponent,
   ],
   imports: [
     BrowserModule,

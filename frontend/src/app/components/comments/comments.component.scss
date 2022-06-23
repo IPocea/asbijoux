@@ -32,7 +32,7 @@
       }
       .product-comment {
         .add-reply-container {
-          display: none;
+          display: flex;
           flex-direction: column;
           textarea {
             font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -217,12 +217,6 @@
   span:active {
     color: $blueActive;
   }
-}
-.edit-comment-active {
-  display: block;
-}
-.edit-comment-inactive {
-  display: none;
 }
 .error {
   max-width: 45%;

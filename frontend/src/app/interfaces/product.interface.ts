@@ -18,6 +18,6 @@ export interface IProductComplete {
   isPublished: boolean;
   createdAt?: string;
   updatedAt?: string;
-  images: IImageSimple[];
-  comments: IComment[];
+  images?: IImageSimple[];
+  comments?: IComment[];
 }

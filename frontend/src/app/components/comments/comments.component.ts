@@ -31,9 +31,12 @@ export class CommentsComponent implements OnInit {
   emailFormControl = new FormControl('', [Validators.email]);
   commentFormControl = new FormControl('', [Validators.required]);
   textBtn: string = 'Adaugati comentariul';
-  addReplyTextBtn: string = 'Raspunde';
   commentPreview: ICommentPreview = null;
+  replyCommentText: string = '';
+  replyEditText: string = '';
   administratorName: string = 'Administrator';
+  replyCommentId: number = 0;
+  replyEditCommentId: number = 0;
 
   constructor(
     private commentService: CommentService,
@@ -108,25 +111,23 @@ export class CommentsComponent implements OnInit {
         );
     }
   }
-  openReplyContainer(ev: any) {
-    ev.target.parentElement.nextElementSibling.style = 'display: flex;';
-    ev.target.className = this.editInactive;
+  openReplyContainer(comment: IComment) {
+    this.replyCommentId = comment.id;
+    this.replyEditCommentId = 0;
   }
-  cancelAddReply(ev: any): void {
-    ev.target.parentElement.parentElement.style = 'display: none;';
-    ev.target.parentElement.parentElement.previousElementSibling.firstChild.className =
-      this.editActive;
-    ev.target.parentElement.parentElement.firstChild.value = '';
+  cancelAddReply(): void {
+    this.replyCommentId = 0;
+    this.replyCommentText = '';
   }
-  addReplyComment(comment: IComment, ev: any, index: number): void {
-    if (!ev.target.parentElement.previousElementSibling.value.trim()) {
+  addReplyComment(comment: IComment, index: number): void {
+    if (!this.replyCommentText.trim()) {
       this.errorMessage = 'Comentariul nu poate fi un text gol.';
       this.hideError();
       return;
     }
     const replyComment: IReplyComment = {
       name: this.administratorName,
-      text: ev.target.parentElement.previousElementSibling.value,
+      text: this.replyCommentText,
       isActivated: true,
       commentId: comment.id,
     };
@@ -137,6 +138,7 @@ export class CommentsComponent implements OnInit {
       .subscribe(
         (data) => {
           this.product.comments[index].reply_comments.push(data);
+          this.replyCommentId = 0;
           this.isLoading = false;
         },
         (err) => {
@@ -146,27 +148,28 @@ export class CommentsComponent implements OnInit {
         }
       );
   }
-  openEditAdminComment(ev: any): void {
-    this.enableEdit(ev);
+  openEditAdminComment(reply: IReplyComment): void {
+    this.replyEditCommentId = reply.id;
+    this.replyCommentId = 0;
+    this.replyEditText = reply.text;
   }
-  cancelEditAdminComment(reply: IReplyComment, ev: any): void {
-    this.enableCancelEdit(ev);
-    ev.target.parentElement.previousElementSibling.value = reply.text;
+  cancelEditAdminComment(reply: IReplyComment): void {
+    this.replyEditCommentId = 0;
+    this.replyEditText = reply.text;
   }
-  modifyAdminComment(reply: IReplyComment, ev: any): void {
-    if (!ev.target.parentElement.previousElementSibling.value.trim()) {
+  modifyAdminComment(reply: IReplyComment): void {
+    if (!this.replyEditText.trim()) {
       this.errorMessage = 'Comentariul nu poate fi un text gol.';
       this.hideError();
       return;
     }
     const replyComment: IReplyComment = {
       name: this.administratorName,
-      text: ev.target.parentElement.previousElementSibling.value,
+      text: this.replyEditText,
       isActivated: true,
       commentId: reply.commentId,
     };
-
-    this.disableEdit(ev);
+    this.replyEditCommentId = 0;
     this.isLoading = true;
     this.replyService
       .modifyReplyComment(this.API_KEY, reply.id, replyComment)
@@ -234,38 +237,6 @@ export class CommentsComponent implements OnInit {
     this.nameFormControl = new FormControl('', [Validators.required]);
     this.emailFormControl = new FormControl('', [Validators.email]);
     this.commentFormControl = new FormControl('', [Validators.required]);
-  }
-  enableEdit(ev: any): void {
-    ev.target.previousElementSibling.className = this.editInactive;
-    ev.target.className = this.editInactive;
-    ev.target.nextElementSibling.className = this.editActive;
-    ev.target.nextElementSibling.nextElementSibling.className = this.editActive;
-    ev.target.parentElement.previousElementSibling.className = this.editActive;
-    ev.target.parentElement.previousElementSibling.previousElementSibling.className =
-      this.editInactive;
-  }
-  disableEdit(ev: any): void {
-    ev.target.className = this.editInactive;
-    ev.target.previousElementSibling.className = this.editInactive;
-    ev.target.previousElementSibling.previousElementSibling.className =
-      this.editActive;
-    ev.target.previousElementSibling.previousElementSibling.previousElementSibling.className =
-      this.editActive;
-    ev.target.parentElement.previousElementSibling.className =
-      this.editInactive;
-    ev.target.parentElement.previousElementSibling.previousElementSibling.className =
-      this.editActive;
-  }
-  enableCancelEdit(ev: any): void {
-    ev.target.nextElementSibling.className = this.editInactive;
-    ev.target.className = this.editInactive;
-    ev.target.previousElementSibling.className = this.editActive;
-    ev.target.previousElementSibling.previousElementSibling.className =
-      this.editActive;
-    ev.target.parentElement.previousElementSibling.className =
-      this.editInactive;
-    ev.target.parentElement.previousElementSibling.previousElementSibling.className =
-      this.editActive;
   }
   hideError(): void {
     setTimeout(() => {

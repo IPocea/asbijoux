@@ -35,8 +35,11 @@
         *ngIf="isAddProductSelected"
         [API_KEY]="API_KEY"
       ></app-add-product>
-      <app-view-products *ngIf="isViewProductsSelected"></app-view-products>
-      <app-categories *ngIf="isCategorySelected"></app-categories>
+      <app-view-products
+        *ngIf="isViewProductsSelected"
+        [API_KEY]="API_KEY"
+      ></app-view-products>
+      <app-comments-admin *ngIf="isCommentAdminSelected"></app-comments-admin>
     </div>
   </div>
 </ng-container>

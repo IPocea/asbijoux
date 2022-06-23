@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
   isProfileSelected: boolean = false;
   isAddProductSelected: boolean = false;
   isViewProductsSelected: boolean = false;
-  isCategorySelected: boolean = false;
+  isCommentAdminSelected: boolean = false;
 
   constructor(
     private router: Router,
@@ -131,7 +131,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.isProfileSelected = false;
     this.isAddProductSelected = false;
     this.isViewProductsSelected = false;
-    this.isCategorySelected = false;
+    this.isCommentAdminSelected = false;
     switch (componentIndex) {
       case 0:
         this.isProfileSelected = true;
@@ -143,7 +143,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
         this.isViewProductsSelected = true;
         break;
       case 3:
-        this.isCategorySelected = true;
+        this.isCommentAdminSelected = true;
         break;
       default:
         break;

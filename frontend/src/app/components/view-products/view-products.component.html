@@ -1,1 +1,235 @@
-<p>view-products works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="!isLoading && products.length && !isEditing">
+  <div class="view-products-component-container">
+    <h2>Vizualizeaza produsele</h2>
+    <h3>Numar total de produse afisate: {{ filteredProducts.length }}</h3>
+    <div class="view-products-search">
+      <mat-form-field class="example-form-field" appearance="outline">
+        <mat-label>Cauta produs</mat-label>
+        <input
+          (keyup.enter)="applyTitleByEnter()"
+          matInput
+          type="text"
+          [(ngModel)]="searchValue"
+        />
+        <button
+          *ngIf="
+            this.searchValue && filteredProducts.length !== products.length
+          "
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clearSearchValueAndFilters()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <button
+          matSuffix
+          class="search-btn"
+          (click)="applyTitleByEnter()"
+          mat-icon-button
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Categorii</mat-label>
+        <input
+          type="text"
+          placeholder="Alege o categorie"
+          aria-label="Categorii"
+          matInput
+          [formControl]="categoryControl"
+          [matAutocomplete]="auto"
+          (keyup.enter)="applyCategoryByEnter()"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of categoryFilteredOptions | async"
+            [value]="option"
+            (click)="applyFilters()"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="view-products-filter-top">
+      <h4>Filtre:</h4>
+      <div
+        [ngClass]="
+          filterCheckbox.published ||
+          filterCheckbox.unpublished ||
+          filterCheckbox.withImages ||
+          filterCheckbox.withoutImages ||
+          filterCheckbox.withComments ||
+          filterCheckbox.withoutComments ||
+          categoryControl.value ||
+          filteredProducts.length !== products.length
+            ? 'view-products-filter-check'
+            : 'view-products-filter-check hidden-btn'
+        "
+      >
+        <button (click)="deleteAllFilters()">Sterge toate filtrele</button>
+      </div>
+    </div>
+    <div class="view-products-filters-bottom">
+      <div class="view-products-filters-col">
+        <div class="view-products-filter">
+          <input
+            (change)="changePublish($event)"
+            [checked]="filterCheckbox.published"
+            type="checkbox"
+            name=""
+            id="view-products-published"
+          />
+          <label for="view-products-published">Produse publicate</label>
+        </div>
+        <div class="view-products-filter">
+          <input
+            (change)="changeUnPublish($event)"
+            [checked]="filterCheckbox.unpublished"
+            type="checkbox"
+            name=""
+            id="view-products-unpublished"
+          />
+          <label for="view-products-unpublished">Produse nepublicate</label>
+        </div>
+      </div>
+      <div class="view-products-filters-col">
+        <div class="view-products-filter">
+          <input
+            (change)="changeWithImages($event)"
+            [checked]="filterCheckbox.withImages"
+            type="checkbox"
+            name=""
+            id="view-products-with-images"
+          />
+          <label for="view-products-with-images">Produse cu poze</label>
+        </div>
+        <div class="view-products-filter">
+          <input
+            (change)="changeWithoutImages($event)"
+            [checked]="filterCheckbox.withoutImages"
+            type="checkbox"
+            name=""
+            id="view-products-without-images"
+          />
+          <label for="view-products-without-images">Produse fara poze</label>
+        </div>
+      </div>
+      <div class="view-products-filters-col">
+        <div class="view-products-filter">
+          <input
+            (change)="changeWithComments($event)"
+            [checked]="filterCheckbox.withComments"
+            type="checkbox"
+            name=""
+            id="view-products-with-comments"
+          />
+          <label for="view-products-with-comments">Produse cu comentarii</label>
+        </div>
+        <div class="view-products-filter">
+          <input
+            (change)="changeWithoutComments($event)"
+            [checked]="filterCheckbox.withoutComments"
+            type="checkbox"
+            name=""
+            id="view-products-without-comments"
+          />
+          <label for="view-products-without-comments"
+            >Produse fara comentarii</label
+          >
+        </div>
+      </div>
+    </div>
+    <div id="view-products-table" class="table-container">
+      <table *ngIf="filteredProducts.length">
+        <thead>
+          <tr>
+            <th title="Crit.">Crit.</th>
+            <th title="Nume produs">Nume produs</th>
+            <th title="Categorie">Categorie</th>
+            <th title="Status">Status</th>
+            <th title="Nr. Comentarii">Nr. Comentarii</th>
+            <th title="Nr. Imagini">Nr. Imagini</th>
+            <th title="Actiuni">Actiuni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of selectedProducts; let i = index">
+            <td width="5%">{{ pageIndex * pageSize + i + 1 }}</td>
+            <td class="table-product-title" [title]="product.title">
+              {{ product.title }}
+            </td>
+            <td>{{ product.category }}</td>
+            <td width="11%" *ngIf="product.isPublished">Publicat</td>
+            <td width="11%" *ngIf="!product.isPublished">Nepublicat</td>
+            <td width="15%">{{ product.comments.length }}</td>
+            <td width="12%">{{ product.images.length }}</td>
+            <td width="14%">
+              <div class="action-btns">
+                <mat-icon
+                  title="Vizualizeaza produs"
+                  (click)="goToProduct(product)"
+                  >visibility</mat-icon
+                >
+                <mat-icon title="Editeaza produs" (click)="editProduct(product)"
+                  >edit</mat-icon
+                >
+                <mat-icon
+                  *ngIf="!product.isPublished"
+                  (click)="publishProduct(product)"
+                  title="Publica produs"
+                  >check_circle_outline</mat-icon
+                >
+                <mat-icon
+                  *ngIf="product.isPublished"
+                  (click)="publishNotProduct(product)"
+                  title="Dezactiveaza produs"
+                  >close</mat-icon
+                >
+                <mat-icon title="Sterge produs" (click)="deleteProduct(product)"
+                  >delete</mat-icon
+                >
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <mat-paginator
+      *ngIf="filteredProducts.length"
+      id="search-component-paginator"
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading && isEditing">
+  <div class="edit-product-container">
+    <app-edit-product
+      (sendData)="catchEditStatus($event)"
+      [product]="selectedForEditProduct"
+      [API_KEY]="API_KEY"
+    ></app-edit-product>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="errorMessage">
+  <div class="error-message-on pop-up">{{ errorMessage }}</div>
+</ng-container>
+<ng-container *ngIf="successMessage">
+  <div class="success-message-on pop-up">{{ successMessage }}</div>
+</ng-container>

@@ -12,6 +12,34 @@ import {
 })
 export class ProductService {
   constructor(private http: HttpClient) {}
+  addProduct(
+    API_KEY: string,
+    product: IProductSimple
+  ): Observable<IProductSimple> {
+    return this.http.post<IProductSimple>(
+      `http://localhost:8080/api/products/${API_KEY}/`,
+      product
+    );
+  }
+  deleteProduct(API_KEY: string, id: number): Observable<IProductComplete> {
+    return this.http.delete<IProductComplete>(
+      `http://localhost:8080/api/products/${API_KEY}/${id}`
+    );
+  }
+  editProduct(
+    API_KEY: string,
+    product: IProductComplete
+  ): Observable<IProductComplete> {
+    return this.http.put<IProductComplete>(
+      `http://localhost:8080/api/products/${API_KEY}/${product.id}`,
+      product
+    );
+  }
+  getAllProducts(): Observable<IProductComplete[]> {
+    return this.http.get<IProductComplete[]>(
+      'http://localhost:8080/api/products'
+    );
+  }
   getAllCategories(): Observable<ICategories> {
     return this.http.get<ICategories>(
       'http://localhost:8080/api/products/find/categories'
@@ -20,15 +48,6 @@ export class ProductService {
   getAlllPublishedCategories(): Observable<ICategories> {
     return this.http.get<ICategories>(
       'http://localhost:8080/api/products/find/published/categories'
-    );
-  }
-  addProduct(
-    API_KEY: string,
-    product: IProductSimple
-  ): Observable<IProductSimple> {
-    return this.http.post<IProductSimple>(
-      `http://localhost:8080/api/products/${API_KEY}/`,
-      product
     );
   }
   getAllBySelectedCategory(params: string): Observable<IProductComplete[]> {

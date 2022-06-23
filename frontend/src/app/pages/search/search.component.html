@@ -65,12 +65,7 @@
           Arata produs
         </button>
         <div class="card-footer">
-          <small *ngIf="product.createdAt >= product.updatedAt"
-            >Adaugat in {{ product.createdAt | customDate: 0 }}</small
-          >
-          <small *ngIf="product.createdAt < product.updatedAt"
-            >Actualizat in {{ product.updatedAt | customDate: 0 }}</small
-          >
+          <small>Adaugat in {{ product.createdAt | customDate: 0 }}</small>
         </div>
       </div>
     </div>

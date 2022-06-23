@@ -1,0 +1,108 @@
+<div id="edit-product-component">
+  <ng-container *ngIf="isLoading">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading">
+    <div
+      *ngIf="categoryOptions && categoryFilteredOptions"
+      id="edit-product-container"
+    >
+      <h2>Editeaza produsul</h2>
+      <button (click)="goBack()" class="go-back-btn">
+        <mat-icon>arrow_back</mat-icon
+        ><span>Mergi inapoi la vizualizarea produselor</span>
+      </button>
+      <input
+        [(ngModel)]="title"
+        type="text"
+        name="title"
+        id="edit-product-title"
+        placeholder="Editeaza titlul"
+      />
+      <form id="edit-product-category-and-publish">
+        <mat-form-field appearance="fill">
+          <mat-label>Categorii</mat-label>
+          <input
+            type="text"
+            placeholder="Alege sau adauga o categorie"
+            aria-label="Categorii"
+            matInput
+            [formControl]="categoryControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of categoryFilteredOptions | async"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Publicat</mat-label>
+          <mat-select name="public select" [(ngModel)]="publicSelectValue">
+            <mat-option
+              *ngFor="let publicChoice of publicChoices"
+              [value]="publicChoice.value"
+            >
+              {{ publicChoice.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <h4>Descriere produs:</h4>
+      <quill-editor
+        [(ngModel)]="productDescription"
+        placeholder="Scrie aici"
+        [styles]="{ height: '150px', backgroundColor: '#FFF' }"
+      ></quill-editor>
+      <h4 *ngIf="!product.images.length">Adauga poze:</h4>
+      <h4 *ngIf="product.images.length">Editeaza poze:</h4>
+      <p class="edit-product-suggestions">
+        Dimensiunea unei poze nu trebuie sa depaseasca 3.5 MB.
+      </p>
+      <div id="edit-product-file-container">
+        <input
+          *ngIf="!product.images.length || !product.images[0]"
+          type="file"
+          name="file"
+          id="edit-product-main-image"
+          accept="image/*"
+          (change)="checkSize($event)"
+        />
+        <ng-container *ngIf="product.images.length">
+          <div *ngFor="let image of product.images">
+            <img [src]="image.url" [alt]="image.name" />
+            <button>Sterge poza</button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="product.images.length < 10">
+          <input
+            *ngFor="let in of counter(10 - product.images.length)"
+            class="edit-product-images"
+            type="file"
+            name="file"
+            accept="image/*"
+            (change)="checkSize($event)"
+          />
+        </ng-container>
+      </div>
+      <button
+        type="submit"
+        class="add-btn-primary"
+        id="edit-product-btn"
+        (click)="editProduct($event)"
+      >
+        Editeaza produsul
+      </button>
+      <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" [class]="successMessageClass">
+        {{ successMessage }}
+      </p>
+    </div>
+  </ng-container>
+</div>

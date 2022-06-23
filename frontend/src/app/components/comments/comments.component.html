@@ -29,29 +29,32 @@
                 comment.createdAt.slice(14, 16)
               }}
             </small>
-            <p>{{ comment.text }}</p>
+            <p *ngIf="replyCommentId !== comment.id">{{ comment.text }}</p>
             <p
               *ngIf="API_KEY && !comment.reply_comments.length"
               class="admin-comment-btns"
             >
               <span
                 class="edit-comment-active"
-                (click)="openReplyContainer($event)"
-                >{{ addReplyTextBtn }}</span
+                (click)="openReplyContainer(comment)"
               >
+                Raspunde
+              </span>
             </p>
-            <div class="add-reply-container">
+            <div
+              *ngIf="replyCommentId === comment.id"
+              class="add-reply-container"
+            >
               <textarea
+                [(ngModel)]="replyCommentText"
                 name="admin comment container"
                 cols="20"
                 rows="10"
                 maxlength="990"
               ></textarea>
               <p class="admin-comment-btns">
-                <span (click)="cancelAddReply($event)">Anuleaza</span>
-                <span (click)="addReplyComment(comment, $event, index)"
-                  >Adauga</span
-                >
+                <span (click)="cancelAddReply()">Anuleaza</span>
+                <span (click)="addReplyComment(comment, index)">Adauga</span>
               </p>
             </div>
           </div>
@@ -71,9 +74,12 @@
                   <small *ngIf="reply.createdAt < reply.updatedAt">
                     Editat in {{ reply.updatedAt | customDate }}
                   </small>
-                  <p class="edit-comment-active">{{ reply.text }}</p>
+                  <p *ngIf="replyEditCommentId !== reply.id">
+                    {{ reply.text }}
+                  </p>
                   <textarea
-                    class="edit-comment-inactive"
+                    *ngIf="replyEditCommentId === reply.id"
+                    [(ngModel)]="replyEditText"
                     name="edit container"
                     cols="20"
                     rows="10"
@@ -82,23 +88,23 @@
                   >
                   <p *ngIf="API_KEY" class="admin-comment-btns">
                     <span
-                      class="edit-comment-active"
+                      *ngIf="replyEditCommentId !== reply.id"
                       (click)="deleteAdminComment(reply, index)"
                       >Sterge</span
                     >
                     <span
-                      class="edit-comment-active"
-                      (click)="openEditAdminComment($event)"
+                      *ngIf="replyEditCommentId !== reply.id"
+                      (click)="openEditAdminComment(reply)"
                       >Editeaza</span
                     >
                     <span
-                      class="edit-comment-inactive"
-                      (click)="cancelEditAdminComment(reply, $event)"
+                      *ngIf="replyEditCommentId === reply.id"
+                      (click)="cancelEditAdminComment(reply)"
                       >Anuleaza</span
                     >
                     <span
-                      class="edit-comment-inactive"
-                      (click)="modifyAdminComment(reply, $event)"
+                      *ngIf="replyEditCommentId === reply.id"
+                      (click)="modifyAdminComment(reply)"
                       >Modifica</span
                     >
                   </p>
