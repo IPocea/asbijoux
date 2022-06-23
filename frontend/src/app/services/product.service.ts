@@ -55,12 +55,12 @@ export class ProductService {
       `http://localhost:8080/api/products/find/category?category=${params}`
     );
   }
-  getProduct(id: string): Observable<IProductComplete> {
+  getProduct(id: number): Observable<IProductComplete> {
     return this.http.get<IProductComplete>(
       `http://localhost:8080/api/products/${id}`
     );
   }
-  getProductActiveComments(id: string): Observable<IProductComplete> {
+  getProductActiveComments(id: number): Observable<IProductComplete> {
     return this.http.get<IProductComplete>(
       `http://localhost:8080/api/products/active-comments/${id}`
     );

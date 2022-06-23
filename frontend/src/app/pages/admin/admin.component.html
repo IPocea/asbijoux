@@ -23,10 +23,10 @@
           {{ user.username }}
         </li>
         <li [class]="classAddProduct" (click)="addProduct()">Adauga produs</li>
-        <li [class]="classViewProducts" (click)="viewProduct()">
+        <li [class]="classViewProducts" (click)="getViewProduct()">
           Vizualizeaza produsele
         </li>
-        <li [class]="classCategory" (click)="getCategories()">Categorii</li>
+        <li [class]="classCategory" (click)="getCommentsAdmin()">Comentarii</li>
       </ul>
     </div>
     <div id="right-side-admin">

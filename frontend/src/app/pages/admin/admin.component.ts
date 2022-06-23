@@ -52,6 +52,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
           this.API_KEY = data;
           this.isLoggedIn = true;
           this.isLoading = false;
+          this.scrollToEle();
         },
         (err) => {
           this.errorNoToken = JSON.parse(err.error).message;
@@ -66,9 +67,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.isLoggedIn) {
-      this.scrollToEle();
-    }
+    // if (this.isLoggedIn) {
+    //   this.scrollToEle();
+    // }
   }
   relog(): void {
     this.storageService.signOut();
@@ -96,14 +97,15 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.setComponentActive(1);
     this.scrollToEle();
   }
-  viewProduct(): void {
+  getViewProduct(): void {
     this.setClassActive(2);
     this.setComponentActive(2);
     this.scrollToEle();
   }
-  getCategories(): void {
+  getCommentsAdmin(): void {
     this.setClassActive(3);
     this.setComponentActive(3);
+    this.scrollToEle();
   }
   setClassActive(liIndex: number): void {
     this.classUser = '';

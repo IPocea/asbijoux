@@ -5,8 +5,6 @@ import { IProductComplete } from 'src/app/interfaces';
 import { CommentService } from 'src/app/services/comment.service';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
-import { FormControl, Validators } from '@angular/forms';
-import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
   selector: 'app-product',
@@ -31,10 +29,10 @@ export class ProductComponent implements OnInit {
   }
   getParams(): void {
     this.route.params.subscribe((params) => {
-      this.getData(params['id']);
+      this.getData(+params['id']);
     });
   }
-  getData(id: string): void {
+  getData(id: number): void {
     this.isLoading = true;
     this.productService
       .getProductActiveComments(id)

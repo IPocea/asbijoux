@@ -25,7 +25,6 @@ export class ViewProductsComponent implements OnInit {
   selectedForEditProduct: IProductComplete = null;
   products: IProductComplete[] = [];
   filteredProducts: IProductComplete[] = [];
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   searchValue: string = '';
   categoryControl = new FormControl('');
   categoryOptions: string[] = [];
@@ -242,7 +241,6 @@ export class ViewProductsComponent implements OnInit {
           this.isLoading = false;
         }
       );
-    // this.isLoading = false;
   }
   goToProduct(product: IProductComplete): void {
     this.router.navigate([
