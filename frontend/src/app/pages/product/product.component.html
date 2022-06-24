@@ -4,6 +4,12 @@
   </div>
 </ng-container>
 <ng-container *ngIf="!isLoading && product">
+  <div class="product-not-published" *ngIf="!product.isPublished">
+    <p>
+      Acest produs nu este publicat. Pentru publicare te rugam sa mergi in
+      panoul de administrare.
+    </p>
+  </div>
   <div class="product-container">
     <div class="product-gallery">
       <app-image-gallery [product]="product"></app-image-gallery>
@@ -20,6 +26,9 @@
       </div>
     </div>
     <div class="product-comments-component">
-      <app-comments [product]="product"></app-comments>
+      <app-comments
+        [API_KEY_COMMENTS]="API_KEY_COMMENTS"
+        [product]="product"
+      ></app-comments>
     </div></div
 ></ng-container>

@@ -26,3 +26,15 @@ export interface IReplyComment {
   updatedAt?: string;
   comment?: IComment;
 }
+export interface IObjCommentsForDelete {
+  ids: IDeleteAllComments[];
+}
+export interface IDeleteAllComments {
+  id: number;
+}
+export interface IObjReplyCommentsForDelete {
+  ids: IDeleteAllReplyComments[];
+}
+export interface IDeleteAllReplyComments {
+  id: number;
+}

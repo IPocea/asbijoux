@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { IUser } from 'src/app/interfaces/user.interface';
@@ -12,11 +12,12 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent implements OnInit, AfterViewInit {
+export class AdminComponent implements OnInit {
   user: IUser | null = null;
   isLoggedIn: boolean = false;
   isLoading: boolean = false;
   API_KEY: string = '';
+  API_KEY_COMMENTS: string = '';
   errorNoToken: string = '';
   errorMessageClass: string = '';
   imagePath: string = 'I:/curs/final-project/asbijoux/images/';
@@ -51,8 +52,17 @@ export class AdminComponent implements OnInit, AfterViewInit {
           this.errorMessageClass = 'error-message-off';
           this.API_KEY = data;
           this.isLoggedIn = true;
-          this.isLoading = false;
-          this.scrollToEle();
+          this.userService
+            .getAdminComments()
+            .pipe(take(1))
+            .subscribe(
+              (res) => {
+                this.API_KEY_COMMENTS = res;
+                this.isLoading = false;
+                this.scroll.scrollTo('right-side-admin');
+              },
+              (err) => {}
+            );
         },
         (err) => {
           this.errorNoToken = JSON.parse(err.error).message;
@@ -64,12 +74,6 @@ export class AdminComponent implements OnInit, AfterViewInit {
       );
     this.setClassActive(0);
     this.setComponentActive(0);
-  }
-
-  ngAfterViewInit(): void {
-    // if (this.isLoggedIn) {
-    //   this.scrollToEle();
-    // }
   }
   relog(): void {
     this.storageService.signOut();
@@ -90,24 +94,24 @@ export class AdminComponent implements OnInit, AfterViewInit {
   getProfile(): void {
     this.setClassActive(0);
     this.setComponentActive(0);
-    this.scrollToEle();
+    this.scroll.scrollTo('right-side-admin');
   }
   addProduct(): void {
     this.setClassActive(1);
     this.setComponentActive(1);
-    this.scrollToEle();
+    this.scroll.scrollTo('right-side-admin');
   }
   getViewProduct(): void {
     this.setClassActive(2);
     this.setComponentActive(2);
-    this.scrollToEle();
+    this.scroll.scrollTo('right-side-admin');
   }
   getCommentsAdmin(): void {
     this.setClassActive(3);
     this.setComponentActive(3);
-    this.scrollToEle();
+    this.scroll.scrollTo('right-side-admin');
   }
-  setClassActive(liIndex: number): void {
+  private setClassActive(liIndex: number): void {
     this.classUser = '';
     this.classViewProducts = '';
     this.classAddProduct = '';
@@ -129,7 +133,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
         break;
     }
   }
-  setComponentActive(componentIndex: number): void {
+  private setComponentActive(componentIndex: number): void {
     this.isProfileSelected = false;
     this.isAddProductSelected = false;
     this.isViewProductsSelected = false;
@@ -150,8 +154,5 @@ export class AdminComponent implements OnInit, AfterViewInit {
       default:
         break;
     }
-  }
-  scrollToEle() {
-    this.scroll.scrollTo('right-side-admin');
   }
 }

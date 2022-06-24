@@ -67,7 +67,7 @@
       </p>
       <div id="edit-product-file-container">
         <input
-          *ngIf="!product.images.length || !product.images[0]"
+          *ngIf="!product.images.length || !product.images[0]?.isMainImage"
           type="file"
           name="file"
           id="edit-product-main-image"
@@ -75,14 +75,24 @@
           (change)="checkSize($event)"
         />
         <ng-container *ngIf="product.images.length">
-          <div *ngFor="let image of product.images">
+          <div *ngFor="let image of product.images; let i = index">
             <img [src]="image.url" [alt]="image.name" />
-            <button>Sterge poza</button>
+            <button (click)="deleteImage(image, i)">Sterge poza</button>
           </div>
         </ng-container>
-        <ng-container *ngIf="product.images.length < 10">
+        <ng-container *ngIf="product.images.length < 10 && product.images[0]">
           <input
             *ngFor="let in of counter(10 - product.images.length)"
+            class="edit-product-images"
+            type="file"
+            name="file"
+            accept="image/*"
+            (change)="checkSize($event)"
+          />
+        </ng-container>
+        <ng-container *ngIf="product.images.length < 10 && !product.images[0]">
+          <input
+            *ngFor="let in of counter(9 - product.images.length)"
             class="edit-product-images"
             type="file"
             name="file"

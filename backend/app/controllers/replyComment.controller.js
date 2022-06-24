@@ -105,3 +105,26 @@ exports.delete = (req, res) => {
 			});
 		});
 };
+
+exports.deleteAll = async (req, res) => {
+	const ids = req.body.ids.map((ele) => ele.id);
+	try {
+		const num = await ReplyComment.destroy({
+			where: { id: ids },
+		});
+		if (num == ids.length) {
+			return res.json({
+				message: "Comentariile au fost sterse cu succes!",
+			});
+		} else {
+			return res.json({
+				message:
+					"Nu pot sterge comentariile selectate. Comentariile poate nu au fost gasite!",
+			});
+		}
+	} catch (error) {
+		return res.json({
+			message: "Nu am putut sterge comentariile selectate.",
+		});
+	}
+};

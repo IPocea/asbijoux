@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { IProductSimple } from 'src/app/interfaces/product.interface';
+import {
+  IProductComplete,
+  IProductSimple,
+} from 'src/app/interfaces/product.interface';
 import { IPublic } from 'src/app/interfaces/public.interface';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
-import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
   selector: 'app-add-product',
@@ -15,9 +18,8 @@ import { ScrollService } from 'src/app/services/scroll.service';
 })
 export class AddProductComponent implements OnInit {
   @Input() API_KEY: string | undefined;
-  errorMessageClass: string = 'error-message-on';
+  product: IProductComplete;
   errorMessage: string = '';
-  successMessageClass: string = 'success-message-on';
   successMessage: string = '';
   categoryControl = new FormControl();
   categoryOptions: string[] = [];
@@ -33,7 +35,7 @@ export class AddProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private imageService: ImageService,
-    private scroll: ScrollService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -138,14 +140,13 @@ export class AddProductComponent implements OnInit {
               this.addSingleImage(this.API_KEY, form);
             }
           }
+          this.product = data;
           this.resetData(images);
           this.getCategories();
-          this.scroll.scrollTo('add-product-btn');
         },
         (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
-          this.scroll.scrollTo('add-product-btn');
           return;
         }
       );
@@ -172,7 +173,7 @@ export class AddProductComponent implements OnInit {
     for (let i = 0; i < images.length; i++) {
       (images[i] as HTMLInputElement).value = '';
     }
-    this.successMessage = 'Produsul a fost adaugat cu succes';
+    this.successMessage = 'Produsul a fost adaugat cu succes. ';
     this.isLoading = false;
   }
   counter(i: number) {
@@ -189,5 +190,13 @@ export class AddProductComponent implements OnInit {
         this.errorMessage = '';
       }
     }
+  }
+  goToProduct(product: IProductComplete): void {
+    this.router.navigate([
+      'produs',
+      product.category,
+      product.title,
+      product.id,
+    ]);
   }
 }

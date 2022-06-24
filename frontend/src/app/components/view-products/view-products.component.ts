@@ -6,10 +6,21 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, startWith, take } from 'rxjs/operators';
-import { IProductComplete } from 'src/app/interfaces';
+import {
+  IDeleteAllComments,
+  IDeleteAllImages,
+  IDeleteAllReplyComments,
+  IObjCommentsForDelete,
+  IObjImagesForDelete,
+  IObjReplyCommentsForDelete,
+  IProductComplete,
+} from 'src/app/interfaces';
 import { ICheckbox } from 'src/app/interfaces/checkbox.interface';
 import { ProductService } from 'src/app/services/product.service';
 import { ScrollService } from 'src/app/services/scroll.service';
+import { ImageService } from 'src/app/services/image.service';
+import { CommentService } from 'src/app/services/comment.service';
+import { ReplyService } from 'src/app/services/reply.service';
 
 @Component({
   selector: 'app-view-products',
@@ -18,11 +29,12 @@ import { ScrollService } from 'src/app/services/scroll.service';
 })
 export class ViewProductsComponent implements OnInit {
   @Input() API_KEY: string;
+  @Input() API_KEY_COMMENTS: string;
   isLoading: boolean = false;
   isEditing: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
-  selectedForEditProduct: IProductComplete = null;
+  selectedProductId: number;
   products: IProductComplete[] = [];
   filteredProducts: IProductComplete[] = [];
   searchValue: string = '';
@@ -45,6 +57,9 @@ export class ViewProductsComponent implements OnInit {
   };
   constructor(
     private productServices: ProductService,
+    private imageService: ImageService,
+    private commentService: CommentService,
+    private replyService: ReplyService,
     private scrollService: ScrollService,
     private router: Router,
     private snackBar: MatSnackBar
@@ -58,6 +73,7 @@ export class ViewProductsComponent implements OnInit {
     this.applyCategoryFilter();
     this.applyTitleFilter();
     if (this.filteredProducts.length) {
+      this.pageIndex = 0;
       this.length = this.filteredProducts.length;
       this.selectPageAndFillWithData();
     }
@@ -72,41 +88,6 @@ export class ViewProductsComponent implements OnInit {
       this.showMessage('Categoria introdusa nu exista');
     }
   }
-  applyCategoryFilter(): void {
-    if (this.categoryOptions.indexOf(this.categoryControl.value) !== -1) {
-      this.filteredProducts = this.filteredProducts.filter(
-        (ele) => ele.category === this.categoryControl.value
-      );
-    }
-  }
-  applyCheckboxFilter(): void {
-    this.filteredProducts = this.products.filter((ele) => {
-      if (this.filterCheckbox.published && !ele.isPublished) {
-        return false;
-      }
-      if (this.filterCheckbox.unpublished && ele.isPublished) {
-        return false;
-      }
-      if (this.filterCheckbox.withComments && !ele.comments.length) {
-        return false;
-      }
-      if (this.filterCheckbox.withoutComments && ele.comments.length) {
-        return false;
-      }
-      if (this.filterCheckbox.withImages && !ele.images.length) {
-        return false;
-      }
-      if (this.filterCheckbox.withoutImages && ele.images.length) {
-        return false;
-      }
-      return true;
-    });
-  }
-  applyTitleFilter(): void {
-    this.filteredProducts = this.filteredProducts.filter(
-      (ele) => ele.title.toLocaleLowerCase().indexOf(this.searchValue) !== -1
-    );
-  }
   applyTitleByEnter(): void {
     if (!this.searchValue.trim()) {
       this.showMessage('Te rugam sa introduci cel putin o litera');
@@ -116,6 +97,8 @@ export class ViewProductsComponent implements OnInit {
   }
   catchEditStatus(ev: any): void {
     this.isEditing = ev;
+    this.pageIndex = 0;
+    this.getData();
   }
   clearSearchValueAndFilters(): void {
     this.searchValue = '';
@@ -182,29 +165,54 @@ export class ViewProductsComponent implements OnInit {
     this.length = this.filteredProducts.length;
     this.selectPageAndFillWithData();
   }
-  deleteProduct(product: IProductComplete): void {
-    this.isLoading = true;
-    this.productServices
-      .deleteProduct(this.API_KEY, product.id)
-      .pipe(take(1))
-      .subscribe(
-        (res) => {
-          this.getData();
-          this.successMessage = `Produsul ${product.title} a fost sters cu succes.`;
-          this.hideMessage();
-        },
-        (err) => {
-          this.errorMessage = err.message.message;
-          this.isLoading = false;
-          this.hideMessage();
+  deleteFullProduct(product: IProductComplete): void {
+    const result = confirm(
+      `Esti singur ca doresti sa stergi produsul ${product.title}?`
+    );
+    if (result) {
+      this.isLoading = true;
+      let hasReplyComments: boolean = false;
+      let hasImages: boolean = product.images.length ? true : false;
+      let hasComments: boolean = product.comments.length ? true : false;
+      if (hasComments) {
+        for (let comment of product.comments) {
+          if (comment.reply_comments.length) {
+            hasReplyComments = true;
+            break;
+          }
         }
-      );
+      }
+      if (hasImages) {
+        this.deleteImages(product, hasComments, hasReplyComments);
+      } else if (hasComments && hasReplyComments) {
+        this.deleteReplyComments(product);
+      } else if (hasComments) {
+        this.deleteComments(product);
+      } else {
+        this.deleteSingleProduct(product);
+      }
+    }
   }
   editProduct(product: IProductComplete): void {
-    this.selectedForEditProduct = product;
+    this.selectedProductId = product.id;
     this.isEditing = true;
   }
-  getData(): void {
+  goToProduct(product: IProductComplete): void {
+    this.router.navigate([
+      'produs',
+      product.category,
+      product.title,
+      product.id,
+    ]);
+  }
+  handlePageEvent(event: PageEvent) {
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.selectPageAndFillWithData();
+    this.scrollService.scrollTo('view-products-table');
+  }
+  private getData(): void {
     this.isLoading = true;
     this.productServices
       .getAllProducts()
@@ -223,7 +231,157 @@ export class ViewProductsComponent implements OnInit {
         }
       );
   }
-  getCategories(): void {
+  publishProduct(product: IProductComplete): void {
+    this.toggleIsPublished(
+      product,
+      true,
+      `Produsul ${product.title} a fost publicat cu succes`
+    );
+  }
+  publishNotProduct(product: IProductComplete): void {
+    this.toggleIsPublished(
+      product,
+      false,
+      `Produsul ${product.title} a fost dezactivat cu succes`
+    );
+  }
+  private applyCategoryFilter(): void {
+    if (this.categoryOptions.indexOf(this.categoryControl.value) !== -1) {
+      this.filteredProducts = this.filteredProducts.filter(
+        (ele) => ele.category === this.categoryControl.value
+      );
+    }
+  }
+  private applyCheckboxFilter(): void {
+    this.filteredProducts = this.products.filter((ele) => {
+      if (this.filterCheckbox.published && !ele.isPublished) {
+        return false;
+      }
+      if (this.filterCheckbox.unpublished && ele.isPublished) {
+        return false;
+      }
+      if (this.filterCheckbox.withComments && !ele.comments.length) {
+        return false;
+      }
+      if (this.filterCheckbox.withoutComments && ele.comments.length) {
+        return false;
+      }
+      if (this.filterCheckbox.withImages && !ele.images.length) {
+        return false;
+      }
+      if (this.filterCheckbox.withoutImages && ele.images.length) {
+        return false;
+      }
+      return true;
+    });
+  }
+  private applyTitleFilter(): void {
+    this.filteredProducts = this.filteredProducts.filter(
+      (ele) => ele.title.toLocaleLowerCase().indexOf(this.searchValue) !== -1
+    );
+  }
+  private deleteImages(
+    product: IProductComplete,
+    hasComments: boolean,
+    hasReplyComments: boolean
+  ) {
+    const imagesArray: IDeleteAllImages[] = [];
+    for (let image of product.images) {
+      imagesArray.push({ id: image.id, name: image.name });
+    }
+    const images: IObjImagesForDelete = { images: imagesArray };
+    this.imageService
+      .deleteAllImages(this.API_KEY, images)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          if (hasComments && hasReplyComments) {
+            this.deleteReplyComments(product);
+          } else if (hasComments) {
+            this.deleteComments(product);
+          } else {
+            this.deleteSingleProduct(product);
+          }
+        },
+        (err) => {
+          this.errorMessage = err.message;
+          this.isLoading = false;
+          this.hideMessage();
+        }
+      );
+  }
+  private deleteReplyComments(product: IProductComplete): void {
+    const replyCommentsArray: IDeleteAllReplyComments[] = [];
+    for (let comment of product.comments) {
+      for (let reply of comment.reply_comments) {
+        replyCommentsArray.push({ id: reply.id });
+      }
+    }
+    const ids: IObjReplyCommentsForDelete = { ids: replyCommentsArray };
+    this.replyService
+      .deleteAllReplyComments(this.API_KEY_COMMENTS, ids)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.deleteComments(product);
+        },
+        (err) => {
+          this.displayMessage(
+            false,
+            'A intervenit o eroare. Va rugam sa faceti refresh la pagina'
+          );
+        }
+      );
+  }
+  private deleteComments(product: IProductComplete): void {
+    const commentsArray: IDeleteAllComments[] = [];
+    for (let comment of product.comments) {
+      commentsArray.push({ id: comment.id });
+    }
+    const ids: IObjCommentsForDelete = { ids: commentsArray };
+    this.commentService
+      .deleteAllComments(this.API_KEY, ids)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.deleteSingleProduct(product);
+        },
+        (err) => {
+          this.displayMessage(
+            false,
+            'A intervenit o eroare. Va rugam sa faceti refresh la pagina'
+          );
+        }
+      );
+  }
+  private deleteSingleProduct(product: IProductComplete): void {
+    this.productServices
+      .deleteProduct(this.API_KEY, product.id)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.pageIndex = 0;
+          this.getData();
+          this.displayMessage(true, 'Produsul a fost sters cu succes');
+        },
+        (err) => {
+          this.displayMessage(
+            false,
+            'A intervenit o eroare. Va rugam sa faceti refresh si sa incercati din nou'
+          );
+          this.isLoading = false;
+        }
+      );
+  }
+  private displayMessage(type: boolean, message: string): void {
+    if (type) {
+      this.successMessage = message;
+    } else {
+      this.errorMessage = message;
+    }
+    this.hideMessage();
+  }
+  private getCategories(): void {
     this.productServices
       .getAllCategories()
       .pipe(take(1))
@@ -242,35 +400,20 @@ export class ViewProductsComponent implements OnInit {
         }
       );
   }
-  goToProduct(product: IProductComplete): void {
-    this.router.navigate([
-      'produs',
-      product.category,
-      product.title,
-      product.id,
-    ]);
-  }
-  handlePageEvent(event: PageEvent) {
-    this.length = event.length;
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.selectPageAndFillWithData();
-    this.scrollService.scrollTo('view-products-table');
-  }
-  hideMessage(): void {
+  private hideMessage(): void {
     setTimeout(() => {
       this.errorMessage = '';
       this.successMessage = '';
     }, 2000);
   }
-  resetCategories(): void {
+  private resetCategories(): void {
     this.categoryControl = new FormControl('');
     this.categoryFilteredOptions = this.categoryControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value || ''))
     );
   }
-  selectPageAndFillWithData(): void {
+  private selectPageAndFillWithData(): void {
     if (this.pageIndex === 0) {
       this.selectedProducts = [];
       if (this.length < this.pageSize) {
@@ -299,26 +442,12 @@ export class ViewProductsComponent implements OnInit {
       }
     }
   }
-  showMessage(message: string): void {
+  private showMessage(message: string): void {
     this.snackBar.open(message, '', {
       duration: 1500,
     });
   }
-  publishProduct(product: IProductComplete): void {
-    this.toggleIsPublished(
-      product,
-      true,
-      `Produsul ${product.title} a fost publicat cu succes`
-    );
-  }
-  publishNotProduct(product: IProductComplete): void {
-    this.toggleIsPublished(
-      product,
-      false,
-      `Produsul ${product.title} a fost dezactivat cu succes`
-    );
-  }
-  toggleIsPublished(
+  private toggleIsPublished(
     product: IProductComplete,
     status: boolean,
     message: string

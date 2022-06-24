@@ -147,7 +147,10 @@
         </button>
       </mat-form-field>
       <div class="header-account-icon">
-        <mat-icon (click)="goToAccount()" *ngIf="isAdminLoggedIn"
+        <mat-icon
+          title="Mergi catre panoul de administrare"
+          (click)="goToAccount()"
+          *ngIf="isAdminLoggedIn"
           >account_circle</mat-icon
         >
       </div>

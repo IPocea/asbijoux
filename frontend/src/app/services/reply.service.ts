@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IReplyComment } from '../interfaces';
+import {
+  IReplyComment,
+  IEditDeleteResponse,
+  IObjReplyCommentsForDelete,
+} from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -14,27 +18,39 @@ export class ReplyService {
     );
   }
   addReplyComment(
-    API_KEY: string,
+    API_KEY_COMMENTS: string,
     replyComment: IReplyComment
   ): Observable<IReplyComment> {
     return this.http.post<IReplyComment>(
-      `http://localhost:8080/api/reply-comments/${API_KEY}/`,
+      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/`,
       replyComment
     );
   }
   modifyReplyComment(
-    API_KEY: string,
+    API_KEY_COMMENTS: string,
     id: number,
     reply: IReplyComment
-  ): Observable<IReplyComment> {
-    return this.http.put<IReplyComment>(
-      `http://localhost:8080/api/reply-comments/${API_KEY}/${id}`,
+  ): Observable<IEditDeleteResponse> {
+    return this.http.put<IEditDeleteResponse>(
+      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/${id}`,
       reply
     );
   }
-  deleteReplyComment(API_KEY: string, id: number): Observable<IReplyComment> {
-    return this.http.delete<IReplyComment>(
-      `http://localhost:8080/api/reply-comments/${API_KEY}/${id}`
+  deleteReplyComment(
+    API_KEY_COMMENTS: string,
+    id: number
+  ): Observable<IEditDeleteResponse> {
+    return this.http.delete<IEditDeleteResponse>(
+      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/${id}`
+    );
+  }
+  deleteAllReplyComments(
+    API_KEY_COMMENTS: string,
+    ids: IObjReplyCommentsForDelete
+  ): Observable<IEditDeleteResponse> {
+    return this.http.post<IEditDeleteResponse>(
+      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/delete-all`,
+      ids
     );
   }
 }

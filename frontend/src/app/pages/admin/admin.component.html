@@ -38,8 +38,13 @@
       <app-view-products
         *ngIf="isViewProductsSelected"
         [API_KEY]="API_KEY"
+        [API_KEY_COMMENTS]="API_KEY_COMMENTS"
       ></app-view-products>
-      <app-comments-admin *ngIf="isCommentAdminSelected"></app-comments-admin>
+      <app-comments-admin
+        *ngIf="isCommentAdminSelected"
+        [API_KEY]="API_KEY"
+        [API_KEY_COMMENTS]="API_KEY_COMMENTS"
+      ></app-comments-admin>
     </div>
   </div>
 </ng-container>

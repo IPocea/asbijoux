@@ -174,7 +174,14 @@
             <td width="14%">
               <div class="action-btns">
                 <mat-icon
+                  *ngIf="product.isPublished"
                   title="Vizualizeaza produs"
+                  (click)="goToProduct(product)"
+                  >visibility</mat-icon
+                >
+                <mat-icon
+                  *ngIf="!product.isPublished"
+                  title="Previzualizeaza produs"
                   (click)="goToProduct(product)"
                   >visibility</mat-icon
                 >
@@ -193,7 +200,9 @@
                   title="Dezactiveaza produs"
                   >close</mat-icon
                 >
-                <mat-icon title="Sterge produs" (click)="deleteProduct(product)"
+                <mat-icon
+                  title="Sterge produs"
+                  (click)="deleteFullProduct(product)"
                   >delete</mat-icon
                 >
               </div>
@@ -201,6 +210,11 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="view-products-no-items" *ngIf="!filteredProducts.length">
+      <p>
+        Ne pare rau, insa nu au fost identificate produse cu filtrele selectate.
+      </p>
     </div>
     <mat-paginator
       *ngIf="filteredProducts.length"
@@ -221,7 +235,7 @@
   <div class="edit-product-container">
     <app-edit-product
       (sendData)="catchEditStatus($event)"
-      [product]="selectedForEditProduct"
+      [productId]="selectedProductId"
       [API_KEY]="API_KEY"
     ></app-edit-product>
   </div>

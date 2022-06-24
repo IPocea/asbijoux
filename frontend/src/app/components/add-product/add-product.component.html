@@ -85,10 +85,37 @@
       >
         Adauga un produs
       </button>
-      <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
-      <p *ngIf="successMessage" [class]="successMessageClass">
-        {{ successMessage }}
-      </p>
+      <p *ngIf="errorMessage" class="error-message-on">{{ errorMessage }}</p>
+      <div
+        *ngIf="successMessage"
+        class="success-message-on preview-product-icon-container"
+      >
+        <p>{{ successMessage }}</p>
+        <p
+          class="preview-product-icon"
+          *ngIf="product.id && product.isPublished"
+        >
+          <span>Vizualizeaza produsul</span>
+          <mat-icon
+            *ngIf="product.isPublished"
+            title="Vizualizeaza produsul"
+            (click)="goToProduct(product)"
+            >visibility</mat-icon
+          >
+        </p>
+        <p
+          class="preview-product-icon"
+          *ngIf="product.id && !product.isPublished"
+        >
+          <span>Previzualizeaza produsul</span>
+          <mat-icon
+            *ngIf="!product.isPublished"
+            title="Previzualizeaza produsul"
+            (click)="goToProduct(product)"
+            >visibility</mat-icon
+          >
+        </p>
+      </div>
     </div>
   </ng-container>
 </div>

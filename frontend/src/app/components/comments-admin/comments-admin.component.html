@@ -1,1 +1,192 @@
-<p>coment admin works!</p>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <div *ngIf="comments.length" class="comments-admin-component-container">
+    <h2>Administreaza comentariile</h2>
+    <h3>Numarul total de comentarii: {{ comments.length }}</h3>
+    <ng-container *ngIf="comments.length">
+      <ng-container *ngFor="let comment of comments; let index = index">
+        <div class="admin-product-comment">
+          <h4>{{ comment.name }}</h4>
+          <small>
+            {{ comment.createdAt.slice(8, 10) }}-{{
+              comment.createdAt.slice(5, 7)
+            }}-{{ comment.createdAt.slice(0, 4) }}, ora
+            {{ +comment.createdAt.slice(11, 13) + 3 }}:{{
+              comment.createdAt.slice(14, 16)
+            }}
+          </small>
+          <p *ngIf="replyCommentId !== comment.id">{{ comment.text }}</p>
+          <div class="product-comment-controllers">
+            <p>Nume produs: {{ comment.product.title }}</p>
+            <mat-icon
+              (click)="goToProduct(comment.product)"
+              title="Vizualizeaza produsul"
+              >visibility</mat-icon
+            >
+          </div>
+          <p *ngIf="comment.isActivated">
+            Status: <span class="comment-status-active">Publicat</span>
+          </p>
+          <p *ngIf="!comment.isActivated">
+            Status: <span class="comment-status-inactive">Inactiv</span>
+          </p>
+          <div class="product-comment-controllers">
+            <button
+              *ngIf="!comment.isActivated"
+              [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+              [disabled]="isDisabled"
+            >
+              <mat-icon
+                title="Activeaza comentariul"
+                (click)="toggleComment(comment, true, index)"
+                >check_circle_outline</mat-icon
+              >
+            </button>
+            <button
+              *ngIf="comment.isActivated"
+              [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+              [disabled]="isDisabled"
+            >
+              <mat-icon
+                title="Dezactiveaza comentariul"
+                (click)="toggleComment(comment, false, index)"
+                >close</mat-icon
+              >
+            </button>
+            <button
+              [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+              [disabled]="isDisabled"
+            >
+              <mat-icon
+                (click)="deleteComment(comment, index)"
+                title="Sterge comentariul"
+                >delete</mat-icon
+              >
+            </button>
+          </div>
+          <p
+            *ngIf="API_KEY && !comment.reply_comments.length"
+            class="admin-comment-btns"
+          >
+            <button
+              *ngIf="!isReplyActive && comment.isActivated"
+              [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+              [disabled]="isDisabled"
+              (click)="openReplyContainer(comment)"
+            >
+              Raspunde
+            </button>
+          </p>
+          <div
+            *ngIf="replyCommentId === comment.id"
+            class="add-reply-container"
+          >
+            <textarea
+              [(ngModel)]="replyCommentText"
+              name="admin comment container"
+              cols="20"
+              rows="10"
+              maxlength="990"
+            ></textarea>
+            <p class="admin-comment-btns">
+              <button
+                (click)="cancelAddReply()"
+                [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+                [disabled]="isDisabled"
+              >
+                Anuleaza
+              </button>
+              <button
+                (click)="addReplyComment(comment, index)"
+                [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+                [disabled]="isDisabled"
+              >
+                Adauga
+              </button>
+            </p>
+          </div>
+        </div>
+        <ng-container *ngIf="comment.reply_comments.length">
+          <ng-container
+            *ngFor="let reply of comment.reply_comments; let index = index"
+          >
+            <div
+              *ngIf="reply.isActivated"
+              class="product-reply-comments-container"
+            >
+              <div class="product-reply-comments">
+                <h4>{{ reply.name }}</h4>
+                <small *ngIf="reply.createdAt >= reply.updatedAt">
+                  {{ reply.createdAt | customDate }}
+                </small>
+                <small *ngIf="reply.createdAt < reply.updatedAt">
+                  Editat in {{ reply.updatedAt | customDate }}
+                </small>
+                <p *ngIf="replyEditCommentId !== reply.id">
+                  {{ reply.text }}
+                </p>
+                <textarea
+                  *ngIf="replyEditCommentId === reply.id"
+                  [(ngModel)]="replyEditText"
+                  name="edit container"
+                  cols="20"
+                  rows="10"
+                  maxlength="990"
+                  >{{ reply.text }}</textarea
+                >
+                <p *ngIf="API_KEY" class="admin-comment-btns">
+                  <button
+                    *ngIf="replyEditCommentId !== reply.id"
+                    [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+                    [disabled]="isDisabled"
+                    (click)="deleteAdminComment(reply, index)"
+                  >
+                    Sterge
+                  </button>
+                  <button
+                    *ngIf="replyEditCommentId !== reply.id"
+                    [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+                    [disabled]="isDisabled"
+                    (click)="openEditAdminComment(reply)"
+                  >
+                    Editeaza
+                  </button>
+                  <button
+                    *ngIf="replyEditCommentId === reply.id"
+                    [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+                    [disabled]="isDisabled"
+                    (click)="cancelEditAdminComment(reply)"
+                  >
+                    Anuleaza
+                  </button>
+                  <button
+                    *ngIf="replyEditCommentId === reply.id"
+                    [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
+                    [disabled]="isDisabled"
+                    (click)="modifyAdminComment(reply, index)"
+                  >
+                    Modifica
+                  </button>
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-container>
+  <ng-container *ngIf="errorMessage">
+    <div class="error-message-on pop-up">{{ errorMessage }}</div>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="successMessage">
+  <div class="success-message-on pop-up">{{ successMessage }}</div>
+</ng-container>

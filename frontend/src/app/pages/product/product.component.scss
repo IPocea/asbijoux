@@ -1,5 +1,11 @@
 @import "../../styles/variables.scss";
 :host {
+  .product-not-published {
+    display: flex;
+    justify-content: center;
+    background-color: #efefef;
+    padding: 5px;
+  }
   .product-container {
     display: flex;
     flex-direction: column;

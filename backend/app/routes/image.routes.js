@@ -14,5 +14,6 @@ module.exports = (app) => {
 	router.get("/:id", images2.findOne);
 	// Delete a Image with id
 	router.post(`/${process.env.API_KEY}/unlink`, images.deleteFile);
+	router.post(`/${process.env.API_KEY}/unlink-all`, images.deleteFiles);
 	app.use("/api/images", router);
 };

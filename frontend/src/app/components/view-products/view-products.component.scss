@@ -114,6 +114,11 @@
         }
       }
     }
+    .view-products-no-items {
+      display: grid;
+      place-items: center;
+      height: 150px;
+    }
   }
   @media screen and (min-width: 560px) {
     .view-products-component-container {
@@ -141,27 +146,19 @@
   @media screen and (min-width: 1200px) {
     .view-products-component-container {
       .table-container {
-        thead,
-        tbody {
-          tr {
-            th,
-            td {
-              overflow: hidden;
-              text-overflow: ellipsis;
+        table {
+          thead,
+          tbody {
+            tr {
+              th,
+              td {
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
             }
           }
         }
       }
     }
   }
-}
-
-.pop-up {
-  max-width: 45%;
-  max-height: 15%;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  overflow: hidden;
 }

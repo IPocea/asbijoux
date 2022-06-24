@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import {
   IComment,
@@ -12,7 +13,6 @@ import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
 import { ReplyService } from 'src/app/services/reply.service';
 import { ScrollService } from 'src/app/services/scroll.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-comments',
@@ -21,12 +21,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CommentsComponent implements OnInit {
   @Input() product: IProductComplete;
-  API_KEY: string = '';
+  @Input() API_KEY_COMMENTS: string;
   isCommentLoading: boolean = false;
   isLoading: boolean = false;
   errorMessage: string = '';
-  editActive: string = 'edit-comment-active';
-  editInactive: string = 'edit-comment-inactive';
+  isReplyActive: boolean = false;
   nameFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [Validators.email]);
   commentFormControl = new FormControl('', [Validators.required]);
@@ -42,24 +41,13 @@ export class CommentsComponent implements OnInit {
     private commentService: CommentService,
     private replyService: ReplyService,
     private scroll: ScrollService,
-    private userService: UserService,
     private productService: ProductService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.commentPreview = null;
-    this.userService
-      .getAdminComments()
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.API_KEY = data;
-        },
-        (err) => {
-          this.API_KEY = '';
-        }
-      );
   }
   addComment(ev: Event) {
     ev.preventDefault();
@@ -113,11 +101,13 @@ export class CommentsComponent implements OnInit {
   }
   openReplyContainer(comment: IComment) {
     this.replyCommentId = comment.id;
+    this.isReplyActive = true;
     this.replyEditCommentId = 0;
   }
   cancelAddReply(): void {
     this.replyCommentId = 0;
     this.replyCommentText = '';
+    this.isReplyActive = false;
   }
   addReplyComment(comment: IComment, index: number): void {
     if (!this.replyCommentText.trim()) {
@@ -133,12 +123,13 @@ export class CommentsComponent implements OnInit {
     };
     this.isLoading = true;
     this.replyService
-      .addReplyComment(this.API_KEY, replyComment)
+      .addReplyComment(this.API_KEY_COMMENTS, replyComment)
       .pipe(take(1))
       .subscribe(
         (data) => {
           this.product.comments[index].reply_comments.push(data);
           this.replyCommentId = 0;
+          this.isReplyActive = false;
           this.isLoading = false;
         },
         (err) => {
@@ -151,6 +142,7 @@ export class CommentsComponent implements OnInit {
   openEditAdminComment(reply: IReplyComment): void {
     this.replyEditCommentId = reply.id;
     this.replyCommentId = 0;
+    this.isReplyActive = false;
     this.replyEditText = reply.text;
   }
   cancelEditAdminComment(reply: IReplyComment): void {
@@ -172,7 +164,7 @@ export class CommentsComponent implements OnInit {
     this.replyEditCommentId = 0;
     this.isLoading = true;
     this.replyService
-      .modifyReplyComment(this.API_KEY, reply.id, replyComment)
+      .modifyReplyComment(this.API_KEY_COMMENTS, reply.id, replyComment)
       .pipe(take(1))
       .subscribe(
         (res) => {
@@ -208,7 +200,7 @@ export class CommentsComponent implements OnInit {
     if (result) {
       this.isLoading = true;
       this.replyService
-        .deleteReplyComment(this.API_KEY, reply.id)
+        .deleteReplyComment(this.API_KEY_COMMENTS, reply.id)
         .pipe(take(1))
         .subscribe(
           (data) => {

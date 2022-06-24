@@ -11,3 +11,11 @@ export interface IImageSimple {
   product?: IProductSimple | null;
   isMainImage?: boolean | null;
 }
+
+export interface IDeleteAllImages {
+  id: number;
+  name: string;
+}
+export interface IObjImagesForDelete {
+  images: IDeleteAllImages[];
+}

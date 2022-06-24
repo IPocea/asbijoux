@@ -13,5 +13,7 @@ module.exports = (app) => {
 	router.put(`/${process.env.API_KEY}/:id`, comments.update);
 	// Delete a Comment with id
 	router.delete(`/${process.env.API_KEY}/:id`, comments.delete);
+	// Delete all Comments of a product with ids
+	router.post(`/${process.env.API_KEY}/delete-all`, comments.deleteAll);
 	app.use("/api/comments", router);
 };

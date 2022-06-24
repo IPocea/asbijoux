@@ -31,10 +31,11 @@
             </small>
             <p *ngIf="replyCommentId !== comment.id">{{ comment.text }}</p>
             <p
-              *ngIf="API_KEY && !comment.reply_comments.length"
+              *ngIf="API_KEY_COMMENTS && !comment.reply_comments.length"
               class="admin-comment-btns"
             >
               <span
+                *ngIf="!isReplyActive"
                 class="edit-comment-active"
                 (click)="openReplyContainer(comment)"
               >
@@ -86,7 +87,7 @@
                     maxlength="990"
                     >{{ reply.text }}</textarea
                   >
-                  <p *ngIf="API_KEY" class="admin-comment-btns">
+                  <p *ngIf="API_KEY_COMMENTS" class="admin-comment-btns">
                     <span
                       *ngIf="replyEditCommentId !== reply.id"
                       (click)="deleteAdminComment(reply, index)"

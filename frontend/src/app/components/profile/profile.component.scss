@@ -1,8 +1,14 @@
 @import "../../styles/variables.scss";
 :host {
+  h1 {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
   display: grid;
   place-items: center;
   width: 100%;
+
   #profile-container {
     display: flex;
     flex-direction: column;

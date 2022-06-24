@@ -6,8 +6,10 @@
   </ng-container>
 
   <ng-container *ngIf="!isLoading">
+    <h1>Panou de administrare</h1>
+
     <div id="profile-container">
-      <h2>{{ user.username }}</h2>
+      <h2>Bine ai revenit {{ user.username }}</h2>
       <p>Email: {{ user.email }}</p>
       <img src="assets/ionita-grigore.jpg" alt="User Picture" />
       <p>
