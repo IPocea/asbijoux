@@ -12,6 +12,63 @@
     h3 {
       text-align: center;
     }
+    .comments-admin-search {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+      button {
+        border: none;
+        background-color: $adminRightSide;
+      }
+    }
+    .comments-admin-filter-top {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-wrap: wrap;
+      .comments-admin-filter-check {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        button {
+          padding: 5px;
+          background-color: $blue;
+          color: $white;
+          border: none;
+        }
+        button:hover {
+          background-color: $blueHover;
+        }
+        button:active {
+          background-color: $blueActive;
+        }
+      }
+      .hidden-btn {
+        visibility: hidden;
+      }
+    }
+    .comments-admin-filters-top {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      gap: 10px;
+      .comments-admin-filters-col {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px;
+        .comments-admin-filter {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+          }
+        }
+      }
+    }
     .admin-product-comment {
       display: flex;
       flex-direction: column;
@@ -67,6 +124,21 @@
           font-family: Roboto, "Helvetica Neue", sans-serif;
           resize: none;
           padding: 5px;
+        }
+      }
+    }
+    .admin-comments-no-items {
+      display: grid;
+      place-items: center;
+      height: 150px;
+    }
+  }
+  @media screen and (min-width: 750px) {
+    .comments-admin-component-container {
+      .comments-admin-search {
+        flex-direction: row;
+        mat-form-field {
+          width: 48%;
         }
       }
     }

@@ -6,3 +6,7 @@ export interface ICheckbox {
   withComments: boolean;
   withoutComments: boolean;
 }
+export interface ICheckboxComments {
+  activated: boolean;
+  inactivated: boolean;
+}

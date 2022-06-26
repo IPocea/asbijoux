@@ -22,12 +22,7 @@
           <div class="product-comment">
             <h4>{{ comment.name }}</h4>
             <small>
-              {{ comment.createdAt.slice(8, 10) }}-{{
-                comment.createdAt.slice(5, 7)
-              }}-{{ comment.createdAt.slice(0, 4) }}, ora
-              {{ +comment.createdAt.slice(11, 13) + 3 }}:{{
-                comment.createdAt.slice(14, 16)
-              }}
+              {{ comment.createdAt | customDate }}
             </small>
             <p *ngIf="replyCommentId !== comment.id">{{ comment.text }}</p>
             <p

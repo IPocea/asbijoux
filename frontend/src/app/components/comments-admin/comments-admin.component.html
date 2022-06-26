@@ -5,29 +5,95 @@
 </ng-container>
 
 <ng-container *ngIf="!isLoading">
-  <div *ngIf="comments.length" class="comments-admin-component-container">
+  <div class="comments-admin-component-container">
     <h2>Administreaza comentariile</h2>
-    <h3>Numarul total de comentarii: {{ comments.length }}</h3>
-    <ng-container *ngIf="comments.length">
-      <ng-container *ngFor="let comment of comments; let index = index">
+    <h3>Numarul total de comentarii: {{ filteredComments.length }}</h3>
+    <div class="comments-admin-search">
+      <mat-form-field class="example-form-field" appearance="outline">
+        <mat-label>Cauta produs</mat-label>
+        <input
+          (keyup.enter)="applyNameByEnter()"
+          matInput
+          type="text"
+          [(ngModel)]="searchValue"
+        />
+        <button
+          *ngIf="
+            this.searchValue && filteredComments.length !== comments.length
+          "
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clearSearchValueAndFilters()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <button
+          matSuffix
+          class="search-btn"
+          (click)="applyNameByEnter()"
+          mat-icon-button
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="comments-admin-filter-top">
+      <h4>Filtre:</h4>
+      <div
+        [ngClass]="
+          filterCheckbox.activated ||
+          filterCheckbox.inactivated ||
+          filteredComments.length !== comments.length
+            ? 'comments-admin-filter-check'
+            : 'comments-admin-filter-check hidden-btn'
+        "
+      >
+        <button (click)="deleteAllFilters()">Sterge toate filtrele</button>
+      </div>
+    </div>
+    <div class="comments-admin-filters-top">
+      <div class="comments-admin-filters-col">
+        <div class="comments-admin-filter">
+          <input
+            (change)="changeActivated($event)"
+            [checked]="filterCheckbox.activated"
+            type="checkbox"
+            name=""
+            id="comments-admin-activated"
+          />
+          <label for="comments-admin-activated">Comentarii active</label>
+        </div>
+        <div class="comments-admin-filter">
+          <input
+            (change)="changeInactivated($event)"
+            [checked]="filterCheckbox.inactivated"
+            type="checkbox"
+            name=""
+            id="comments-admin-inactivated"
+          />
+          <label for="comments-admin-inactivated">Comentarii inactive</label>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="filteredComments.length">
+      <ng-container *ngFor="let comment of selectedComments; let index = index">
         <div class="admin-product-comment">
           <h4>{{ comment.name }}</h4>
+          <p>Email: {{ comment.email }}</p>
           <small>
-            {{ comment.createdAt.slice(8, 10) }}-{{
-              comment.createdAt.slice(5, 7)
-            }}-{{ comment.createdAt.slice(0, 4) }}, ora
-            {{ +comment.createdAt.slice(11, 13) + 3 }}:{{
-              comment.createdAt.slice(14, 16)
-            }}
+            {{ comment.createdAt | customDate }}
           </small>
           <p *ngIf="replyCommentId !== comment.id">{{ comment.text }}</p>
           <div class="product-comment-controllers">
             <p>Nume produs: {{ comment.product.title }}</p>
-            <mat-icon
-              (click)="goToProduct(comment.product)"
-              title="Vizualizeaza produsul"
-              >visibility</mat-icon
-            >
+            <button>
+              <mat-icon
+                (click)="goToProduct(comment.product)"
+                title="Vizualizeaza produsul"
+                >visibility</mat-icon
+              >
+            </button>
           </div>
           <p *ngIf="comment.isActivated">
             Status: <span class="comment-status-active">Publicat</span>
@@ -63,7 +129,7 @@
               [disabled]="isDisabled"
             >
               <mat-icon
-                (click)="deleteComment(comment, index)"
+                (click)="deleteComment(comment)"
                 title="Sterge comentariul"
                 >delete</mat-icon
               >
@@ -168,7 +234,7 @@
                     *ngIf="replyEditCommentId === reply.id"
                     [ngClass]="isDisabled ? 'btn-disabled' : 'btn-enabled'"
                     [disabled]="isDisabled"
-                    (click)="modifyAdminComment(reply, index)"
+                    (click)="modifyAdminComment(reply)"
                   >
                     Modifica
                   </button>
@@ -179,6 +245,30 @@
         </ng-container>
       </ng-container>
     </ng-container>
+    <div class="admin-comments-no-items" *ngIf="!comments.length">
+      <p>Nu sunt comentarii in acest moment.</p>
+    </div>
+    <div
+      class="admin-comments-no-items"
+      *ngIf="comments.length && !filteredComments.length"
+    >
+      <p>
+        Ne pare rau, insa nu au fost identificate comentarii cu filtrele
+        selectate.
+      </p>
+    </div>
+    <mat-paginator
+      *ngIf="filteredComments.length"
+      id="search-component-paginator"
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex"
+      aria-label="Select page"
+    >
+    </mat-paginator>
   </div>
 </ng-container>
 

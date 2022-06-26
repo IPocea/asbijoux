@@ -18,6 +18,11 @@ export class CommentService {
       a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
     );
   }
+  sortCommentsByComments(comments: IComment[]): void {
+    comments.sort((a, b) =>
+      b.createdAt > a.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0
+    );
+  }
   addComment(comment: IComment): Observable<IComment> {
     return this.http.post<IComment>(
       'http://localhost:8080/api/comments/',

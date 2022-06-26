@@ -83,23 +83,26 @@ export class EditProductComponent implements OnInit {
   }
 
   deleteImage(image: IImageSimple, i: number): void {
-    this.isLoading = true;
-    this.imageService
-      .deleteImage(this.API_KEY, image)
-      .pipe(take(1))
-      .subscribe(
-        (res) => {
-          this.successMessage = `Poza ${image.name} a fost stearsa cu succes.`;
-          this.product.images.splice(i, 1);
-          this.isLoading = false;
-        },
-        (err) => {
-          this.errorMessage = err.message || err.message.message;
-          console.log(err);
+    const result = confirm(`Esti singur ca doresti sa stergi aceasta poza?`);
+    if (result) {
+      this.isLoading = true;
+      this.imageService
+        .deleteImage(this.API_KEY, image)
+        .pipe(take(1))
+        .subscribe(
+          (res) => {
+            this.successMessage = `Poza ${image.name} a fost stearsa cu succes.`;
+            this.product.images.splice(i, 1);
+            this.isLoading = false;
+          },
+          (err) => {
+            this.errorMessage = err.message || err.message.message;
+            console.log(err);
 
-          this.isLoading = false;
-        }
-      );
+            this.isLoading = false;
+          }
+        );
+    }
   }
   getData(): void {
     this.isLoading = true;

@@ -14,8 +14,8 @@ import {
   IObjImagesForDelete,
   IObjReplyCommentsForDelete,
   IProductComplete,
+  ICheckbox,
 } from 'src/app/interfaces';
-import { ICheckbox } from 'src/app/interfaces/checkbox.interface';
 import { ProductService } from 'src/app/services/product.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { ImageService } from 'src/app/services/image.service';
@@ -162,6 +162,7 @@ export class ViewProductsComponent implements OnInit {
     this.searchValue = '';
     this.resetCategories();
     this.filteredProducts = [...this.products];
+    this.pageIndex = 0;
     this.length = this.filteredProducts.length;
     this.selectPageAndFillWithData();
   }
@@ -211,25 +212,6 @@ export class ViewProductsComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.selectPageAndFillWithData();
     this.scrollService.scrollTo('view-products-table');
-  }
-  private getData(): void {
-    this.isLoading = true;
-    this.productServices
-      .getAllProducts()
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.deleteAllFilters();
-          this.products = data;
-          this.filteredProducts = data;
-          this.length = this.filteredProducts.length;
-          this.selectPageAndFillWithData();
-          this.getCategories();
-        },
-        (err) => {
-          this.isLoading = false;
-        }
-      );
   }
   publishProduct(product: IProductComplete): void {
     this.toggleIsPublished(
@@ -360,7 +342,12 @@ export class ViewProductsComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (res) => {
-          this.pageIndex = 0;
+          if (
+            this.pageIndex > 0 &&
+            this.pageIndex * this.pageSize >= this.length - 1
+          ) {
+            this.pageIndex -= 1;
+          }
           this.getData();
           this.displayMessage(true, 'Produsul a fost sters cu succes');
         },
@@ -394,6 +381,25 @@ export class ViewProductsComponent implements OnInit {
           this.categoryOptions.sort();
           this.resetCategories();
           this.isLoading = false;
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
+  }
+  private getData(): void {
+    this.isLoading = true;
+    this.productServices
+      .getAllProducts()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.deleteAllFilters();
+          this.products = data;
+          this.filteredProducts = data;
+          this.length = this.filteredProducts.length;
+          this.selectPageAndFillWithData();
+          this.getCategories();
         },
         (err) => {
           this.isLoading = false;
