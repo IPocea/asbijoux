@@ -34,12 +34,16 @@ import { ImageGalleryComponent } from './components/image-gallery/image-gallery.
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { CarouselComponent } from './components/careousel/carousel.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ArticleComponent } from './pages/article/article.component';
 import { CarouselAdminComponent } from './components/carousel-admin/carousel-admin.component';
+import { MatPaginatorIntlCro } from './helpers/customClass';
 
 @NgModule({
   declarations: [
@@ -86,7 +90,10 @@ import { CarouselAdminComponent } from './components/carousel-admin/carousel-adm
     TextFieldModule,
     MatPaginatorModule,
   ],
-  providers: [httpInterceptorProviders],
+  providers: [
+    httpInterceptorProviders,
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
