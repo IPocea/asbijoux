@@ -46,19 +46,6 @@ export class EditProductComponent implements OnInit {
     this.successMessage = '';
     this.getData();
   }
-  addSingleImage(API_KEY: string, form: FormData): void {
-    this.imageService
-      .addImage(API_KEY, form)
-      .pipe(take(1))
-      .subscribe(
-        (data) => {},
-        (err) => {
-          this.errorMessage = err.error.message;
-          this.isLoading = false;
-          return;
-        }
-      );
-  }
   counter(i: number) {
     return new Array(i);
   }
@@ -74,14 +61,6 @@ export class EditProductComponent implements OnInit {
       }
     }
   }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.categoryOptions.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
-
   deleteImage(image: IImageSimple, i: number): void {
     const result = confirm(`Esti singur ca doresti sa stergi aceasta poza?`);
     if (result) {
@@ -103,48 +82,6 @@ export class EditProductComponent implements OnInit {
           }
         );
     }
-  }
-  getData(): void {
-    this.isLoading = true;
-    this.productService
-      .getProduct(this.productId)
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.product = data;
-          this.imageService.sortImages(this.product);
-          this.commentService.sortComments(this.product);
-          this.setProductDetails();
-          this.getCategories();
-        },
-        (err) => {
-          this.isLoading = false;
-        }
-      );
-  }
-  getCategories(): void {
-    this.isLoading = true;
-    this.productService
-      .getAllCategories()
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.categoryOptions = [];
-          for (let category of data.count) {
-            this.categoryOptions.push(category.category);
-          }
-          this.categoryOptions.sort();
-          this.setCategoryFilteredOptions();
-          this.isLoading = false;
-        },
-        (err) => {
-          this.isLoading = false;
-        }
-      );
-  }
-  goBack(): void {
-    this.isEditing = false;
-    this.sendData.emit(this.isEditing);
   }
   editProduct(ev: Event): void {
     ev.preventDefault();
@@ -225,13 +162,75 @@ export class EditProductComponent implements OnInit {
         }
       );
   }
-  setCategoryFilteredOptions(): void {
+  goBack(): void {
+    this.isEditing = false;
+    this.sendData.emit(this.isEditing);
+  }
+  private addSingleImage(API_KEY: string, form: FormData): void {
+    this.imageService
+      .addImage(API_KEY, form)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {},
+        (err) => {
+          this.errorMessage = err.error.message;
+          this.isLoading = false;
+          return;
+        }
+      );
+  }
+  private getData(): void {
+    this.isLoading = true;
+    this.productService
+      .getProduct(this.productId)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.product = data;
+          this.imageService.sortImages(this.product);
+          this.commentService.sortComments(this.product);
+          this.setProductDetails();
+          this.getCategories();
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
+  }
+  private getCategories(): void {
+    this.isLoading = true;
+    this.productService
+      .getAllCategories()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.categoryOptions = [];
+          for (let category of data.count) {
+            this.categoryOptions.push(category.category);
+          }
+          this.categoryOptions.sort();
+          this.setCategoryFilteredOptions();
+          this.isLoading = false;
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.categoryOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+  private setCategoryFilteredOptions(): void {
     this.categoryFilteredOptions = this.categoryControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value))
     );
   }
-  setProductDetails(): void {
+  private setProductDetails(): void {
     this.title = this.product.title;
     this.categoryControl = new FormControl(`${this.product.category}`);
     this.publicSelectValue = this.product.isPublished;

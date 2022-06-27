@@ -151,7 +151,7 @@
       <table *ngIf="filteredProducts.length">
         <thead>
           <tr>
-            <th title="Crit.">Crit.</th>
+            <th title="Crit.">Id</th>
             <th title="Nume produs">Nume produs</th>
             <th title="Categorie">Categorie</th>
             <th title="Status">Status</th>
@@ -161,8 +161,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of selectedProducts; let i = index">
-            <td width="5%">{{ pageIndex * pageSize + i + 1 }}</td>
+          <tr *ngFor="let product of selectedProducts">
+            <td width="5%">{{ product.id }}</td>
             <td class="table-product-title" [title]="product.title">
               {{ product.title }}
             </td>

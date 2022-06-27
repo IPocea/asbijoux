@@ -20,5 +20,10 @@ module.exports = (app) => {
 		`/${process.env.API_KEY}/unlink`,
 		carouselImages.deleteCarouselFile
 	);
+	// Delete all Images
+	router.post(
+		`/${process.env.API_KEY}/unlink-all`,
+		carouselImages.deleteCarouselFiles
+	);
 	app.use("/api/carousel-images", router);
 };

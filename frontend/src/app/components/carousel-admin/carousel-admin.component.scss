@@ -1,0 +1,76 @@
+@import "../../styles/variables.scss";
+
+:host {
+  padding: 10px;
+  .carousel-admin-component-container {
+    .carousel-admin-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      h2,
+      h4 {
+        text-align: center;
+      }
+      .carousel-admin-suggestions {
+        font-size: small;
+        color: $adminLeftSide;
+      }
+      .carousel-setup-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .carousel-existing-images {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 10px;
+          div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            div {
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+            }
+            img {
+              width: 80px;
+              height: 80px;
+              object-fit: contain;
+              border: 1px solid $adminLeftSide;
+              background-color: $white;
+            }
+            button {
+              height: 20px;
+            }
+          }
+        }
+        .carousel-delete-all-btn {
+          button {
+            padding: 5px;
+            background-color: $blue;
+            color: $white;
+            border: none;
+          }
+          button:hover {
+            background-color: $blueHover;
+          }
+          button:active {
+            background-color: $blueActive;
+          }
+        }
+        .carousel-input-file-container {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          .carousel-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}

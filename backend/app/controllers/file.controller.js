@@ -188,6 +188,33 @@ const deleteCarouselFile = async (req, res) => {
 		});
 	}
 };
+const deleteCarouselFiles = async (req, res) => {
+	let names = req.body.carouselImages.map((ele) => ele.name);
+	try {
+		const nums = await CarouselImage.destroy({
+			where: {},
+			truncate: false,
+		});
+		if (nums) {
+			try {
+				for (let name of names) {
+					await unlink(directoryPath + name);
+				}
+				return res.json({ message: "Imaginea a fost stearsa cu success!" });
+			} catch (error) {
+				return res.json({ message: error.message });
+			}
+		} else {
+			return res.json({
+				message: `Nu pot sterge imaginea cu id=${id}. Poate ca imaginea nu a fost gasita!`,
+			});
+		}
+	} catch (error) {
+		return res.status(500).json({
+			message: "Nu am putut sterge imaginea cu id=" + id,
+		});
+	}
+};
 
 module.exports = {
 	upload,
@@ -197,4 +224,5 @@ module.exports = {
 	deleteFile,
 	deleteFiles,
 	deleteCarouselFile,
+	deleteCarouselFiles,
 };

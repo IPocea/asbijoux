@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   isSideNavRight: boolean = false;
   articleDisplayMessage: string = 'Arata mai mult';
   articleContent: string =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ad ipsa repellendus repudiandae dolorum eveniet perferendis quod non, ab voluptatum doloribus iusto optio quasi laudantium placeat mollitia aperiam dignissimos odit.';
+    'Bijuteriile din aur realizate manual  sunt unice și creative. Orice femeie și-ar dori să poarte o astfel de bijuterie care să îi scoată în evidență personalitatea, feminitatea , frumusețea chipului și a mâinilor. Descoperă alături de noi bijuteria sufletului tău!';
   categories: string[] = [];
   constructor(
     private productService: ProductService,

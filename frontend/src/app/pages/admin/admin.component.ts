@@ -24,11 +24,13 @@ export class AdminComponent implements OnInit {
   classUser: string = '';
   classViewProducts: string = '';
   classAddProduct: string = '';
-  classCategory: string = '';
+  classComments: string = '';
+  classCarousel: string = '';
   isProfileSelected: boolean = false;
   isAddProductSelected: boolean = false;
   isViewProductsSelected: boolean = false;
   isCommentAdminSelected: boolean = false;
+  isCarouselSelected: boolean = false;
 
   constructor(
     private router: Router,
@@ -111,11 +113,17 @@ export class AdminComponent implements OnInit {
     this.setComponentActive(3);
     this.scroll.scrollTo('right-side-admin');
   }
+  getCarousel(): void {
+    this.setClassActive(4);
+    this.setComponentActive(4);
+    this.scroll.scrollTo('right-side-admin');
+  }
   private setClassActive(liIndex: number): void {
     this.classUser = '';
     this.classViewProducts = '';
     this.classAddProduct = '';
-    this.classCategory = '';
+    this.classComments = '';
+    this.classCarousel = '';
     switch (liIndex) {
       case 0:
         this.classUser = 'is-active';
@@ -127,7 +135,10 @@ export class AdminComponent implements OnInit {
         this.classViewProducts = 'is-active';
         break;
       case 3:
-        this.classCategory = 'is-active';
+        this.classComments = 'is-active';
+        break;
+      case 4:
+        this.classCarousel = 'is-active';
         break;
       default:
         break;
@@ -138,6 +149,7 @@ export class AdminComponent implements OnInit {
     this.isAddProductSelected = false;
     this.isViewProductsSelected = false;
     this.isCommentAdminSelected = false;
+    this.isCarouselSelected = false;
     switch (componentIndex) {
       case 0:
         this.isProfileSelected = true;
@@ -150,6 +162,9 @@ export class AdminComponent implements OnInit {
         break;
       case 3:
         this.isCommentAdminSelected = true;
+        break;
+      case 4:
+        this.isCarouselSelected = true;
         break;
       default:
         break;

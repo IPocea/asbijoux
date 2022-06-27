@@ -1,0 +1,78 @@
+<div class="carousel-admin-component-container">
+  <ng-container *ngIf="isLoading">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isLoading">
+    <div class="carousel-admin-container">
+      <h2>Gestioneaza caruselul de imagini</h2>
+      <h4>Numar total de imagini carusel: {{ carouselImages.length }}</h4>
+      <p class="carousel-admin-suggestions">
+        Pentru functionarea caruselului este necesar sa introduceti minim 3
+        poze, iar la fiecare poza sa introduceti produsul de care apartin
+        imaginile din carusel.
+      </p>
+      <div class="carousel-setup-container">
+        <div class="carousel-existing-images" *ngIf="carouselImages.length">
+          <div *ngFor="let image of carouselImages; let i = index">
+            <img [src]="image.url" [alt]="image.name" />
+            <div>
+              <p>Nr. Id produs: {{ image.productId }}</p>
+              <p>Pozitia in carusel: {{ image.position }}</p>
+            </div>
+            <button (click)="deleteImage(image, i)">Sterge poza</button>
+          </div>
+        </div>
+        <div class="carousel-delete-all-btn" *ngIf="carouselImages.length">
+          <button (click)="deleteCarousel()">Sterge toate pozele</button>
+        </div>
+        <div
+          class="carousel-input-file-container"
+          *ngIf="carouselImages.length < 10"
+        >
+          <div
+            class="carousel-inputs"
+            *ngFor="let in of counter(10 - carouselImages.length)"
+          >
+            <input
+              class="carousel-admin-images"
+              type="file"
+              name="file"
+              accept="image/*"
+              (change)="checkSize($event)"
+            />
+            <mat-form-field appearance="fill">
+              <mat-label>Id-ul produsului</mat-label>
+              <input
+                class="carousel-admin-ids"
+                matInput
+                type="number"
+                value="0"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Pozitia in carusel</mat-label>
+              <input
+                class="carousel-admins-positions"
+                matInput
+                type="number"
+                value="0"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <button class="add-btn-primary" (click)="updateCarousel()">
+        Actualizeaza caruselul
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<ng-container *ngIf="errorMessage">
+  <div class="error-message-on pop-up">{{ errorMessage }}</div>
+</ng-container>
+<ng-container *ngIf="successMessage">
+  <div class="success-message-on pop-up">{{ successMessage }}</div>
+</ng-container>

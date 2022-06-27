@@ -36,8 +36,10 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
-import { CareouselComponent } from './components/careousel/careousel.component';
+import { CarouselComponent } from './components/careousel/carousel.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { ArticleComponent } from './pages/article/article.component';
+import { CarouselAdminComponent } from './components/carousel-admin/carousel-admin.component';
 
 @NgModule({
   declarations: [
@@ -59,8 +61,10 @@ import { EditProductComponent } from './components/edit-product/edit-product.com
     CommentsComponent,
     CustomDatePipe,
     SnackbarComponent,
-    CareouselComponent,
+    CarouselComponent,
     EditProductComponent,
+    ArticleComponent,
+    CarouselAdminComponent,
   ],
   imports: [
     BrowserModule,

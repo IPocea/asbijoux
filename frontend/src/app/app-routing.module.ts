@@ -7,6 +7,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProductComponent } from './pages/product/product.component';
 import { SearchComponent } from './pages/search/search.component';
+import { ArticleComponent } from './pages/article/article.component';
 
 const routes: Routes = [
   { path: 'pagina-principala', component: HomeComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'logare', component: LoginComponent },
   { path: 'n@dmin', component: AdminComponent },
   { path: 'produs/:category/:title/:id', component: ProductComponent },
+  { path: 'articol/verighete', component: ArticleComponent },
   { path: '', redirectTo: '/pagina-principala', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

@@ -11,3 +11,10 @@ export interface ICarousel {
   productId: number;
   product?: IProductSimple;
 }
+
+export interface IDeleteAllCarouselImages {
+  name: string;
+}
+export interface IObjCarouselImagesForDelete {
+  carouselImages: IDeleteAllCarouselImages[];
+}

@@ -34,6 +34,25 @@
           list-style-position: inside;
         }
       }
+      article {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .mini-title {
+          text-align: center;
+          font-family: "Book Antiqua";
+          font-size: 17px;
+        }
+        .show-more {
+          color: #6c757d;
+          font-size: smaller;
+          cursor: pointer;
+        }
+        .show-more:hover {
+          color: $black;
+        }
+      }
     }
   }
 }

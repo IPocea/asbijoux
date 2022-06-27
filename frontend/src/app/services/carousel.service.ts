@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ICarousel } from '../interfaces/carousel.interface';
+import { IEditDeleteResponse } from '../interfaces';
+import {
+  ICarousel,
+  IObjCarouselImagesForDelete,
+} from '../interfaces/carousel.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +21,32 @@ export class CarouselService {
     carouselImages.sort((a, b) => {
       return a.position - b.position;
     });
+  }
+  deleteImage(
+    API_KEY: string,
+    carousel: ICarousel
+  ): Observable<IEditDeleteResponse> {
+    return this.http.post<IEditDeleteResponse>(
+      `http://localhost:8080/api/carousel-images/${API_KEY}/unlink`,
+      {
+        fileName: carousel.name,
+        id: carousel.id,
+      }
+    );
+  }
+  deleteAllImages(
+    API_KEY: string,
+    carouselImages: IObjCarouselImagesForDelete
+  ): Observable<IEditDeleteResponse> {
+    return this.http.post<IEditDeleteResponse>(
+      `http://localhost:8080/api/carousel-images/${API_KEY}/unlink-all`,
+      carouselImages
+    );
+  }
+  adImage(API_KEY: string, form: FormData): Observable<ICarousel> {
+    return this.http.post<ICarousel>(
+      `http://localhost:8080/api/carousel-images/${API_KEY}/upload`,
+      form
+    );
   }
 }

@@ -7,6 +7,7 @@ import { ScrollService } from 'src/app/services/scroll.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  isDisplayed: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}

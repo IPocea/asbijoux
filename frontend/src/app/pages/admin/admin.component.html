@@ -26,7 +26,8 @@
         <li [class]="classViewProducts" (click)="getViewProduct()">
           Vizualizeaza produsele
         </li>
-        <li [class]="classCategory" (click)="getCommentsAdmin()">Comentarii</li>
+        <li [class]="classComments" (click)="getCommentsAdmin()">Comentarii</li>
+        <li [class]="classCarousel" (click)="getCarousel()">Carusel</li>
       </ul>
     </div>
     <div id="right-side-admin">
@@ -45,6 +46,10 @@
         [API_KEY]="API_KEY"
         [API_KEY_COMMENTS]="API_KEY_COMMENTS"
       ></app-comments-admin>
+      <app-carousel-admin
+        *ngIf="isCarouselSelected"
+        [API_KEY]="API_KEY"
+      ></app-carousel-admin>
     </div>
   </div>
 </ng-container>
