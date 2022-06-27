@@ -53,6 +53,14 @@ export class HeaderComponent implements OnInit {
       this.isArticleEnabled = true;
     }
   }
+  searchOnMobile(ev: any): void {
+    if (ev.keycode === 13) {
+      this.searchProduct();
+      if (this.searchValue) {
+        this.isArticleEnabled = true;
+      }
+    }
+  }
   showCategories(): void {
     this.isContactEnabled = false;
     event.stopPropagation();

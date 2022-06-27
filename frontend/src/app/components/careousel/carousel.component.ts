@@ -96,7 +96,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
       }
     }
   }
-  toggleImage(): void {
+  private toggleImage(): void {
     this.carouselClass = 'carousel-item';
     setTimeout(() => {
       if (this.indexMain < this.imgArray.length - 1) {

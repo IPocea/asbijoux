@@ -58,6 +58,7 @@
           matInput
           type="text"
           (keyup.enter)="searchProductMobile()"
+          (keyup)="searchOnMobile($event)"
           [(ngModel)]="searchValue"
         />
         <button
