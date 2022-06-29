@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import {
   IComment,
   ICommentPreview,
-  IProductComplete,
+  IProduct,
   IReplyComment,
 } from 'src/app/interfaces';
 import { CommentService } from 'src/app/services/comment.service';
@@ -20,7 +19,7 @@ import { ScrollService } from 'src/app/services/scroll.service';
   styleUrls: ['./comments.component.scss'],
 })
 export class CommentsComponent implements OnInit {
-  @Input() product: IProductComplete;
+  @Input() product: IProduct;
   @Input() API_KEY_COMMENTS: string;
   isCommentLoading: boolean = false;
   isLoading: boolean = false;
@@ -42,8 +41,7 @@ export class CommentsComponent implements OnInit {
     private replyService: ReplyService,
     private scroll: ScrollService,
     private productService: ProductService,
-    private imageService: ImageService,
-    private router: Router
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -99,16 +97,6 @@ export class CommentsComponent implements OnInit {
         );
     }
   }
-  openReplyContainer(comment: IComment) {
-    this.replyCommentId = comment.id;
-    this.isReplyActive = true;
-    this.replyEditCommentId = 0;
-  }
-  cancelAddReply(): void {
-    this.replyCommentId = 0;
-    this.replyCommentText = '';
-    this.isReplyActive = false;
-  }
   addReplyComment(comment: IComment, index: number): void {
     if (!this.replyCommentText.trim()) {
       this.errorMessage = 'Comentariul nu poate fi un text gol.';
@@ -139,15 +127,46 @@ export class CommentsComponent implements OnInit {
         }
       );
   }
-  openEditAdminComment(reply: IReplyComment): void {
-    this.replyEditCommentId = reply.id;
+  cancelAddReply(): void {
     this.replyCommentId = 0;
+    this.replyCommentText = '';
     this.isReplyActive = false;
-    this.replyEditText = reply.text;
   }
   cancelEditAdminComment(reply: IReplyComment): void {
     this.replyEditCommentId = 0;
     this.replyEditText = reply.text;
+  }
+  deleteAdminComment(reply: IReplyComment, replyIndex: number) {
+    const result = confirm(
+      `Esti singur ca doresti sa stergi acest comentariu?`
+    );
+    if (result) {
+      this.isLoading = true;
+      this.replyService
+        .deleteReplyComment(this.API_KEY_COMMENTS, reply.id)
+        .pipe(take(1))
+        .subscribe(
+          (data) => {
+            let commentIndex = 0;
+            for (let i = 0; i < this.product.comments.length; i++) {
+              if (this.product.comments[i].id === reply.commentId) {
+                commentIndex = i;
+                break;
+              }
+            }
+            this.product.comments[commentIndex].reply_comments.splice(
+              replyIndex,
+              1
+            );
+            this.isLoading = false;
+          },
+          (err) => {
+            this.errorMessage = err.message.message;
+            this.isLoading = false;
+            this.hideError();
+          }
+        );
+    }
   }
   modifyAdminComment(reply: IReplyComment): void {
     if (!this.replyEditText.trim()) {
@@ -193,44 +212,23 @@ export class CommentsComponent implements OnInit {
         }
       );
   }
-  deleteAdminComment(reply: IReplyComment, replyIndex: number) {
-    const result = confirm(
-      `Esti singur ca doresti sa stergi acest comentariu?`
-    );
-    if (result) {
-      this.isLoading = true;
-      this.replyService
-        .deleteReplyComment(this.API_KEY_COMMENTS, reply.id)
-        .pipe(take(1))
-        .subscribe(
-          (data) => {
-            let commentIndex = 0;
-            for (let i = 0; i < this.product.comments.length; i++) {
-              if (this.product.comments[i].id === reply.commentId) {
-                commentIndex = i;
-                break;
-              }
-            }
-            this.product.comments[commentIndex].reply_comments.splice(
-              replyIndex,
-              1
-            );
-            this.isLoading = false;
-          },
-          (err) => {
-            this.errorMessage = err.message.message;
-            this.isLoading = false;
-            this.hideError();
-          }
-        );
-    }
+  openEditAdminComment(reply: IReplyComment): void {
+    this.replyEditCommentId = reply.id;
+    this.replyCommentId = 0;
+    this.isReplyActive = false;
+    this.replyEditText = reply.text;
   }
-  clearForm(): void {
+  openReplyContainer(comment: IComment) {
+    this.replyCommentId = comment.id;
+    this.isReplyActive = true;
+    this.replyEditCommentId = 0;
+  }
+  private clearForm(): void {
     this.nameFormControl = new FormControl('', [Validators.required]);
     this.emailFormControl = new FormControl('', [Validators.email]);
     this.commentFormControl = new FormControl('', [Validators.required]);
   }
-  hideError(): void {
+  private hideError(): void {
     setTimeout(() => {
       this.errorMessage = '';
     }, 2000);

@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IImageSimple, IProductComplete } from 'src/app/interfaces';
+import { IImageSimple, IProduct } from 'src/app/interfaces';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { IProductSimple } from 'src/app/interfaces/product.interface';
 import { IPublic } from 'src/app/interfaces/public.interface';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -18,7 +17,7 @@ export class EditProductComponent implements OnInit {
   @Input() productId: number;
   @Input() API_KEY: string | undefined;
   @Output() sendData = new EventEmitter<boolean>();
-  product: IProductComplete;
+  product: IProduct;
   isEditing: boolean = true;
   errorMessageClass: string = 'error-message-on';
   errorMessage: string = '';
@@ -97,7 +96,7 @@ export class EditProductComponent implements OnInit {
       return;
     }
     this.errorMessage = '';
-    const productToEdit: IProductSimple = {
+    const productToEdit: IProduct = {
       id: this.productId,
       title: this.title,
       category:

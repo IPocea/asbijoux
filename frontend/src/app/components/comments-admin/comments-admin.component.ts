@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import {
   ICheckboxComments,
   IComment,
-  IProductComplete,
+  IProduct,
   IReplyComment,
 } from 'src/app/interfaces';
 import { CommentService } from 'src/app/services/comment.service';
@@ -191,38 +191,47 @@ export class CommentsAdminComponent implements OnInit {
         );
     }
   }
-  deleteComment(comment: IComment): void {
+  deleteFullComment(comment: IComment): void {
     const result = confirm(
       `Esti singur ca doresti sa stergi acest comentariu?`
     );
     if (result) {
-      this.isDisabled = true;
-      this.commentService
-        .deleteComment(this.API_KEY, comment.id)
-        .pipe(take(1))
-        .subscribe(
-          (res) => {
-            if (
-              this.pageIndex > 0 &&
-              this.pageIndex * this.pageSize >= this.length - 1
-            ) {
-              this.pageIndex -= 1;
+      if (comment.reply_comments.length) {
+        this.isDisabled = true;
+        this.replyService
+          .deleteReplyComment(
+            this.API_KEY_COMMENTS,
+            comment.reply_comments[0].id
+          )
+          .pipe(take(1))
+          .subscribe(
+            (res) => {
+              this.deleteComment(comment);
+            },
+            (err) => {
+              this.displayMessage(
+                false,
+                'A intervenit o eroare. Va rugam sa incercati din nou.'
+              );
+              this.isDisabled = false;
             }
-            this.getData();
-            this.displayMessage(true, 'Comentariul a fost sters cu succes.');
-            this.isDisabled = false;
-          },
-          (err) => {
-            this.displayMessage(
-              false,
-              'A intervenit o eroare. Va rugam sa incercati din nou.'
-            );
-            this.isDisabled = false;
-          }
-        );
+          );
+      } else {
+        this.deleteComment(comment);
+      }
     }
   }
-  goToProduct(product: IProductComplete) {
+  deleteAllFilters(): void {
+    for (let key in this.filterCheckbox) {
+      this.filterCheckbox[key] = false;
+    }
+    this.searchValue = '';
+    this.filteredComments = [...this.comments];
+    this.pageIndex = 0;
+    this.length = this.filteredComments.length;
+    this.selectPageAndFillWithData();
+  }
+  goToProduct(product: IProduct) {
     this.router.navigate([
       '/produs',
       product.category,
@@ -322,16 +331,6 @@ export class CommentsAdminComponent implements OnInit {
         }
       );
   }
-  deleteAllFilters(): void {
-    for (let key in this.filterCheckbox) {
-      this.filterCheckbox[key] = false;
-    }
-    this.searchValue = '';
-    this.filteredComments = [...this.comments];
-    this.pageIndex = 0;
-    this.length = this.filteredComments.length;
-    this.selectPageAndFillWithData();
-  }
   private applyCheckboxFilter(): void {
     this.filteredComments = this.comments.filter((ele) => {
       if (this.filterCheckbox.activated && !ele.isActivated) {
@@ -347,6 +346,32 @@ export class CommentsAdminComponent implements OnInit {
     this.filteredComments = this.filteredComments.filter(
       (ele) => ele.name.toLocaleLowerCase().indexOf(this.searchValue) !== -1
     );
+  }
+  private deleteComment(comment: IComment): void {
+    this.isDisabled = true;
+    this.commentService
+      .deleteComment(this.API_KEY, comment.id)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          if (
+            this.pageIndex > 0 &&
+            this.pageIndex * this.pageSize >= this.length - 1
+          ) {
+            this.pageIndex -= 1;
+          }
+          this.getData();
+          this.displayMessage(true, 'Comentariul a fost sters cu succes.');
+          this.isDisabled = false;
+        },
+        (err) => {
+          this.displayMessage(
+            false,
+            'A intervenit o eroare. Va rugam sa incercati din nou.'
+          );
+          this.isDisabled = false;
+        }
+      );
   }
   private displayMessage(type: boolean, message: string): void {
     if (type) {

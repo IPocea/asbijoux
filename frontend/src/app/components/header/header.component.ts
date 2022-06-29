@@ -40,6 +40,31 @@ export class HeaderComponent implements OnInit {
     this.isSideNavLeft = false;
     this.isSideNavRight = false;
   }
+  enableSearch(): void {
+    this.isArticleEnabled = !this.isArticleEnabled;
+  }
+  goToCategory(page: string): void {
+    this.router.navigate(['/categorii', page]);
+  }
+  goToHome(): void {
+    this.userService
+      .getAdminComments()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.isAdminLoggedIn = true;
+        },
+        (err) => {
+          this.isAdminLoggedIn = false;
+        }
+      );
+    this.router.navigate(['/pagina-principala']);
+  }
+  goToAccount(): void {
+    if (this.isAdminLoggedIn) {
+      this.router.navigate(['/logare']);
+    }
+  }
   searchProduct(): void {
     if (!this.searchValue) {
       this.showMessage();
@@ -54,7 +79,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   searchOnMobile(ev: any): void {
-    if (ev.keycode === 13) {
+    if (ev.keycode === 13 || ev.keyname === 'Enter') {
       this.searchProduct();
       if (this.searchValue) {
         this.isArticleEnabled = true;
@@ -92,10 +117,7 @@ export class HeaderComponent implements OnInit {
       this.articleDisplayMessage = 'Arata mai mult';
     }
   }
-  goToCategory(page: string): void {
-    this.router.navigate(['/categorii', page]);
-  }
-  getCategories(): void {
+  private getCategories(): void {
     this.productService
       .getAlllPublishedCategories()
       .pipe(take(1))
@@ -109,28 +131,5 @@ export class HeaderComponent implements OnInit {
         },
         (err) => {}
       );
-  }
-
-  enableSearch(): void {
-    this.isArticleEnabled = !this.isArticleEnabled;
-  }
-  goToHome(): void {
-    this.userService
-      .getAdminComments()
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.isAdminLoggedIn = true;
-        },
-        (err) => {
-          this.isAdminLoggedIn = false;
-        }
-      );
-    this.router.navigate(['/pagina-principala']);
-  }
-  goToAccount(): void {
-    if (this.isAdminLoggedIn) {
-      this.router.navigate(['/logare']);
-    }
   }
 }

@@ -3,11 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import {
-  IProductComplete,
-  IProductSimple,
-} from 'src/app/interfaces/product.interface';
-import { IPublic } from 'src/app/interfaces/public.interface';
+import { IProduct, IPublic } from 'src/app/interfaces';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -18,7 +14,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class AddProductComponent implements OnInit {
   @Input() API_KEY: string | undefined;
-  product: IProductComplete;
+  product: IProduct;
   errorMessage: string = '';
   successMessage: string = '';
   categoryControl = new FormControl();
@@ -42,39 +38,6 @@ export class AddProductComponent implements OnInit {
     this.successMessage = '';
     this.getCategories();
   }
-  getCategories(): void {
-    this.isLoading = true;
-    this.productService
-      .getAllCategories()
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          for (let category of data.count) {
-            this.categoryOptions.push(category.category);
-          }
-          this.categoryOptions.sort();
-          this.isLoading = false;
-        },
-        (err) => {
-          this.isLoading = false;
-        }
-      );
-    this.setCategoryFilteredOptions();
-  }
-  setCategoryFilteredOptions(): void {
-    this.categoryFilteredOptions = this.categoryControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value))
-    );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.categoryOptions.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
   addFullProduct(ev: Event): void {
     ev.preventDefault();
     this.successMessage = '';
@@ -89,7 +52,7 @@ export class AddProductComponent implements OnInit {
       return;
     }
     this.errorMessage = '';
-    const product: IProductSimple = {
+    const product: IProduct = {
       title: this.title,
       category:
         this.categoryControl.value.slice(0, 1).toUpperCase() +
@@ -151,31 +114,6 @@ export class AddProductComponent implements OnInit {
         }
       );
   }
-  addSingleImage(API_KEY: string, form: FormData): void {
-    this.imageService
-      .addImage(API_KEY, form)
-      .pipe(take(1))
-      .subscribe(
-        (data) => {},
-        (err) => {
-          this.errorMessage = err.error.message;
-          this.isLoading = false;
-          return;
-        }
-      );
-  }
-  resetData(images: HTMLInputElement[]): void {
-    this.title = '';
-    this.categoryControl = new FormControl();
-    this.publicSelectValue = true;
-    this.productDescription = '';
-    this.categoryOptions = [];
-    for (let i = 0; i < images.length; i++) {
-      (images[i] as HTMLInputElement).value = '';
-    }
-    this.successMessage = 'Produsul a fost adaugat cu succes. ';
-    this.isLoading = false;
-  }
   counter(i: number) {
     return new Array(i);
   }
@@ -191,12 +129,70 @@ export class AddProductComponent implements OnInit {
       }
     }
   }
-  goToProduct(product: IProductComplete): void {
+  goToProduct(product: IProduct): void {
     this.router.navigate([
       'produs',
       product.category,
       product.title,
       product.id,
     ]);
+  }
+  private addSingleImage(API_KEY: string, form: FormData): void {
+    this.imageService
+      .addImage(API_KEY, form)
+      .pipe(take(1))
+      .subscribe(
+        (data) => {},
+        (err) => {
+          this.errorMessage = err.error.message;
+          this.isLoading = false;
+          return;
+        }
+      );
+  }
+  private getCategories(): void {
+    this.isLoading = true;
+    this.productService
+      .getAllCategories()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          for (let category of data.count) {
+            this.categoryOptions.push(category.category);
+          }
+          this.categoryOptions.sort();
+          this.isLoading = false;
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
+    this.setCategoryFilteredOptions();
+  }
+  private resetData(images: HTMLInputElement[]): void {
+    this.title = '';
+    this.categoryControl = new FormControl();
+    this.publicSelectValue = true;
+    this.productDescription = '';
+    this.categoryOptions = [];
+    for (let i = 0; i < images.length; i++) {
+      (images[i] as HTMLInputElement).value = '';
+    }
+    this.successMessage = 'Produsul a fost adaugat cu succes. ';
+    this.isLoading = false;
+  }
+  private setCategoryFilteredOptions(): void {
+    this.categoryFilteredOptions = this.categoryControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.categoryOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 }

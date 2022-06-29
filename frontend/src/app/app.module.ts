@@ -44,6 +44,7 @@ import { EditProductComponent } from './components/edit-product/edit-product.com
 import { ArticleComponent } from './pages/article/article.component';
 import { CarouselAdminComponent } from './components/carousel-admin/carousel-admin.component';
 import { MatPaginatorIntlCro } from './helpers/customClass';
+import { GdprPolicyComponent } from './pages/gdpr-policy/gdpr-policy.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { MatPaginatorIntlCro } from './helpers/customClass';
     EditProductComponent,
     ArticleComponent,
     CarouselAdminComponent,
+    GdprPolicyComponent,
   ],
   imports: [
     BrowserModule,

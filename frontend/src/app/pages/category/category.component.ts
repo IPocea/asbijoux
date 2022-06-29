@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IProductComplete } from 'src/app/interfaces/product.interface';
+import { IProduct } from 'src/app/interfaces/product.interface';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
 import { ScrollService } from 'src/app/services/scroll.service';
@@ -14,8 +14,8 @@ import { ScrollService } from 'src/app/services/scroll.service';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-  products: IProductComplete[] = [];
-  selectedProducts: IProductComplete[] = [];
+  products: IProduct[] = [];
+  selectedProducts: IProduct[] = [];
   category: string = '';
   isLoading: boolean = false;
   length: number;
@@ -41,13 +41,28 @@ export class CategoryComponent implements OnInit {
     }
     this.getParams();
   }
-  getParams(): void {
+  goToProduct(product: IProduct): void {
+    this.router.navigate([
+      '/produs',
+      product.category,
+      product.title,
+      product.id,
+    ]);
+  }
+  handlePageEvent(event: PageEvent) {
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.selectPageAndFillWithData();
+    this.scrollService.scrollTo('category-component-card-container');
+  }
+  private getParams(): void {
     this.route.params.subscribe((params) => {
       this.category = params['name'];
       this.getData(params['name']);
     });
   }
-  getData(params: string): void {
+  private getData(params: string): void {
     this.isLoading = true;
     this.productService
       .getAllBySelectedCategory(params)
@@ -76,23 +91,7 @@ export class CategoryComponent implements OnInit {
         }
       );
   }
-  goToProduct(product: IProductComplete): void {
-    this.router.navigate([
-      '/produs',
-      product.category,
-      product.title,
-      product.id,
-    ]);
-  }
-  handlePageEvent(event: PageEvent) {
-    this.length = event.length;
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.selectPageAndFillWithData();
-    this.scrollService.scrollTo('category-component-card-container');
-  }
-
-  selectPageAndFillWithData(): void {
+  private selectPageAndFillWithData(): void {
     if (this.pageIndex === 0) {
       this.selectedProducts = [];
       if (this.length < this.pageSize) {

@@ -7,7 +7,9 @@
 <ng-container *ngIf="!isLoading">
   <div class="comments-admin-component-container">
     <h2>Administreaza comentariile</h2>
-    <h3>Numarul total de comentarii: {{ filteredComments.length }}</h3>
+    <h3>
+      Numarul total de comentarii utilizatori: {{ filteredComments.length }}
+    </h3>
     <div class="comments-admin-search">
       <mat-form-field class="example-form-field" appearance="outline">
         <mat-label>Cauta produs</mat-label>
@@ -129,7 +131,7 @@
               [disabled]="isDisabled"
             >
               <mat-icon
-                (click)="deleteComment(comment)"
+                (click)="deleteFullComment(comment)"
                 title="Sterge comentariul"
                 >delete</mat-icon
               >

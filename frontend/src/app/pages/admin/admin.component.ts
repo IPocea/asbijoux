@@ -77,22 +77,6 @@ export class AdminComponent implements OnInit {
     this.setClassActive(0);
     this.setComponentActive(0);
   }
-  relog(): void {
-    this.storageService.signOut();
-    this.authService
-      .logout()
-      .pipe(take(1))
-      .subscribe(
-        (data) => {
-          this.isLoggedIn = false;
-          this.isLoading = true;
-          this.router.navigate(['logare']);
-        },
-        (err) => {
-          this.isLoading = false;
-        }
-      );
-  }
   getProfile(): void {
     this.setClassActive(0);
     this.setComponentActive(0);
@@ -117,6 +101,22 @@ export class AdminComponent implements OnInit {
     this.setClassActive(4);
     this.setComponentActive(4);
     this.scroll.scrollTo('right-side-admin');
+  }
+  relog(): void {
+    this.storageService.signOut();
+    this.authService
+      .logout()
+      .pipe(take(1))
+      .subscribe(
+        (data) => {
+          this.isLoggedIn = false;
+          this.isLoading = true;
+          this.router.navigate(['logare']);
+        },
+        (err) => {
+          this.isLoading = false;
+        }
+      );
   }
   private setClassActive(liIndex: number): void {
     this.classUser = '';

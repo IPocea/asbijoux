@@ -1,4 +1,4 @@
-import { IProductSimple } from './product.interface';
+import { IProduct } from './product.interface';
 
 export interface IComment {
   id?: number;
@@ -7,7 +7,7 @@ export interface IComment {
   email: string;
   isActivated?: boolean;
   productId: number | null;
-  product?: IProductSimple;
+  product?: IProduct;
   createdAt?: string;
   updatedAt?: string;
   reply_comments?: IReplyComment[];

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IProductComplete } from 'src/app/interfaces';
+import { IProduct } from 'src/app/interfaces';
 import { CommentService } from 'src/app/services/comment.service';
 import { ImageService } from 'src/app/services/image.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
-  product: IProductComplete;
+  product: IProduct;
   isLoading: boolean = false;
   selectedImageClass: string = 'img-slide';
   API_KEY_COMMENTS: string = '';
@@ -42,12 +42,12 @@ export class ProductComponent implements OnInit {
         }
       );
   }
-  getParams(): void {
+  private getParams(): void {
     this.route.params.subscribe((params) => {
       this.getData(+params['id']);
     });
   }
-  getData(id: number): void {
+  private getData(id: number): void {
     this.isLoading = true;
     this.productService
       .getProductActiveComments(id)

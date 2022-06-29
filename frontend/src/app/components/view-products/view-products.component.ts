@@ -13,8 +13,8 @@ import {
   IObjCommentsForDelete,
   IObjImagesForDelete,
   IObjReplyCommentsForDelete,
-  IProductComplete,
   ICheckbox,
+  IProduct,
 } from 'src/app/interfaces';
 import { ProductService } from 'src/app/services/product.service';
 import { ScrollService } from 'src/app/services/scroll.service';
@@ -35,8 +35,8 @@ export class ViewProductsComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   selectedProductId: number;
-  products: IProductComplete[] = [];
-  filteredProducts: IProductComplete[] = [];
+  products: IProduct[] = [];
+  filteredProducts: IProduct[] = [];
   searchValue: string = '';
   categoryControl = new FormControl('');
   categoryOptions: string[] = [];
@@ -46,7 +46,7 @@ export class ViewProductsComponent implements OnInit {
   pageSizeOptions: number[] = [10, 25, 50];
   pageIndex: number = 0;
   showFirstLastButtons: BooleanInput = true;
-  selectedProducts: IProductComplete[] = [];
+  selectedProducts: IProduct[] = [];
   filterCheckbox: ICheckbox = {
     published: false,
     unpublished: false,
@@ -166,7 +166,7 @@ export class ViewProductsComponent implements OnInit {
     this.length = this.filteredProducts.length;
     this.selectPageAndFillWithData();
   }
-  deleteFullProduct(product: IProductComplete): void {
+  deleteFullProduct(product: IProduct): void {
     const result = confirm(
       `Esti singur ca doresti sa stergi produsul ${product.title}?`
     );
@@ -194,11 +194,11 @@ export class ViewProductsComponent implements OnInit {
       }
     }
   }
-  editProduct(product: IProductComplete): void {
+  editProduct(product: IProduct): void {
     this.selectedProductId = product.id;
     this.isEditing = true;
   }
-  goToProduct(product: IProductComplete): void {
+  goToProduct(product: IProduct): void {
     this.router.navigate([
       'produs',
       product.category,
@@ -213,14 +213,14 @@ export class ViewProductsComponent implements OnInit {
     this.selectPageAndFillWithData();
     this.scrollService.scrollTo('view-products-table');
   }
-  publishProduct(product: IProductComplete): void {
+  publishProduct(product: IProduct): void {
     this.toggleIsPublished(
       product,
       true,
       `Produsul ${product.title} a fost publicat cu succes`
     );
   }
-  publishNotProduct(product: IProductComplete): void {
+  publishNotProduct(product: IProduct): void {
     this.toggleIsPublished(
       product,
       false,
@@ -263,7 +263,7 @@ export class ViewProductsComponent implements OnInit {
     );
   }
   private deleteImages(
-    product: IProductComplete,
+    product: IProduct,
     hasComments: boolean,
     hasReplyComments: boolean
   ) {
@@ -292,7 +292,7 @@ export class ViewProductsComponent implements OnInit {
         }
       );
   }
-  private deleteReplyComments(product: IProductComplete): void {
+  private deleteReplyComments(product: IProduct): void {
     const replyCommentsArray: IDeleteAllReplyComments[] = [];
     for (let comment of product.comments) {
       for (let reply of comment.reply_comments) {
@@ -315,7 +315,7 @@ export class ViewProductsComponent implements OnInit {
         }
       );
   }
-  private deleteComments(product: IProductComplete): void {
+  private deleteComments(product: IProduct): void {
     const commentsArray: IDeleteAllComments[] = [];
     for (let comment of product.comments) {
       commentsArray.push({ id: comment.id });
@@ -336,7 +336,7 @@ export class ViewProductsComponent implements OnInit {
         }
       );
   }
-  private deleteSingleProduct(product: IProductComplete): void {
+  private deleteSingleProduct(product: IProduct): void {
     this.productServices
       .deleteProduct(this.API_KEY, product.id)
       .pipe(take(1))
@@ -454,12 +454,12 @@ export class ViewProductsComponent implements OnInit {
     });
   }
   private toggleIsPublished(
-    product: IProductComplete,
+    product: IProduct,
     status: boolean,
     message: string
   ): void {
     this.isLoading = true;
-    const modifiedProduct: IProductComplete = {
+    const modifiedProduct: IProduct = {
       id: product.id,
       title: product.title,
       description: product.description,

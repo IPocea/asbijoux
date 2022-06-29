@@ -6,7 +6,7 @@ import {
   IImageSimple,
   IObjImagesForDelete,
 } from '../interfaces/image.interface';
-import { IProductComplete } from '../interfaces/product.interface';
+import { IProduct } from '../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class ImageService {
       images
     );
   }
-  sortImages(product: IProductComplete): void {
+  sortImages(product: IProduct): void {
     product.images.sort((a, b) =>
       a.isMainImage > b.isMainImage ? -1 : b.isMainImage > a.isMainImage ? 1 : 0
     );

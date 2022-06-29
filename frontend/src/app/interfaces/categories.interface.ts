@@ -1,8 +1,8 @@
-import { IProductSimple } from './product.interface';
+import { IProduct } from './product.interface';
 
 export interface ICategories {
   count: ICategory[];
-  rows: IProductSimple[];
+  rows: IProduct[];
 }
 
 export interface ICategory {

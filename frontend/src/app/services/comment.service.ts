@@ -1,11 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  IComment,
-  IObjCommentsForDelete,
-  IProductComplete,
-} from '../interfaces';
+import { IComment, IObjCommentsForDelete, IProduct } from '../interfaces';
 import { IEditDeleteResponse } from '../interfaces/edit-delete.interface';
 
 @Injectable({
@@ -13,7 +9,7 @@ import { IEditDeleteResponse } from '../interfaces/edit-delete.interface';
 })
 export class CommentService {
   constructor(private http: HttpClient) {}
-  sortComments(product: IProductComplete): void {
+  sortComments(product: IProduct): void {
     product.comments.sort((a, b) =>
       a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
     );

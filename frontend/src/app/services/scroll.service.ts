@@ -16,4 +16,12 @@ export class ScrollService {
       }, 500);
     }
   }
+  scrollToIgnoreWidth(id: string): void {
+    setTimeout(() => {
+      document.getElementById(id).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 500);
+  }
 }

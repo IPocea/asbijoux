@@ -1,4 +1,4 @@
-import { IProductSimple } from './product.interface';
+import { IProduct } from './product.interface';
 
 export interface ICarousel {
   id?: number;
@@ -9,7 +9,7 @@ export interface ICarousel {
   createdAt?: string;
   updatedAt?: string;
   productId: number;
-  product?: IProductSimple;
+  product?: IProduct;
 }
 
 export interface IDeleteAllCarouselImages {

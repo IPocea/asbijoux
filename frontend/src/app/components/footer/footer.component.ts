@@ -16,7 +16,11 @@ export class FooterComponent implements OnInit {
     this.currentYear = today.getFullYear();
   }
   goToHome(): void {
-    this.scroll.scrollTo('app-component-header');
+    this.scroll.scrollToIgnoreWidth('app-component-header');
     this.router.navigate(['/pagina-principala']);
+  }
+  goToPolicy(): void {
+    this.scroll.scrollToIgnoreWidth('app-component-header');
+    this.router.navigate(['/politica-de-confidentialitate']);
   }
 }

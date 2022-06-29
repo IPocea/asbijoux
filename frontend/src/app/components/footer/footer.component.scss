@@ -19,6 +19,12 @@
       div {
         display: flex;
         flex-direction: column;
+        p {
+          cursor: pointer;
+        }
+        p:hover {
+          border-bottom: 1px solid $white;
+        }
         div {
           display: flex;
           flex-direction: column;

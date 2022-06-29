@@ -1,4 +1,4 @@
-import { IProductSimple } from './product.interface';
+import { IProduct } from './product.interface';
 
 export interface IImageSimple {
   id?: number;
@@ -8,7 +8,7 @@ export interface IImageSimple {
   createdAt?: string;
   updatedAt?: string;
   productId: number | null;
-  product?: IProductSimple | null;
+  product?: IProduct | null;
   isMainImage?: boolean | null;
 }
 
