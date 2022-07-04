@@ -21,7 +21,7 @@ export class CommentService {
   }
   addComment(comment: IComment): Observable<IComment> {
     return this.http.post<IComment>(
-      'http://localhost:8080/api/comments/',
+      'https://asbijoux.herokuapp.com/api/comments/',
       comment
     );
   }
@@ -30,16 +30,18 @@ export class CommentService {
     comment: IComment
   ): Observable<IEditDeleteResponse> {
     return this.http.put<IEditDeleteResponse>(
-      `http://localhost:8080/api/comments/${API_KEY}/${comment.id}`,
+      `https://asbijoux.herokuapp.com/api/comments/${API_KEY}/${comment.id}`,
       comment
     );
   }
   getComments(): Observable<IComment[]> {
-    return this.http.get<IComment[]>('http://localhost:8080/api/comments/');
+    return this.http.get<IComment[]>(
+      'https://asbijoux.herokuapp.com/api/comments/'
+    );
   }
   deleteComment(API_KEY: string, id: number): Observable<IEditDeleteResponse> {
     return this.http.delete<IEditDeleteResponse>(
-      `http://localhost:8080/api/comments/${API_KEY}/${id}`
+      `https://asbijoux.herokuapp.com/api/comments/${API_KEY}/${id}`
     );
   }
   deleteAllComments(
@@ -47,7 +49,7 @@ export class CommentService {
     ids: IObjCommentsForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `http://localhost:8080/api/comments/${API_KEY}/delete-all`,
+      `https://asbijoux.herokuapp.com/api/comments/${API_KEY}/delete-all`,
       ids
     );
   }

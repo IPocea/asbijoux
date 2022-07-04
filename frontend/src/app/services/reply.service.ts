@@ -32,7 +32,7 @@ export class ReplyService {
     reply: IReplyComment
   ): Observable<IEditDeleteResponse> {
     return this.http.put<IEditDeleteResponse>(
-      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/${id}`,
+      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/${id}`,
       reply
     );
   }
@@ -41,7 +41,7 @@ export class ReplyService {
     id: number
   ): Observable<IEditDeleteResponse> {
     return this.http.delete<IEditDeleteResponse>(
-      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/${id}`
+      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/${id}`
     );
   }
   deleteAllReplyComments(
@@ -49,7 +49,7 @@ export class ReplyService {
     ids: IObjReplyCommentsForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/delete-all`,
+      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/delete-all`,
       ids
     );
   }

@@ -14,7 +14,7 @@ export class CarouselService {
   constructor(private http: HttpClient) {}
   getAllImages(): Observable<ICarousel[]> {
     return this.http.get<ICarousel[]>(
-      'http://localhost:8080/api/carousel-images'
+      'https://asbijoux.herokuapp.com/api/carousel-images'
     );
   }
   sortImages(carouselImages: ICarousel[]) {
@@ -27,7 +27,7 @@ export class CarouselService {
     carousel: ICarousel
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `http://localhost:8080/api/carousel-images/${API_KEY}/unlink`,
+      `https://asbijoux.herokuapp.com/api/carousel-images/${API_KEY}/unlink`,
       {
         fileName: carousel.name,
         id: carousel.id,
@@ -39,13 +39,13 @@ export class CarouselService {
     carouselImages: IObjCarouselImagesForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `http://localhost:8080/api/carousel-images/${API_KEY}/unlink-all`,
+      `https://asbijoux.herokuapp.com/api/carousel-images/${API_KEY}/unlink-all`,
       carouselImages
     );
   }
   adImage(API_KEY: string, form: FormData): Observable<ICarousel> {
     return this.http.post<ICarousel>(
-      `http://localhost:8080/api/carousel-images/${API_KEY}/upload`,
+      `https://asbijoux.herokuapp.com/api/carousel-images/${API_KEY}/upload`,
       form
     );
   }
