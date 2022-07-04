@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
+// const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 verifyToken = (req, res, next) => {
@@ -9,7 +9,7 @@ verifyToken = (req, res, next) => {
 			message: "Tokenul nu a fost oferit!",
 		});
 	}
-	jwt.verify(token, config.secret, (err, decoded) => {
+	jwt.verify(token, process.env.SECRET, (err, decoded) => {
 		if (err) {
 			return res.status(401).send({
 				message: "Neautorizat!",
