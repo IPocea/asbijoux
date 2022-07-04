@@ -48,13 +48,13 @@ db.sequelize.sync();
 app.get("/", (req, res) => {
 	res.json({ message: "Welcome to AsBijoux." });
 });
-// require("./app/routes/auth.routes.js")(app);
-// require("./app/routes/user.routes.js")(app);
-// require("./app/routes/product.routes.js")(app);
-// require("./app/routes/comment.routes.js")(app);
-// require("./app/routes/image.routes.js")(app);
-// require("./app/routes/carousel-image.routes.js")(app);
-// require("./app/routes/replyComment.routes.js")(app);
+require("./app/routes/auth.routes.js")(app);
+require("./app/routes/user.routes.js")(app);
+require("./app/routes/product.routes.js")(app);
+require("./app/routes/comment.routes.js")(app);
+require("./app/routes/image.routes.js")(app);
+require("./app/routes/carousel-image.routes.js")(app);
+require("./app/routes/replyComment.routes.js")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
