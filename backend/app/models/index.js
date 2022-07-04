@@ -10,10 +10,10 @@ const sequelize = new Sequelize(
 		dialect: process.env.DB_DIALECT,
 		operatorsAliases: 0,
 		pool: {
-			max: process.env.MAX_POOL,
-			min: process.env.MIN_POOL,
-			acquire: process.env.POOL_AQUIRE,
-			idle: process.env.POOL_IDLE,
+			max: process.env.MAX_POOL || 20,
+			min: process.env.MIN_POOL || 1,
+			acquire: process.env.POOL_AQUIRE || 1000,
+			idle: process.env.POOL_IDLE || 1000,
 		},
 	}
 );
