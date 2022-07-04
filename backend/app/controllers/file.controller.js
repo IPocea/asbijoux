@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { uploadFileMiddleware } = require("../middleware");
 const { unlink } = require("fs").promises;
-const baseUrl = "http://localhost:8080/api/images/files/";
+const baseUrl = "https://asbijoux.herokuapp.com/api/images/files/";
 const directoryPath = process.env.directoryPath;
 const db = require("../models");
 const Image = db.images;

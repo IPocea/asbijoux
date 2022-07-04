@@ -30,6 +30,7 @@ app.use(
 		keys: [process.env.key1 || "test"],
 		secret: process.env.secret || "test", // should use as secret environment variable
 		httpOnly: true,
+		secure: true,
 	})
 );
 const db = require("./app/models");

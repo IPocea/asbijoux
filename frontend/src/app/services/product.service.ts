@@ -11,13 +11,13 @@ export class ProductService {
   constructor(private http: HttpClient) {}
   addProduct(API_KEY: string, product: IProduct): Observable<IProduct> {
     return this.http.post<IProduct>(
-      `http://localhost:8080/api/products/${API_KEY}/`,
+      `https://asbijoux.herokuapp.com/api/products/${API_KEY}/`,
       product
     );
   }
   deleteProduct(API_KEY: string, id: number): Observable<IProduct> {
     return this.http.delete<IProduct>(
-      `http://localhost:8080/api/products/${API_KEY}/${id}`
+      `https://asbijoux.herokuapp.com/api/products/${API_KEY}/${id}`
     );
   }
   editProduct(

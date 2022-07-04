@@ -14,7 +14,7 @@ export class ReplyService {
   constructor(private http: HttpClient) {}
   getReplyCommentByCommentId(id: number): Observable<IReplyComment[]> {
     return this.http.get<IReplyComment[]>(
-      `http://localhost:8080/api/reply-comments?commentId=${id}`
+      `https://asbijoux.herokuapp.com/api/reply-comments?commentId=${id}`
     );
   }
   addReplyComment(
@@ -22,7 +22,7 @@ export class ReplyService {
     replyComment: IReplyComment
   ): Observable<IReplyComment> {
     return this.http.post<IReplyComment>(
-      `http://localhost:8080/api/reply-comments/${API_KEY_COMMENTS}/`,
+      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/`,
       replyComment
     );
   }

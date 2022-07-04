@@ -51,7 +51,7 @@ exports.signin = async (req, res) => {
 				message: "Parola invalida!",
 			});
 		}
-		const token = jwt.sign({ id: user.id }, process.env.SECRET, {
+		const token = jwt.sign({ id: user.id }, process.env.secret, {
 			expiresIn: 432000, // 24 hours 86400
 		});
 		let authorities = [];
