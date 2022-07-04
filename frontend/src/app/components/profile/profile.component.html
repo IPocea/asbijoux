@@ -1,3 +1,4 @@
+<h1>Panou de administrare</h1>
 <div id="profile-component">
   <ng-container *ngIf="isLoading">
     <div class="spinner-container">
@@ -6,12 +7,10 @@
   </ng-container>
 
   <ng-container *ngIf="!isLoading">
-    <h1>Panou de administrare</h1>
-
     <div id="profile-container">
       <h2>Bine ai revenit {{ user.username }}</h2>
       <p>Email: {{ user.email }}</p>
-      <img src="assets/ionita-grigore.jpg" alt="User Picture" />
+      <img src="assets/logo-asbijoux.jpg" alt="User Picture" />
       <p>
         Privilegii: {{ user.roles[0].slice(user.roles[0].indexOf("_") + 1) }}
       </p>

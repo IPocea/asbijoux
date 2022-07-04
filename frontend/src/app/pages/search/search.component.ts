@@ -55,7 +55,7 @@ export class SearchComponent implements OnInit {
   private getParams(): void {
     this.route.params.subscribe((params) => {
       this.title = params['name'];
-      this.getData(params['name']);
+      this.getData(this.title);
     });
   }
   private getData(params: string): void {
