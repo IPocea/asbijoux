@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const app = express();
-require("dotenv").config();
+// require("dotenv").config();
 app.use(
 	cors({
 		credentials: true,
