@@ -3,12 +3,23 @@ const cors = require("cors");
 const cookieSession = require("cookie-session");
 const app = express();
 require("dotenv").config();
-app.use(
-	cors({
-		credentials: true,
-		origin: ["https://asbijoux.ro/", "*"],
-	})
-);
+// app.use(
+// 	cors({
+// 		credentials: true,
+// 		origin: ["https://asbijoux.ro/", "*"],
+// 	})
+// );
+app.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Credentials", true);
+	res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin,X-Requested-With,Content-Type,Accept,content-type,application/json"
+	);
+	next();
+});
+
 // parse requests of content-type - application/json
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
