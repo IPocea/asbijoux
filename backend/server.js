@@ -6,7 +6,7 @@ require("dotenv").config();
 app.use(
 	cors({
 		credentials: true,
-		origin: ["http://localhost:4200"],
+		origin: "*",
 	})
 );
 // parse requests of content-type - application/json
@@ -16,18 +16,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
 	cookieSession({
 		name: "user-session",
-		keys: [process.env.key1],
-		secret: process.env.secret, // should use as secret environment variable
+		keys: [process.env.key1 || "test"],
+		secret: process.env.secret || "test", // should use as secret environment variable
 		httpOnly: true,
 	})
 );
-const db = require("./app/models");
-const Role = db.role;
+// const db = require("./app/models");
+// const Role = db.role;
 // db.sequelize.sync({ force: true }).then(() => {
 // 	console.log("Drop and Resync Db");
 // 	initial();
 // });
-db.sequelize.sync();
+// db.sequelize.sync();
 // function initial() {
 // 	Role.create({
 // 		id: 1,
@@ -48,13 +48,13 @@ db.sequelize.sync();
 app.get("/", (req, res) => {
 	res.json({ message: "Welcome to AsBijoux." });
 });
-require("./app/routes/auth.routes.js")(app);
-require("./app/routes/user.routes.js")(app);
-require("./app/routes/product.routes.js")(app);
-require("./app/routes/comment.routes.js")(app);
-require("./app/routes/image.routes.js")(app);
-require("./app/routes/carousel-image.routes.js")(app);
-require("./app/routes/replyComment.routes.js")(app);
+// require("./app/routes/auth.routes.js")(app);
+// require("./app/routes/user.routes.js")(app);
+// require("./app/routes/product.routes.js")(app);
+// require("./app/routes/comment.routes.js")(app);
+// require("./app/routes/image.routes.js")(app);
+// require("./app/routes/carousel-image.routes.js")(app);
+// require("./app/routes/replyComment.routes.js")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
