@@ -75,8 +75,6 @@ export class EditProductComponent implements OnInit {
           },
           (err) => {
             this.errorMessage = err.message || err.message.message;
-            console.log(err);
-
             this.isLoading = false;
           }
         );

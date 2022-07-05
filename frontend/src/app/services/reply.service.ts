@@ -14,7 +14,7 @@ export class ReplyService {
   constructor(private http: HttpClient) {}
   getReplyCommentByCommentId(id: number): Observable<IReplyComment[]> {
     return this.http.get<IReplyComment[]>(
-      `https://asbijoux.herokuapp.com/api/reply-comments?commentId=${id}`
+      `https://asbijoux.ro:60502/api/reply-comments?commentId=${id}`
     );
   }
   addReplyComment(
@@ -22,7 +22,7 @@ export class ReplyService {
     replyComment: IReplyComment
   ): Observable<IReplyComment> {
     return this.http.post<IReplyComment>(
-      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/`,
+      `https://asbijoux.ro:60502/api/reply-comments/${API_KEY_COMMENTS}/`,
       replyComment
     );
   }
@@ -32,7 +32,7 @@ export class ReplyService {
     reply: IReplyComment
   ): Observable<IEditDeleteResponse> {
     return this.http.put<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/${id}`,
+      `https://asbijoux.ro:60502/api/reply-comments/${API_KEY_COMMENTS}/${id}`,
       reply
     );
   }
@@ -41,7 +41,7 @@ export class ReplyService {
     id: number
   ): Observable<IEditDeleteResponse> {
     return this.http.delete<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/${id}`
+      `https://asbijoux.ro:60502/api/reply-comments/${API_KEY_COMMENTS}/${id}`
     );
   }
   deleteAllReplyComments(
@@ -49,7 +49,7 @@ export class ReplyService {
     ids: IObjReplyCommentsForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/reply-comments/${API_KEY_COMMENTS}/delete-all`,
+      `https://asbijoux.ro:60502/api/reply-comments/${API_KEY_COMMENTS}/delete-all`,
       ids
     );
   }

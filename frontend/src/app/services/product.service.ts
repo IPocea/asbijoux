@@ -11,13 +11,13 @@ export class ProductService {
   constructor(private http: HttpClient) {}
   addProduct(API_KEY: string, product: IProduct): Observable<IProduct> {
     return this.http.post<IProduct>(
-      `https://asbijoux.herokuapp.com/api/products/${API_KEY}/`,
+      `https://asbijoux.ro:60502/api/products/${API_KEY}/`,
       product
     );
   }
   deleteProduct(API_KEY: string, id: number): Observable<IProduct> {
     return this.http.delete<IProduct>(
-      `https://asbijoux.herokuapp.com/api/products/${API_KEY}/${id}`
+      `https://asbijoux.ro:60502/api/products/${API_KEY}/${id}`
     );
   }
   editProduct(
@@ -25,43 +25,41 @@ export class ProductService {
     product: IProduct
   ): Observable<IEditDeleteResponse> {
     return this.http.put<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/products/${API_KEY}/${product.id}`,
+      `https://asbijoux.ro:60502/api/products/${API_KEY}/${product.id}`,
       product
     );
   }
   getAllProducts(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(
-      'https://asbijoux.herokuapp.com/api/products'
-    );
+    return this.http.get<IProduct[]>('http://asbijoux.ro:60502/api/products');
   }
   getAllCategories(): Observable<ICategories> {
     return this.http.get<ICategories>(
-      'https://asbijoux.herokuapp.com/api/products/find/categories'
+      'https://asbijoux.ro:60502/api/products/find/categories'
     );
   }
   getAlllPublishedCategories(): Observable<ICategories> {
     return this.http.get<ICategories>(
-      'https://asbijoux.herokuapp.com/api/products/find/published/categories'
+      'https://asbijoux.ro:60502/api/products/find/published/categories'
     );
   }
   getAllBySelectedCategory(params: string): Observable<IProduct[]> {
     return this.http.get<IProduct[]>(
-      `https://asbijoux.herokuapp.com/api/products/find/category?category=${params}`
+      `https://asbijoux.ro:60502/api/products/find/category?category=${params}`
     );
   }
   getProduct(id: number): Observable<IProduct> {
     return this.http.get<IProduct>(
-      `https://asbijoux.herokuapp.com/api/products/${id}`
+      `https://asbijoux.ro:60502/api/products/${id}`
     );
   }
   getProductActiveComments(id: number): Observable<IProduct> {
     return this.http.get<IProduct>(
-      `https://asbijoux.herokuapp.com/api/products/active-comments/${id}`
+      `https://asbijoux.ro:60502/api/products/active-comments/${id}`
     );
   }
   getProductsByTitle(title: string): Observable<IProduct[]> {
     return this.http.get<IProduct[]>(
-      `https://asbijoux.herokuapp.com/api/products?title=${title}`
+      `https://asbijoux.ro:60502/api/products?title=${title}`
     );
   }
 }

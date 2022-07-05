@@ -15,7 +15,7 @@ export class ImageService {
   constructor(private http: HttpClient) {}
   addImage(API_KEY: string, form: FormData): Observable<IImageSimple> {
     return this.http.post<IImageSimple>(
-      `https://asbijoux.herokuapp.com/api/images/${API_KEY}/upload`,
+      `https://asbijoux.ro:60502/api/images/${API_KEY}/upload`,
       form
     );
   }
@@ -24,7 +24,7 @@ export class ImageService {
     image: IImageSimple
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/images/${API_KEY}/unlink`,
+      `https://asbijoux.ro:60502/api/images/${API_KEY}/unlink`,
       { fileName: image.name, imageId: image.id }
     );
   }
@@ -33,7 +33,7 @@ export class ImageService {
     images: IObjImagesForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/images/${API_KEY}/unlink-all`,
+      `https://asbijoux.ro:60502/api/images/${API_KEY}/unlink-all`,
       images
     );
   }

@@ -27,7 +27,7 @@ export class CarouselService {
     carousel: ICarousel
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/carousel-images/${API_KEY}/unlink`,
+      `https://asbijoux.ro:60502/api/carousel-images/${API_KEY}/unlink`,
       {
         fileName: carousel.name,
         id: carousel.id,
@@ -39,13 +39,13 @@ export class CarouselService {
     carouselImages: IObjCarouselImagesForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.herokuapp.com/api/carousel-images/${API_KEY}/unlink-all`,
+      `https://asbijoux.ro:60502/api/carousel-images/${API_KEY}/unlink-all`,
       carouselImages
     );
   }
   adImage(API_KEY: string, form: FormData): Observable<ICarousel> {
     return this.http.post<ICarousel>(
-      `https://asbijoux.herokuapp.com/api/carousel-images/${API_KEY}/upload`,
+      `https://asbijoux.ro:60502/api/carousel-images/${API_KEY}/upload`,
       form
     );
   }

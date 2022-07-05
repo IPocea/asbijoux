@@ -1,5 +1,5 @@
 const db = require("../models");
-// const config = require("../config/auth.config.js");
+const config = require("../config/auth.config.js");
 const User = db.user;
 const Role = db.role;
 const Op = db.Sequelize.Op;
@@ -51,7 +51,7 @@ exports.signin = async (req, res) => {
 				message: "Parola invalida!",
 			});
 		}
-		const token = jwt.sign({ id: user.id }, process.env.secret, {
+		const token = jwt.sign({ id: user.id }, config.secret, {
 			expiresIn: 432000, // 24 hours 86400
 		});
 		let authorities = [];
