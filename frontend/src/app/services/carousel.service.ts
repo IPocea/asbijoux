@@ -14,7 +14,7 @@ export class CarouselService {
   constructor(private http: HttpClient) {}
   getAllImages(): Observable<ICarousel[]> {
     return this.http.get<ICarousel[]>(
-      'https://asbijoux.herokuapp.com/api/carousel-images'
+      'https://asbijoux.ro:60502/api/carousel-images'
     );
   }
   sortImages(carouselImages: ICarousel[]) {

@@ -8,7 +8,7 @@ require("dotenv").config();
 app.use(
 	cors({
 		credentials: true,
-		origin: ["https://www.asbijoux.ro"],
+		origin: ["https://www.asbijoux.ro", "https://asbijoux.ro"],
 	})
 );
 app.use(express.json());
