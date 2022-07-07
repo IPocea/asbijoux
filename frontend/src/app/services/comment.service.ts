@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IComment, IObjCommentsForDelete, IProduct } from '../interfaces';
 import { IEditDeleteResponse } from '../interfaces/edit-delete.interface';
-
+const BASE_API = 'http://localhost:8080/api';
 @Injectable({
   providedIn: 'root',
 })
@@ -20,26 +20,23 @@ export class CommentService {
     );
   }
   addComment(comment: IComment): Observable<IComment> {
-    return this.http.post<IComment>(
-      'https://asbijoux.ro:60502/api/comments/',
-      comment
-    );
+    return this.http.post<IComment>(BASE_API + '/comments/', comment);
   }
   activateComment(
     API_KEY: string,
     comment: IComment
   ): Observable<IEditDeleteResponse> {
     return this.http.put<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/comments/${API_KEY}/${comment.id}`,
+      BASE_API + `/comments/${API_KEY}/${comment.id}`,
       comment
     );
   }
   getComments(): Observable<IComment[]> {
-    return this.http.get<IComment[]>('http://asbijoux.ro:60502/api/comments/');
+    return this.http.get<IComment[]>(BASE_API + '/comments/');
   }
   deleteComment(API_KEY: string, id: number): Observable<IEditDeleteResponse> {
     return this.http.delete<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/comments/${API_KEY}/${id}`
+      BASE_API + `/comments/${API_KEY}/${id}`
     );
   }
   deleteAllComments(
@@ -47,7 +44,7 @@ export class CommentService {
     ids: IObjCommentsForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/comments/${API_KEY}/delete-all`,
+      BASE_API + `/comments/${API_KEY}/delete-all`,
       ids
     );
   }

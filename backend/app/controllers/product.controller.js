@@ -53,6 +53,36 @@ exports.findAll = (req, res) => {
 			});
 		});
 };
+exports.findAllPublic = (req, res) => {
+	const title = req.query.title;
+	let condition = title
+		? { title: { [Op.like]: `%${title}%` }, [Op.not]: [{ isPublished: false }] }
+		: { [Op.not]: [{ isPublished: false }] };
+	Product.findAll({
+		include: [
+			{
+				model: db.comments,
+				as: "comments",
+				attributes: { exclude: ["email"] },
+				required: false,
+				where: { [Op.not]: [{ isActivated: false }] },
+				include: { model: db.replyComments, as: "reply_comments" },
+			},
+			{ model: db.images, as: "images" },
+		],
+		where: condition,
+	})
+		.then((data) => {
+			res.send(data);
+		})
+		.catch((err) => {
+			res.status(500).send({
+				message:
+					err.message ||
+					"O eroare a aparut in incercarea de a regasi produsul.",
+			});
+		});
+};
 // Find all Products with selected category
 exports.findAllByCategory = (req, res) => {
 	const category = req.query.category;
@@ -64,13 +94,19 @@ exports.findAllByCategory = (req, res) => {
 						[Op.endsWith]: `${category}`,
 					},
 				},
+				[Op.not]: [{ isPublished: false }],
 		  }
-		: null;
+		: {
+				[Op.not]: [{ isPublished: false }],
+		  };
 	Product.findAll({
 		include: [
 			{
 				model: db.comments,
 				as: "comments",
+				attributes: { exclude: ["email"] },
+				required: false,
+				where: { [Op.or]: [{ isActivated: true }, { isActivated: null }] },
 				include: { model: db.replyComments, as: "reply_comments" },
 			},
 			{ model: db.images, as: "images" },
@@ -131,6 +167,9 @@ exports.findOne = (req, res) => {
 			{
 				model: db.comments,
 				as: "comments",
+				attributes: { exclude: ["email"] },
+				required: false,
+				where: { [Op.or]: [{ isActivated: true }, { isActivated: null }] },
 				include: { model: db.replyComments, as: "reply_comments" },
 			},
 			{ model: db.images, as: "images" },
@@ -158,8 +197,9 @@ exports.findOneActiveComments = (req, res) => {
 			{
 				model: db.comments,
 				as: "comments",
+				attributes: { exclude: ["email"] },
 				required: false, // if no comment exist will still return empty array even if we have where condition bellow
-				where: { [Op.or]: [{ isActivated: true }, { isActivated: null }] },
+				where: { [Op.not]: [{ isActivated: false }] },
 				include: { model: db.replyComments, as: "reply_comments" },
 			},
 			{ model: db.images, as: "images" },
@@ -223,29 +263,6 @@ exports.delete = (req, res) => {
 		.catch((err) => {
 			res.status(500).send({
 				message: "Nu am putut sterge produsul cu id=" + id,
-			});
-		});
-};
-
-// Find all published Products
-exports.findAllPublished = (req, res) => {
-	Product.findAll({
-		include: [
-			{
-				model: db.comments,
-				as: "comments",
-				include: { model: db.replyComments, as: "reply_comments" },
-			},
-			{ model: db.images, as: "images" },
-		],
-		where: { isPublished: true },
-	})
-		.then((data) => {
-			res.send(data);
-		})
-		.catch((err) => {
-			res.status(500).send({
-				message: err.message || "O eroare a aparut in regasirea produselor.",
 			});
 		});
 };

@@ -11,7 +11,7 @@ export class MatPaginatorIntlCro extends MatPaginatorIntl {
 
   override getRangeLabel = function (page, pageSize, length) {
     if (length === 0 || pageSize === 0) {
-      return '0 of ' + length;
+      return '0 din ' + length;
     }
     length = Math.max(length, 0);
     const startIndex = page * pageSize;

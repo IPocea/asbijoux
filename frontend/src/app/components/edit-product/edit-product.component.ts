@@ -197,7 +197,7 @@ export class EditProductComponent implements OnInit {
   private getCategories(): void {
     this.isLoading = true;
     this.productService
-      .getAllCategories()
+      .getAllCategories(this.API_KEY)
       .pipe(take(1))
       .subscribe(
         (data) => {

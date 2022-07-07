@@ -5,15 +5,17 @@ module.exports = (app) => {
 	// Create a new Product
 	router.post(`/${process.env.API_KEY}/`, products.create);
 	// Retrieve all Product
-	router.get("/", products.findAll);
-	// Retrieve all published Product
-	router.get("/published", products.findAllPublished);
+	router.get(`/${process.env.API_KEY}`, products.findAll);
+	router.get("/public", products.findAllPublic);
 	// Retrieve a single Product with id
 	router.get("/:id", products.findOne);
 	// Retrieve a single Product by id with active comments
 	router.get("/active-comments/:id", products.findOneActiveComments);
 	// Retrieve all categories of the Products
-	router.get("/find/categories", products.findAllCategories);
+	router.get(
+		`/find/categories/${process.env.API_KEY}`,
+		products.findAllCategories
+	);
 	// Retrieve all published categories
 	router.get("/find/published/categories", products.findAllPublishedCategories);
 	// Retrieve all Products of the selected category

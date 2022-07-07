@@ -6,7 +6,11 @@ require("dotenv").config();
 app.use(
 	cors({
 		credentials: true,
-		origin: ["https://www.asbijoux.ro"],
+		origin: [
+			"https://www.asbijoux.ro",
+			"https://asbijoux.ro",
+			"http://localhost:4200",
+		],
 	})
 );
 // parse requests of content-type - application/json
@@ -56,7 +60,7 @@ require("./app/routes/image.routes.js")(app);
 require("./app/routes/carousel-image.routes.js")(app);
 require("./app/routes/replyComment.routes.js")(app);
 // set port, listen for requests
-const PORT = process.env.PORT || 60502;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}.`);
 });

@@ -8,6 +8,8 @@ import {
 } from '../interfaces/image.interface';
 import { IProduct } from '../interfaces/product.interface';
 
+const BASE_API = 'http://localhost:8080/api';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +17,7 @@ export class ImageService {
   constructor(private http: HttpClient) {}
   addImage(API_KEY: string, form: FormData): Observable<IImageSimple> {
     return this.http.post<IImageSimple>(
-      `https://asbijoux.ro:60502/api/images/${API_KEY}/upload`,
+      BASE_API + `/images/${API_KEY}/upload`,
       form
     );
   }
@@ -24,7 +26,7 @@ export class ImageService {
     image: IImageSimple
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/images/${API_KEY}/unlink`,
+      BASE_API + `/images/${API_KEY}/unlink`,
       { fileName: image.name, imageId: image.id }
     );
   }
@@ -33,7 +35,7 @@ export class ImageService {
     images: IObjImagesForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/images/${API_KEY}/unlink-all`,
+      BASE_API + `/images/${API_KEY}/unlink-all`,
       images
     );
   }

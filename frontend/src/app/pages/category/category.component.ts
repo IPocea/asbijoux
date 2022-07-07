@@ -73,9 +73,8 @@ export class CategoryComponent implements OnInit {
             this.isLoading = false;
             this.router.navigate(['/pagina-principala']);
           } else {
-            this.products = [];
+            this.products = data;
             this.selectedProducts = [];
-            this.products = data.filter((ele) => ele.isPublished);
             this.length = this.products.length;
             for (let product of this.products) {
               this.imageService.sortImages(product);

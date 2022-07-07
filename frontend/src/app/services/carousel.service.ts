@@ -7,15 +7,15 @@ import {
   IObjCarouselImagesForDelete,
 } from '../interfaces/carousel.interface';
 
+const BASE_API = 'http://localhost:8080/api';
+
 @Injectable({
   providedIn: 'root',
 })
 export class CarouselService {
   constructor(private http: HttpClient) {}
   getAllImages(): Observable<ICarousel[]> {
-    return this.http.get<ICarousel[]>(
-      'https://asbijoux.ro:60502/api/carousel-images'
-    );
+    return this.http.get<ICarousel[]>(BASE_API + '/carousel-images');
   }
   sortImages(carouselImages: ICarousel[]) {
     carouselImages.sort((a, b) => {
@@ -27,7 +27,7 @@ export class CarouselService {
     carousel: ICarousel
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/carousel-images/${API_KEY}/unlink`,
+      BASE_API + `/carousel-images/${API_KEY}/unlink`,
       {
         fileName: carousel.name,
         id: carousel.id,
@@ -39,13 +39,13 @@ export class CarouselService {
     carouselImages: IObjCarouselImagesForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      `https://asbijoux.ro:60502/api/carousel-images/${API_KEY}/unlink-all`,
+      BASE_API + `/carousel-images/${API_KEY}/unlink-all`,
       carouselImages
     );
   }
   adImage(API_KEY: string, form: FormData): Observable<ICarousel> {
     return this.http.post<ICarousel>(
-      `https://asbijoux.ro:60502/api/carousel-images/${API_KEY}/upload`,
+      BASE_API + `/carousel-images/${API_KEY}/upload`,
       form
     );
   }

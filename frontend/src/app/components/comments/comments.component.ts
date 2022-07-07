@@ -194,9 +194,6 @@ export class CommentsComponent implements OnInit {
               (data) => {
                 this.product = data;
                 this.imageService.sortImages(this.product);
-                this.product.comments = data.comments.filter(
-                  (ele) => ele.isActivated
-                );
                 this.isLoading = false;
                 this.commentService.sortComments(this.product);
               },

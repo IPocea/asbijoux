@@ -370,7 +370,7 @@ export class ViewProductsComponent implements OnInit {
   }
   private getCategories(): void {
     this.productServices
-      .getAllCategories()
+      .getAllCategories(this.API_KEY)
       .pipe(take(1))
       .subscribe(
         (res) => {
@@ -390,7 +390,7 @@ export class ViewProductsComponent implements OnInit {
   private getData(): void {
     this.isLoading = true;
     this.productServices
-      .getAllProducts()
+      .getAllProducts(this.API_KEY)
       .pipe(take(1))
       .subscribe(
         (data) => {
