@@ -6,12 +6,10 @@ module.exports = (app) => {
 	// Create a new Image
 	router.post(`/${process.env.API_KEY}/upload`, images.upload);
 	// Retrieve all Images
-	router.get("/", images2.findAll);
+	router.get(`/${process.env.API_KEY}`, images2.findAll);
 	// for working link of Images
-	router.get("/files", images.getListFiles);
+	router.get(`/files/${process.env.API_KEY}`, images.getListFiles);
 	router.get("/files/:name", images.download);
-	// Retrieve a single Image with id
-	router.get("/:id", images2.findOne);
 	// Delete a Image with id
 	router.post(`/${process.env.API_KEY}/unlink`, images.deleteFile);
 	router.post(`/${process.env.API_KEY}/unlink-all`, images.deleteFiles);

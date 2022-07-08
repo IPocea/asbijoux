@@ -14,11 +14,6 @@ const BASE_API = 'http://localhost:8080/api';
 })
 export class ReplyService {
   constructor(private http: HttpClient) {}
-  getReplyCommentByCommentId(id: number): Observable<IReplyComment[]> {
-    return this.http.get<IReplyComment[]>(
-      BASE_API + `/reply-comments?commentId=${id}`
-    );
-  }
   addReplyComment(
     API_KEY_COMMENTS: string,
     replyComment: IReplyComment

@@ -414,7 +414,7 @@ export class CommentsAdminComponent implements OnInit {
   private getData(): void {
     this.isLoading = true;
     this.commentService
-      .getComments()
+      .getComments(this.API_KEY)
       .pipe(take(1))
       .subscribe(
         (data) => {

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { uploadFileMiddleware } = require("../middleware");
 const { unlink } = require("fs").promises;
+const fs = require("fs");
 const baseUrl = process.env.baseUrl;
 const directoryPath = process.env.directoryPath;
 const db = require("../models");

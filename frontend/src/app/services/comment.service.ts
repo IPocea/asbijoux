@@ -31,8 +31,8 @@ export class CommentService {
       comment
     );
   }
-  getComments(): Observable<IComment[]> {
-    return this.http.get<IComment[]>(BASE_API + '/comments/');
+  getComments(API_KEY: string): Observable<IComment[]> {
+    return this.http.get<IComment[]>(BASE_API + `/comments/${API_KEY}`);
   }
   deleteComment(API_KEY: string, id: number): Observable<IEditDeleteResponse> {
     return this.http.delete<IEditDeleteResponse>(

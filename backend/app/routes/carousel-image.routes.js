@@ -11,10 +11,7 @@ module.exports = (app) => {
 	// Retrieve all Images
 	router.get("/", carouselImages2.findAll);
 	// for working link of Images
-	router.get("/files", carouselImages.getListFiles);
 	router.get("/files/:name", carouselImages.download);
-	// Retrieve a single Image with id
-	router.get("/:id", carouselImages2.findOne);
 	// Delete a Image with id
 	router.post(
 		`/${process.env.API_KEY}/unlink`,
