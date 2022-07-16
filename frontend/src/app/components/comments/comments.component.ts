@@ -117,6 +117,7 @@ export class CommentsComponent implements OnInit {
         (data) => {
           this.product.comments[index].reply_comments.push(data);
           this.replyCommentId = 0;
+          this.replyCommentText = '';
           this.isReplyActive = false;
           this.isLoading = false;
         },

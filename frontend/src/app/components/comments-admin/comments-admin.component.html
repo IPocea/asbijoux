@@ -86,7 +86,7 @@
           <small>
             {{ comment.createdAt | customDate }}
           </small>
-          <p *ngIf="replyCommentId !== comment.id">{{ comment.text }}</p>
+          <p>{{ comment.text }}</p>
           <div class="product-comment-controllers">
             <p>Nume produs: {{ comment.product.title }}</p>
             <button>
