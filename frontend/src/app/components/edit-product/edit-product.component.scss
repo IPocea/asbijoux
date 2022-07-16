@@ -6,7 +6,7 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: $gap;
     h2 {
       text-align: center;
       margin-bottom: 10px;
@@ -34,7 +34,7 @@
     #edit-product-category-and-publish {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: $gap;
     }
     .edit-product-suggestions {
       font-size: small;
@@ -44,7 +44,7 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: $gap;
       div {
         display: flex;
         gap: 2px;

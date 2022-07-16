@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: $gap;
     padding: 10px;
     border: 1px solid $adminLeftSide;
     border-radius: 5px;

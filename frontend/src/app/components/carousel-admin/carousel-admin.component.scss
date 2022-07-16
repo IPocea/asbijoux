@@ -6,7 +6,7 @@
     .carousel-admin-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: $gap;
       h2,
       h4 {
         text-align: center;
@@ -18,12 +18,12 @@
       .carousel-setup-container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: $gap;
         .carousel-existing-images {
           display: flex;
           align-items: center;
           flex-wrap: wrap;
-          gap: 10px;
+          gap: $gap;
           div {
             display: flex;
             flex-direction: column;
@@ -62,7 +62,7 @@
         .carousel-input-file-container {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: $gap;
           .carousel-inputs {
             display: flex;
             flex-wrap: wrap;

@@ -5,7 +5,7 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: $gap;
     #carousel-component-container {
       width: 100%;
       max-height: 340px;
@@ -13,7 +13,7 @@
     .about-us {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: $gap;
       padding: 5px;
       box-shadow: 0 -1px 0px 0 rgb(63 63 68 / 15%);
       img {
@@ -42,7 +42,7 @@
       article {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: $gap;
 
         .mini-title {
           text-align: center;

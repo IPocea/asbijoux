@@ -9,6 +9,7 @@ import {
 import { IProduct } from '../interfaces/product.interface';
 
 const BASE_API = 'http://localhost:8080/api';
+// const BASE_API = 'https://asbijoux.ro:60502/api';
 
 @Injectable({
   providedIn: 'root',

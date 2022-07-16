@@ -7,7 +7,7 @@
     align-items: center;
     margin-top: 10px;
     padding: 15px 0;
-    background-color: #f2f2f2;
+    background-color: $commentBgColor;
     width: 100%;
     .product-comments-title {
       padding: 16px 10px;
@@ -16,7 +16,7 @@
     .product-comments-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: $gap;
       width: 95%;
       .product-comment,
       #product-comment-preview {
@@ -24,10 +24,10 @@
         flex-direction: column;
         background-color: $white;
         padding: 16px 10px;
-        gap: 10px;
+        gap: $gap;
         border-radius: 4px 4px 0 0;
         small {
-          color: #3f51b5;
+          color: $commentSmallColor;
         }
       }
       .product-comment {
@@ -49,7 +49,7 @@
       .product-reply-comments-container {
         display: flex;
         flex-direction: row-reverse;
-        background-color: #f2f2f2;
+        background-color: $commentBgColor;
         border-left: 1px dotted rgba(0, 0, 0, 0.6);
         .product-reply-comments {
           width: 85%;
@@ -57,10 +57,10 @@
           flex-direction: column;
           background-color: $white;
           padding: 16px 10px;
-          gap: 10px;
+          gap: $gap;
           border-radius: 4px 4px 0 0;
           small {
-            color: #3f51b5;
+            color: $commentSmallColor;
           }
           textarea {
             font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -109,7 +109,7 @@
         .product-add-comment {
           .product-comment-data {
             display: flex;
-            gap: 10px;
+            gap: $gap;
             mat-form-field {
               width: 49%;
             }
@@ -201,8 +201,8 @@
 .admin-comment-btns {
   display: flex;
   flex-direction: row-reverse;
-  gap: 10px;
-  color: #3f51b5;
+  gap: $gap;
+  color: $commentSmallColor;
   font-size: smaller;
   span {
     cursor: pointer;

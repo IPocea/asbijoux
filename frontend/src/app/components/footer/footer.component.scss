@@ -28,7 +28,7 @@
         div {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: $gap;
           a,
           p {
             text-decoration: none;

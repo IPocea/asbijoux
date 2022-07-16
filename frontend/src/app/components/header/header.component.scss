@@ -8,7 +8,6 @@
   }
 
   .header-container-under-820px {
-    // padding: 5px;
     mat-sidenav-container {
       .left-sidenav {
         ul {
@@ -48,13 +47,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: $gap;
       flex-wrap: wrap;
       padding: 5px 0;
       div {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: $gap;
         #header-contact-icon {
           margin-right: 5px;
         }
@@ -100,7 +99,7 @@
     .header-container-820px-plus {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: $gap;
       .header-top {
         display: flex;
         justify-content: space-around;

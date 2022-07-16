@@ -1,9 +1,10 @@
+@import "../../styles/variables.scss";
 :host {
   #gpdr-container {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: $gap;
     li {
       list-style-position: inside;
     }

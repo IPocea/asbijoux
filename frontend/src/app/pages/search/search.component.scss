@@ -3,12 +3,12 @@
   .search-component-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: $gap;
     .search-result-number {
       .product-not-found {
         display: grid;
         place-items: center;
-        gap: 10px;
+        gap: $gap;
         margin-top: 10px;
         .product-not-found-logo {
           width: 200px;
@@ -33,7 +33,7 @@
           flex-wrap: wrap;
           justify-content: center;
           align-items: stretch;
-          gap: 10px;
+          gap: $gap;
           max-width: 100%;
           p {
             padding: 12px 16px;
@@ -96,13 +96,13 @@
           cursor: pointer;
         }
         .btn-fill-left {
-          box-shadow: inset 0px 0px 0px 0.09px #2f3b47;
+          box-shadow: inset 0px 0px 0px 0.09px $fillBar;
           transition: all 0.5s;
         }
 
         .btn-fill-left:hover {
           color: $white;
-          box-shadow: inset 200px 0px 0px 0.09px #2f3b47;
+          box-shadow: inset 200px 0px 0px 0.09px $fillBar;
         }
         .card-footer {
           padding: 0.5rem 1rem;
@@ -121,7 +121,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 300px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 300px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -133,7 +133,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 385px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 385px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -149,7 +149,7 @@
           }
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 300px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 300px 0px 0px 0.09px $fillBar;
           }
           .btn-fill-left:active {
             color: #212529 !important;
@@ -165,7 +165,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 350px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 350px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -177,7 +177,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 380px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 380px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -190,11 +190,7 @@
           width: 18%;
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 230px 0px 0px 0.09px #2f3b47;
-          }
-          .btn-fill-left:active {
-            color: #212529 !important;
-            box-shadow: 0px 0px 0px 1px #212529 !important;
+            box-shadow: inset 230px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -206,7 +202,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 300px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 300px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -218,7 +214,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 350px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 350px 0px 0px 0.09px $fillBar;
           }
         }
       }
@@ -230,7 +226,7 @@
         .card-container {
           .btn-fill-left:hover {
             color: $white;
-            box-shadow: inset 550px 0px 0px 0.09px #2f3b47;
+            box-shadow: inset 550px 0px 0px 0.09px $fillBar;
           }
         }
       }

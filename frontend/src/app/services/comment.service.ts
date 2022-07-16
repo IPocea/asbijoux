@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IComment, IObjCommentsForDelete, IProduct } from '../interfaces';
 import { IEditDeleteResponse } from '../interfaces/edit-delete.interface';
+
 const BASE_API = 'http://localhost:8080/api';
+// const BASE_API = 'https://asbijoux.ro:60502/api';
+
 @Injectable({
   providedIn: 'root',
 })

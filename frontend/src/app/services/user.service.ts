@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 const API_URL = 'http://localhost:8080/api/send-key/admin';
+// const API_URL = 'https://asbijoux.ro:60502/api/send-key/admin';
 const API_URL_COMMENTS = 'http://localhost:8080/api/send-comments-key/admin';
+// const API_URL_COMMENTS =
+//   'https://asbijoux.ro:60502/api/send-comments-key/admin';
 @Injectable({
   providedIn: 'root',
 })
