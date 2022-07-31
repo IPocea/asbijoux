@@ -1,10 +1,4 @@
-<ng-container *ngIf="isLoading">
-  <div class="spinner-container">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="!isLoading">
+<ng-container *ngIf="!isLoading; else loading">
   <form>
     <h1>Login</h1>
     <label for="username"
@@ -38,3 +32,9 @@
     <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
   </form>
 </ng-container>
+
+<ng-template #loading>
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

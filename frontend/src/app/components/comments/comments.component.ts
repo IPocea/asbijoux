@@ -32,9 +32,9 @@ export class CommentsComponent implements OnInit {
   commentPreview: ICommentPreview = null;
   replyCommentText: string = '';
   replyEditText: string = '';
-  administratorName: string = 'Administrator';
   replyCommentId: number = 0;
   replyEditCommentId: number = 0;
+  private administratorName: string = 'Administrator';
 
   constructor(
     private commentService: CommentService,

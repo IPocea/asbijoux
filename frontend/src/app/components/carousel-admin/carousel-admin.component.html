@@ -1,10 +1,5 @@
 <div class="carousel-admin-component-container">
-  <ng-container *ngIf="isLoading">
-    <div class="spinner-container">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="!isLoading">
+  <ng-container *ngIf="!isLoading; else loading">
     <div class="carousel-admin-container">
       <h2>Gestioneaza caruselul de imagini</h2>
       <h4>Numar total de imagini carusel: {{ carouselImages.length }}</h4>
@@ -68,6 +63,11 @@
       </button>
     </div>
   </ng-container>
+  <ng-template #loading>
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </div>
 
 <ng-container *ngIf="errorMessage">

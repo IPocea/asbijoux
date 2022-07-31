@@ -23,7 +23,7 @@ export class CategoryComponent implements OnInit {
   pageSizeOptions: number[] = [5, 9, 10, 25];
   pageIndex: number = 0;
   showFirstLastButtons: BooleanInput = true;
-  screenWidth: number = window.screen.availWidth;
+  private screenWidth: number = window.screen.availWidth;
 
   constructor(
     private route: ActivatedRoute,

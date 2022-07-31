@@ -26,7 +26,6 @@ export class CarouselAdminComponent implements OnInit {
     return new Array(i);
   }
   checkSize(ev: any) {
-    // 3670016 = 3.5 MB
     if (ev.target.files[0]) {
       if (ev.target.files[0].size > 3670016) {
         ev.target.value = '';
@@ -132,7 +131,7 @@ export class CarouselAdminComponent implements OnInit {
   }
   private addSingleCarouselImage(API_KEY: string, form: FormData): void {
     this.carouselService
-      .adImage(API_KEY, form)
+      .addImage(API_KEY, form)
       .pipe(take(1))
       .subscribe(
         (res) => {},

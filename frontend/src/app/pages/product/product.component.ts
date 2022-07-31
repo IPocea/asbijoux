@@ -15,7 +15,6 @@ import { UserService } from 'src/app/services/user.service';
 export class ProductComponent implements OnInit {
   product: IProduct;
   isLoading: boolean = false;
-  selectedImageClass: string = 'img-slide';
   API_KEY_COMMENTS: string = '';
 
   constructor(

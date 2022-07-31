@@ -31,7 +31,6 @@ export class CommentsAdminComponent implements OnInit {
   isReplyActive: boolean = false;
   replyCommentText: string = '';
   replyEditText: string = '';
-  administratorName: string = 'Administrator';
   length: number;
   pageSize: number = 10;
   pageSizeOptions: number[] = [10, 25, 50];
@@ -44,6 +43,7 @@ export class CommentsAdminComponent implements OnInit {
     activated: false,
     inactivated: false,
   };
+  private administratorName: string = 'Administrator';
   constructor(
     private commentService: CommentService,
     private replyService: ReplyService,

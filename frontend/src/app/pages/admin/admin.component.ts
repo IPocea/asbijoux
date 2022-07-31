@@ -20,7 +20,6 @@ export class AdminComponent implements OnInit {
   API_KEY_COMMENTS: string = '';
   errorNoToken: string = '';
   errorMessageClass: string = '';
-  imagePath: string = 'I:/curs/final-project/asbijoux/images/';
   classUser: string = '';
   classViewProducts: string = '';
   classAddProduct: string = '';

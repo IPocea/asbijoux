@@ -1,12 +1,6 @@
 <h1>Panou de administrare</h1>
 <div id="profile-component">
-  <ng-container *ngIf="isLoading">
-    <div class="spinner-container">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="!isLoading">
+  <ng-container *ngIf="!isLoading; else loading">
     <div id="profile-container">
       <h2>Bine ai revenit {{ user.username }}</h2>
       <p>Email: {{ user.email }}</p>
@@ -17,4 +11,9 @@
       <p id="profile-sign-out" (click)="signOut()">Delogare</p>
     </div>
   </ng-container>
+  <ng-template #loading>
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </div>

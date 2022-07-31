@@ -44,7 +44,7 @@ export class CarouselService {
       carouselImages
     );
   }
-  adImage(API_KEY: string, form: FormData): Observable<ICarousel> {
+  addImage(API_KEY: string, form: FormData): Observable<ICarousel> {
     return this.http.post<ICarousel>(
       BASE_API + `/carousel-images/${API_KEY}/upload`,
       form

@@ -1,12 +1,4 @@
-<ng-container *ngIf="isLoading">
-  <div class="carousel-container">
-    <div class="spinner-container">
-      <mat-spinner></mat-spinner>
-    </div>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="!isLoading">
+<ng-container *ngIf="!isLoading; else loading">
   <div class="carousel-container">
     <img
       (click)="goToProduct(srcLeftItem)"
@@ -33,3 +25,11 @@
     />
   </div>
 </ng-container>
+
+<ng-template #loading>
+  <div class="carousel-container">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</ng-template>

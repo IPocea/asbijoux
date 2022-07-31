@@ -12,28 +12,28 @@ import { CarouselService } from 'src/app/services/carousel.service';
 export class CarouselComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   carouselClass: string = 'carousel-item active';
-  imgArray: string[] = [
-    'assets/asbijoux-atelierelor-main-image.jpg',
-    'assets/asbijoux-inel-de-logodna.PNG',
-    'assets/asbijoux-inel-roman.PNG',
-  ];
-  titlesArray: string[] = [
-    'Verighete din Aur AsBijoux',
-    'Inel de logodna AsBijoux',
-    'Inel roman AsBijoux',
-  ];
-  productsId: number[] = [];
-  carouselProducts: ICarousel[] = [];
   srcMain: string = 'assets/asbijoux-atelierelor-main-image.jpg';
   srcRightItem: string = 'assets/asbijoux-inel-de-logodna.PNG';
   srcLeftItem: string = 'assets/asbijoux-inel-roman.PNG';
   titleMain: string = 'Verighete din Aur AsBijoux';
   titleRight: string = 'Inel de logodna AsBijoux';
   titleLeft: string = 'Inel roman AsBijoux';
-  indexMain: number = 0;
-  indexRight: number = 1;
-  indexLeft: number = 2;
-  int: any;
+  private imgArray: string[] = [
+    'assets/asbijoux-atelierelor-main-image.jpg',
+    'assets/asbijoux-inel-de-logodna.PNG',
+    'assets/asbijoux-inel-roman.PNG',
+  ];
+  private titlesArray: string[] = [
+    'Verighete din Aur AsBijoux',
+    'Inel de logodna AsBijoux',
+    'Inel roman AsBijoux',
+  ];
+  private productsId: number[] = [];
+  private carouselProducts: ICarousel[] = [];
+  private indexMain: number = 0;
+  private indexRight: number = 1;
+  private indexLeft: number = 2;
+  private int: any;
   constructor(
     private carouselService: CarouselService,
     private router: Router

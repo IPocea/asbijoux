@@ -1,11 +1,5 @@
 <div id="edit-product-component">
-  <ng-container *ngIf="isLoading">
-    <div class="spinner-container">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="!isLoading">
+  <ng-container *ngIf="!isLoading; else loading">
     <div
       *ngIf="categoryOptions && categoryFilteredOptions"
       id="edit-product-container"
@@ -115,4 +109,9 @@
       </p>
     </div>
   </ng-container>
+  <ng-template #loading>
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </div>

@@ -17,9 +17,9 @@ export class LoginComponent implements OnInit {
   password: string = '';
   faLock = faLock;
   faUser = faUser;
-  isUserIconFlagged: boolean = false;
-  isPasswordIconFlagged: boolean = false;
   isLoading: boolean = false;
+  private isUserIconFlagged: boolean = false;
+  private isPasswordIconFlagged: boolean = false;
   constructor(
     private router: Router,
     private authService: AuthService,
