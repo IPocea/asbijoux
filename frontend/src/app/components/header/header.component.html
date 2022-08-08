@@ -27,7 +27,7 @@
         <li>Telefon: <a href="tel:+40723126654">0723 126 654</a></li>
         <li>
           Email:
-          <a href="mailto:grigore.ionita@yahoo.com">grigore.ionita@yahoo.com</a>
+          <a href="mailto:grigoreionita@yahoo.com">grigoreionita@yahoo.com</a>
         </li>
         <li>Adresa: Str. Atelierelor nr. 17, Constanta</li>
       </ul>
@@ -58,6 +58,7 @@
           matInput
           type="text"
           (keyup.enter)="searchProductMobile()"
+          (keypress)="searchOnMobile($event)"
           (keyup)="searchOnMobile($event)"
           [(ngModel)]="searchValue"
         />
@@ -120,8 +121,8 @@
         </h2>
         <div *ngIf="isContactEnabled" class="contact-container">
           <a href="tel:+40723126654">Telefon: 0723 126 654</a>
-          <a href="mailto:grigore.ionita@yahoo.com"
-            >Email: grigore.ionita@yahoo.com</a
+          <a href="mailto:grigoreionita@yahoo.com"
+            >Email: grigoreionita@yahoo.com</a
           >
           <a>Adresa: Str. Atelierelor nr. 17, Constanta</a>
         </div>

@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   searchOnMobile(ev: any): void {
-    if (ev.keycode === 13 || ev.keyname === 'Enter') {
+    if (ev.keycode === 13 || ev.keyname === 'Enter' || ev.keypress === 13) {
       this.searchProduct();
       if (this.searchValue) {
         this.isArticleEnabled = true;
