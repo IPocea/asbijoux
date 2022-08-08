@@ -13,14 +13,14 @@ export class CarouselComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   carouselClass: string = 'carousel-item active';
   srcMain: string = 'assets/asbijoux-atelierelor-main-image.jpg';
-  srcRightItem: string = 'assets/asbijoux-inel-de-logodna.PNG';
+  srcRightItem: string = 'assets/asbijoux-inel-de-logodna.jpg';
   srcLeftItem: string = 'assets/asbijoux-inel-roman.PNG';
   titleMain: string = 'Verighete din Aur AsBijoux';
   titleRight: string = 'Inel de logodna AsBijoux';
   titleLeft: string = 'Inel roman AsBijoux';
   private imgArray: string[] = [
     'assets/asbijoux-atelierelor-main-image.jpg',
-    'assets/asbijoux-inel-de-logodna.PNG',
+    'assets/asbijoux-inel-de-logodna.jpg',
     'assets/asbijoux-inel-roman.PNG',
   ];
   private titlesArray: string[] = [
