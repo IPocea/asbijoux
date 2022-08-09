@@ -6,21 +6,22 @@ import {
   IEditDeleteResponse,
   IObjReplyCommentsForDelete,
 } from '../interfaces';
-
-const BASE_API = 'http://localhost:8080/api';
-// const BASE_API = 'https://asbijoux.ro:60502/api';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReplyService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private baseApiService: BaseApiService
+  ) {}
   addReplyComment(
     API_KEY_COMMENTS: string,
     replyComment: IReplyComment
   ): Observable<IReplyComment> {
     return this.http.post<IReplyComment>(
-      BASE_API + `/reply-comments/${API_KEY_COMMENTS}/`,
+      this.baseApiService.getBaseApi() + `/reply-comments/${API_KEY_COMMENTS}/`,
       replyComment
     );
   }
@@ -30,7 +31,8 @@ export class ReplyService {
     reply: IReplyComment
   ): Observable<IEditDeleteResponse> {
     return this.http.put<IEditDeleteResponse>(
-      BASE_API + `/reply-comments/${API_KEY_COMMENTS}/${id}`,
+      this.baseApiService.getBaseApi() +
+        `/reply-comments/${API_KEY_COMMENTS}/${id}`,
       reply
     );
   }
@@ -39,7 +41,8 @@ export class ReplyService {
     id: number
   ): Observable<IEditDeleteResponse> {
     return this.http.delete<IEditDeleteResponse>(
-      BASE_API + `/reply-comments/${API_KEY_COMMENTS}/${id}`
+      this.baseApiService.getBaseApi() +
+        `/reply-comments/${API_KEY_COMMENTS}/${id}`
     );
   }
   deleteAllReplyComments(
@@ -47,7 +50,8 @@ export class ReplyService {
     ids: IObjReplyCommentsForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      BASE_API + `/reply-comments/${API_KEY_COMMENTS}/delete-all`,
+      this.baseApiService.getBaseApi() +
+        `/reply-comments/${API_KEY_COMMENTS}/delete-all`,
       ids
     );
   }

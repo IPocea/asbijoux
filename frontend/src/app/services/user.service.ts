@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-const API_URL = 'http://localhost:8080/api/send-key/admin';
-// const API_URL = 'https://asbijoux.ro:60502/api/send-key/admin';
-const API_URL_COMMENTS = 'http://localhost:8080/api/send-comments-key/admin';
-// const API_URL_COMMENTS =
-//   'https://asbijoux.ro:60502/api/send-comments-key/admin';
+import { BaseApiService } from './base-api.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private baseApiService: BaseApiService
+  ) {}
   getAdminBoard(): Observable<any> {
-    return this.http.get(API_URL, { responseType: 'text' });
+    return this.http.get(this.baseApiService.getBaseApi() + '/send-key/admin', {
+      responseType: 'text',
+    });
   }
   getAdminComments(): Observable<any> {
-    return this.http.get(API_URL_COMMENTS, { responseType: 'text' });
+    return this.http.get(
+      this.baseApiService.getBaseApi() + '/send-comments-key/admin',
+      { responseType: 'text' }
+    );
   }
 }

@@ -7,18 +7,19 @@ import {
   IObjImagesForDelete,
 } from '../interfaces/image.interface';
 import { IProduct } from '../interfaces/product.interface';
-
-const BASE_API = 'http://localhost:8080/api';
-// const BASE_API = 'https://asbijoux.ro:60502/api';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private baseApiService: BaseApiService
+  ) {}
   addImage(API_KEY: string, form: FormData): Observable<IImageSimple> {
     return this.http.post<IImageSimple>(
-      BASE_API + `/images/${API_KEY}/upload`,
+      this.baseApiService.getBaseApi() + `/images/${API_KEY}/upload`,
       form
     );
   }
@@ -27,7 +28,7 @@ export class ImageService {
     image: IImageSimple
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      BASE_API + `/images/${API_KEY}/unlink`,
+      this.baseApiService.getBaseApi() + `/images/${API_KEY}/unlink`,
       { fileName: image.name, imageId: image.id }
     );
   }
@@ -36,7 +37,7 @@ export class ImageService {
     images: IObjImagesForDelete
   ): Observable<IEditDeleteResponse> {
     return this.http.post<IEditDeleteResponse>(
-      BASE_API + `/images/${API_KEY}/unlink-all`,
+      this.baseApiService.getBaseApi() + `/images/${API_KEY}/unlink-all`,
       images
     );
   }
