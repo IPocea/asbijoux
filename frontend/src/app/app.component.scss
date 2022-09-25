@@ -9,8 +9,8 @@
       grid-area: header;
       box-shadow: 0 1px 0px 0 rgb(63 63 68 / 15%);
     }
-    .main-container {
-      grid-area: body;
+    #main-container {
+      grid-area: main-container;
     }
 
     .footer {
