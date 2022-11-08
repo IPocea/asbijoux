@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { IUser } from 'src/app/interfaces/user.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { ScrollService } from 'src/app/services/scroll.service';
-import { StorageService } from 'src/app/services/storage.service';
-import { UserService } from 'src/app/services/user.service';
+import { IUser } from '@interfaces';
+import {
+  AuthService,
+  ScrollService,
+  StorageService,
+  UserService,
+} from '@services';
 
 @Component({
   selector: 'app-admin',
@@ -48,31 +50,31 @@ export class AdminComponent implements OnInit {
     this.userService
       .getAdminBoard()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.errorMessageClass = 'error-message-off';
           this.API_KEY = data;
           this.isLoggedIn = true;
           this.userService
             .getAdminComments()
             .pipe(take(1))
-            .subscribe(
-              (res) => {
+            .subscribe({
+              next: (res) => {
                 this.API_KEY_COMMENTS = res;
                 this.isLoading = false;
                 this.scroll.scrollTo('right-side-admin');
               },
-              (err) => {}
-            );
+              error: (err) => {},
+            });
         },
-        (err) => {
+        error: (err) => {
           this.errorNoToken = JSON.parse(err.error).message;
           this.errorMessageClass = 'error-message-on';
           this.isLoggedIn = false;
           this.isLoading = false;
           return;
-        }
-      );
+        },
+      });
     this.setClassActive(0);
     this.setComponentActive(0);
   }
@@ -106,16 +108,16 @@ export class AdminComponent implements OnInit {
     this.authService
       .logout()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.isLoggedIn = false;
           this.isLoading = true;
           this.router.navigate(['logare']);
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private setClassActive(liIndex: number): void {
     this.classUser = '';

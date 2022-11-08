@@ -15,12 +15,14 @@ import {
   IObjReplyCommentsForDelete,
   ICheckbox,
   IProduct,
-} from 'src/app/interfaces';
-import { ProductService } from 'src/app/services/product.service';
-import { ScrollService } from 'src/app/services/scroll.service';
-import { ImageService } from 'src/app/services/image.service';
-import { CommentService } from 'src/app/services/comment.service';
-import { ReplyService } from 'src/app/services/reply.service';
+} from '@interfaces';
+import {
+  ProductService,
+  ScrollService,
+  ImageService,
+  CommentService,
+  ReplyService,
+} from '@services';
 
 @Component({
   selector: 'app-view-products',
@@ -275,8 +277,8 @@ export class ViewProductsComponent implements OnInit {
     this.imageService
       .deleteAllImages(this.API_KEY, images)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (hasComments && hasReplyComments) {
             this.deleteReplyComments(product);
           } else if (hasComments) {
@@ -285,12 +287,12 @@ export class ViewProductsComponent implements OnInit {
             this.deleteSingleProduct(product);
           }
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.message;
           this.isLoading = false;
           this.hideMessage();
-        }
-      );
+        },
+      });
   }
   private deleteReplyComments(product: IProduct): void {
     const replyCommentsArray: IDeleteAllReplyComments[] = [];
@@ -303,17 +305,17 @@ export class ViewProductsComponent implements OnInit {
     this.replyService
       .deleteAllReplyComments(this.API_KEY_COMMENTS, ids)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.deleteComments(product);
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Va rugam sa faceti refresh la pagina'
           );
-        }
-      );
+        },
+      });
   }
   private deleteComments(product: IProduct): void {
     const commentsArray: IDeleteAllComments[] = [];
@@ -324,24 +326,24 @@ export class ViewProductsComponent implements OnInit {
     this.commentService
       .deleteAllComments(this.API_KEY, ids)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.deleteSingleProduct(product);
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Va rugam sa faceti refresh la pagina'
           );
-        }
-      );
+        },
+      });
   }
   private deleteSingleProduct(product: IProduct): void {
     this.productServices
       .deleteProduct(this.API_KEY, product.id)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (
             this.pageIndex > 0 &&
             this.pageIndex * this.pageSize >= this.length - 1
@@ -351,14 +353,14 @@ export class ViewProductsComponent implements OnInit {
           this.getData();
           this.displayMessage(true, 'Produsul a fost sters cu succes');
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Va rugam sa faceti refresh si sa incercati din nou'
           );
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private displayMessage(type: boolean, message: string): void {
     if (type) {
@@ -372,8 +374,8 @@ export class ViewProductsComponent implements OnInit {
     this.productServices
       .getAllCategories(this.API_KEY)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.categoryOptions = [];
           for (let category of res.count) {
             this.categoryOptions.push(category.category);
@@ -382,18 +384,18 @@ export class ViewProductsComponent implements OnInit {
           this.resetCategories();
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private getData(): void {
     this.isLoading = true;
     this.productServices
       .getAllProducts(this.API_KEY)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.deleteAllFilters();
           this.products = data;
           this.filteredProducts = data;
@@ -401,10 +403,10 @@ export class ViewProductsComponent implements OnInit {
           this.selectPageAndFillWithData();
           this.getCategories();
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private hideMessage(): void {
     setTimeout(() => {
@@ -469,17 +471,17 @@ export class ViewProductsComponent implements OnInit {
     this.productServices
       .editProduct(this.API_KEY, modifiedProduct)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.getData();
           this.successMessage = message;
           this.hideMessage();
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.message.message;
           this.isLoading = false;
           this.hideMessage();
-        }
-      );
+        },
+      });
   }
 }

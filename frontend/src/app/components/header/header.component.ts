@@ -1,10 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { ProductService } from 'src/app/services/product.service';
+import { ProductService, UserService } from '@services';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
-import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { SnackbarComponent } from '@components/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-header',
@@ -50,14 +49,14 @@ export class HeaderComponent implements OnInit {
     this.userService
       .getAdminComments()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.isAdminLoggedIn = true;
         },
-        (err) => {
+        error: (err) => {
           this.isAdminLoggedIn = false;
-        }
-      );
+        },
+      });
     this.router.navigate(['/pagina-principala']);
   }
   goToAccount(): void {
@@ -121,15 +120,15 @@ export class HeaderComponent implements OnInit {
     this.productService
       .getAlllPublishedCategories()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.categories = [];
           for (let category of data.count) {
             this.categories.push(category.category);
           }
           this.categories.sort();
         },
-        (err) => {}
-      );
+        error: (err) => {},
+      });
   }
 }

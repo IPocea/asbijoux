@@ -1,26 +1,57 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './pages/admin/admin.component';
-import { CategoryComponent } from './pages/category/category.component';
-import { LoginComponent } from './pages/login/login.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ProductComponent } from './pages/product/product.component';
-import { SearchComponent } from './pages/search/search.component';
-import { ArticleComponent } from './pages/article/article.component';
-import { GdprPolicyComponent } from './pages/gdpr-policy/gdpr-policy.component';
 
 const routes: Routes = [
-  { path: 'pagina-principala', component: HomeComponent },
-  { path: 'categorii/:name', component: CategoryComponent },
-  { path: 'cautare/:name', component: SearchComponent },
-  { path: 'logare', component: LoginComponent },
-  { path: 'n@dmin', component: AdminComponent },
-  { path: 'produs/:category/:title/:id', component: ProductComponent },
-  { path: 'articol/verighete', component: ArticleComponent },
-  { path: 'politica-de-confidentialitate', component: GdprPolicyComponent },
+  {
+    path: 'pagina-principala',
+    loadChildren: () =>
+      import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'categorii/:name',
+    loadChildren: () =>
+      import('./pages/category/category.module').then((m) => m.CategoryModule),
+  },
+  {
+    path: 'cautare/:name',
+    loadChildren: () =>
+      import('./pages/search/search.module').then((m) => m.SearchModule),
+  },
+  {
+    path: 'logare',
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'n@dmin',
+    loadChildren: () =>
+      import('./pages/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'produs/:category/:title/:id',
+    loadChildren: () =>
+      import('./pages/product/product.module').then((m) => m.ProductModule),
+  },
+  {
+    path: 'articol/verighete',
+    loadChildren: () =>
+      import('./pages/article/article.module').then((m) => m.ArticleModule),
+  },
+  {
+    path: 'politica-de-confidentialitate',
+    loadChildren: () =>
+      import('./pages/gdpr-policy/gdpr-policy.module').then(
+        (m) => m.GdprPolicyModule
+      ),
+  },
   { path: '', redirectTo: '/pagina-principala', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./pages/not-found/not-found.module').then(
+        (m) => m.NotFoundModule
+      ),
+  },
 ];
 
 @NgModule({

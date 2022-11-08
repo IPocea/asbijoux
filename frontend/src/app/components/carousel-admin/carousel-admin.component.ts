@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
-import {
-  ICarousel,
-  IObjCarouselImagesForDelete,
-} from 'src/app/interfaces/carousel.interface';
-import { CarouselService } from 'src/app/services/carousel.service';
+import { ICarousel, IObjCarouselImagesForDelete } from '@interfaces';
+import { CarouselService } from '@services';
 
 @Component({
   selector: 'app-carousel-admin',
@@ -49,8 +46,8 @@ export class CarouselAdminComponent implements OnInit {
       this.carouselService
         .deleteImage(this.API_KEY, carousel)
         .pipe(take(1))
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.displayMessage(
               true,
               `Poza ${carousel.name} a fost stearsa cu succes.`
@@ -58,11 +55,11 @@ export class CarouselAdminComponent implements OnInit {
             this.carouselImages.splice(i, 1);
             this.isLoading = false;
           },
-          (err) => {
+          error: (err) => {
             this.displayMessage(false, err.message);
             this.isLoading = false;
-          }
-        );
+          },
+        });
     }
   }
   updateCarousel(): void {
@@ -133,13 +130,13 @@ export class CarouselAdminComponent implements OnInit {
     this.carouselService
       .addImage(API_KEY, form)
       .pipe(take(1))
-      .subscribe(
-        (res) => {},
-        (err) => {
+      .subscribe({
+        next: (res) => {},
+        error: (err) => {
           this.displayMessage(false, err.message);
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private deleteAllCarouselImages(
     API_KEY: string,
@@ -155,19 +152,19 @@ export class CarouselAdminComponent implements OnInit {
     this.carouselService
       .deleteAllImages(API_KEY, carousel)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.displayMessage(true, 'Imaginile au fost sterse cu succes');
           this.getData();
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Te rugam sa incerci din nou'
           );
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private displayMessage(type: boolean, message: string): void {
     if (type) {
@@ -188,15 +185,15 @@ export class CarouselAdminComponent implements OnInit {
     this.carouselService
       .getAllImages()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.carouselImages = data;
           this.carouselService.sortImages(this.carouselImages);
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 }

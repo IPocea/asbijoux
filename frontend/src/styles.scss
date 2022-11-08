@@ -24,9 +24,10 @@ body {
 }
 
 .spinner-container {
-  position: absolute;
-  top: calc(50% - 56.5486677px / 2);
-  right: calc(47% - 56.5486677px / 2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .error-message-on {
   color: $errorColor;

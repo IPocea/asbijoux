@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IEditDeleteResponse } from '../interfaces';
 import {
+  IEditDeleteResponse,
   ICarousel,
   IObjCarouselImagesForDelete,
-} from '../interfaces/carousel.interface';
-import { BaseApiService } from './base-api.service';
+} from '@interfaces';
+import { BaseApiService } from '@services';
 
 @Injectable({
   providedIn: 'root',

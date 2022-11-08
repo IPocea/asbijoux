@@ -5,8 +5,8 @@ import {
   IReplyComment,
   IEditDeleteResponse,
   IObjReplyCommentsForDelete,
-} from '../interfaces';
-import { BaseApiService } from './base-api.service';
+} from '@interfaces';
+import { BaseApiService } from '@services';
 
 @Injectable({
   providedIn: 'root',

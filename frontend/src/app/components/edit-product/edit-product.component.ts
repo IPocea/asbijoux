@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IImageSimple, IProduct } from 'src/app/interfaces';
+import { IImageSimple, IProduct, IPublic } from '@interfaces';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { IPublic } from 'src/app/interfaces/public.interface';
-import { ImageService } from 'src/app/services/image.service';
-import { ProductService } from 'src/app/services/product.service';
-import { CommentService } from 'src/app/services/comment.service';
+import { ImageService, ProductService, CommentService } from '@services';
 
 @Component({
   selector: 'app-edit-product',
@@ -67,17 +64,17 @@ export class EditProductComponent implements OnInit {
       this.imageService
         .deleteImage(this.API_KEY, image)
         .pipe(take(1))
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.successMessage = `Poza ${image.name} a fost stearsa cu succes.`;
             this.product.images.splice(i, 1);
             this.isLoading = false;
           },
-          (err) => {
+          error: (err) => {
             this.errorMessage = err.message || err.message.message;
             this.isLoading = false;
-          }
-        );
+          },
+        });
     }
   }
   editProduct(ev: Event): void {
@@ -129,8 +126,8 @@ export class EditProductComponent implements OnInit {
     this.productService
       .editProduct(this.API_KEY, productToEdit)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           if (mainImage?.value) {
             const formMainImage = new FormData();
             formMainImage.append('file', mainImage.files[0]);
@@ -152,12 +149,12 @@ export class EditProductComponent implements OnInit {
             this.getData();
           }, 500);
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
           return;
-        }
-      );
+        },
+      });
   }
   goBack(): void {
     this.isEditing = false;
@@ -181,26 +178,26 @@ export class EditProductComponent implements OnInit {
     this.productService
       .getProduct(this.productId)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.product = data;
           this.imageService.sortImages(this.product);
           this.commentService.sortComments(this.product);
           this.setProductDetails();
           this.getCategories();
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private getCategories(): void {
     this.isLoading = true;
     this.productService
       .getAllCategories(this.API_KEY)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.categoryOptions = [];
           for (let category of data.count) {
             this.categoryOptions.push(category.category);
@@ -209,10 +206,10 @@ export class EditProductComponent implements OnInit {
           this.setCategoryFilteredOptions();
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();

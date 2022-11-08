@@ -1,5 +1,5 @@
-<ng-container *ngIf="!isLoading; else loading">
-  <form>
+<form>
+  <ng-container *ngIf="!isLoading; else loading">
     <h1>Login</h1>
     <label for="username"
       ><fa-icon id="user-icon" [icon]="faUser"></fa-icon
@@ -30,8 +30,8 @@
       Login
     </button>
     <p *ngIf="errorMessage" [class]="errorMessageClass">{{ errorMessage }}</p>
-  </form>
-</ng-container>
+  </ng-container>
+</form>
 
 <ng-template #loading>
   <div class="spinner-container">

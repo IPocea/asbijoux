@@ -1,6 +1,7 @@
 @import "../../styles/variables.scss";
 :host {
   .category-component-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: $gap;

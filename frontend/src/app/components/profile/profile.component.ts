@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IUser } from 'src/app/interfaces/user.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { StorageService } from 'src/app/services/storage.service';
+import { IUser } from '@interfaces';
+import { AuthService, StorageService } from '@services';
 
 @Component({
   selector: 'app-profile',
@@ -27,14 +26,14 @@ export class ProfileComponent implements OnInit {
     this.authService
       .logout()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.isLoading = true;
           this.router.navigate(['pagina-principala']);
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 }

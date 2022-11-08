@@ -1,9 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IComment, IObjCommentsForDelete, IProduct } from '../interfaces';
-import { IEditDeleteResponse } from '../interfaces/edit-delete.interface';
-import { BaseApiService } from './base-api.service';
+import {
+  IComment,
+  IObjCommentsForDelete,
+  IProduct,
+  IEditDeleteResponse,
+} from '@interfaces';
+import { BaseApiService } from '@services';
 
 @Injectable({
   providedIn: 'root',

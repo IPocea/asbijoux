@@ -3,10 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IProduct } from 'src/app/interfaces';
-import { ImageService } from 'src/app/services/image.service';
-import { ProductService } from 'src/app/services/product.service';
-import { ScrollService } from 'src/app/services/scroll.service';
+import { IProduct } from '@interfaces';
+import { ImageService, ProductService, ScrollService } from '@services';
 
 @Component({
   selector: 'app-search',
@@ -65,15 +63,15 @@ export class SearchComponent implements OnInit {
     this.productService
       .getProductsByTitle(params)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           if (!data.length) {
             this.isNotFound = true;
             this.productService
               .getAlllPublishedCategories()
               .pipe(take(1))
-              .subscribe(
-                (data) => {
+              .subscribe({
+                next: (data) => {
                   this.categories = [];
                   for (let category of data.count) {
                     this.categories.push(category.category);
@@ -81,10 +79,10 @@ export class SearchComponent implements OnInit {
                   this.categories.sort();
                   this.isLoading = false;
                 },
-                (err) => {
+                error: (err) => {
                   this.isLoading = false;
-                }
-              );
+                },
+              });
           } else {
             this.isNotFound = false;
             this.products = data.filter((ele) => ele.isPublished);
@@ -98,10 +96,10 @@ export class SearchComponent implements OnInit {
           }
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   goToProduct(product: IProduct): void {
     this.router.navigate([

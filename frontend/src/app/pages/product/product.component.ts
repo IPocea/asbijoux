@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IProduct } from 'src/app/interfaces';
-import { CommentService } from 'src/app/services/comment.service';
-import { ImageService } from 'src/app/services/image.service';
-import { ProductService } from 'src/app/services/product.service';
-import { UserService } from 'src/app/services/user.service';
+import { IProduct } from '@interfaces';
+import {
+  CommentService,
+  ImageService,
+  ProductService,
+  UserService,
+} from '@services';
 
 @Component({
   selector: 'app-product',
@@ -30,16 +32,16 @@ export class ProductComponent implements OnInit {
     this.userService
       .getAdminComments()
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.API_KEY_COMMENTS = data;
           this.getParams();
         },
-        (err) => {
+        error: (err) => {
           this.API_KEY_COMMENTS = '';
           this.getParams();
-        }
-      );
+        },
+      });
   }
   private getParams(): void {
     this.route.params.subscribe((params) => {
@@ -51,8 +53,8 @@ export class ProductComponent implements OnInit {
     this.productService
       .getProductActiveComments(id)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.product = data;
           if (!this.product.isPublished && !this.API_KEY_COMMENTS) {
             this.router.navigate(['/pagina-principala']);
@@ -61,10 +63,10 @@ export class ProductComponent implements OnInit {
           this.commentService.sortComments(this.product);
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           this.router.navigate(['/pagina-principala']);
-        }
-      );
+        },
+      });
   }
 }

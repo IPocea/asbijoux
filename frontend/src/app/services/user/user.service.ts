@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from '@services';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +11,12 @@ export class UserService {
     private http: HttpClient,
     private baseApiService: BaseApiService
   ) {}
-  getAdminBoard(): Observable<any> {
+  getAdminBoard(): Observable<string> {
     return this.http.get(this.baseApiService.getBaseApi() + '/send-key/admin', {
       responseType: 'text',
     });
   }
-  getAdminComments(): Observable<any> {
+  getAdminComments(): Observable<string> {
     return this.http.get(
       this.baseApiService.getBaseApi() + '/send-comments-key/admin',
       { responseType: 'text' }

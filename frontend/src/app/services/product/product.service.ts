@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ICategories, IEditDeleteResponse } from '../interfaces';
-import { IProduct } from '../interfaces/product.interface';
-import { BaseApiService } from './base-api.service';
+import { ICategories, IEditDeleteResponse, IProduct } from '@interfaces';
+import { BaseApiService } from '@services';
 
 @Injectable({
   providedIn: 'root',

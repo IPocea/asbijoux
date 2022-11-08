@@ -3,9 +3,8 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { IProduct, IPublic } from 'src/app/interfaces';
-import { ImageService } from 'src/app/services/image.service';
-import { ProductService } from 'src/app/services/product.service';
+import { IProduct, IPublic } from '@interfaces';
+import { ImageService, ProductService } from '@services';
 
 @Component({
   selector: 'app-add-product',
@@ -85,8 +84,8 @@ export class AddProductComponent implements OnInit {
     this.productService
       .addProduct(this.API_KEY, product)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           if (mainImage.value) {
             const formMainImage = new FormData();
             formMainImage.append('file', mainImage.files[0]);
@@ -107,12 +106,12 @@ export class AddProductComponent implements OnInit {
           this.resetData(images);
           this.getCategories();
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
           return;
-        }
-      );
+        },
+      });
   }
   counter(i: number) {
     return new Array(i);
@@ -141,32 +140,32 @@ export class AddProductComponent implements OnInit {
     this.imageService
       .addImage(API_KEY, form)
       .pipe(take(1))
-      .subscribe(
-        (data) => {},
-        (err) => {
+      .subscribe({
+        next: (data) => {},
+        error: (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
           return;
-        }
-      );
+        },
+      });
   }
   private getCategories(): void {
     this.isLoading = true;
     this.productService
       .getAllCategories(this.API_KEY)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           for (let category of data.count) {
             this.categoryOptions.push(category.category);
           }
           this.categoryOptions.sort();
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
     this.setCategoryFilteredOptions();
   }
   private resetData(images: HTMLInputElement[]): void {

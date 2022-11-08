@@ -3,10 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { IProduct } from 'src/app/interfaces/product.interface';
-import { ImageService } from 'src/app/services/image.service';
-import { ProductService } from 'src/app/services/product.service';
-import { ScrollService } from 'src/app/services/scroll.service';
+import { IProduct } from '@interfaces';
+import { ImageService, ProductService, ScrollService } from '@services';
 
 @Component({
   selector: 'app-category',
@@ -67,8 +65,8 @@ export class CategoryComponent implements OnInit {
     this.productService
       .getAllBySelectedCategory(params)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           if (!data.length) {
             this.isLoading = false;
             this.router.navigate(['/pagina-principala']);
@@ -85,10 +83,10 @@ export class CategoryComponent implements OnInit {
             this.isLoading = false;
           }
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   private selectPageAndFillWithData(): void {
     if (this.pageIndex === 0) {

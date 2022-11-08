@@ -4,6 +4,7 @@
   width: 100%;
   padding: 15px;
   .comments-admin-component-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: $gap;

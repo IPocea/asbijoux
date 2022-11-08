@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { StorageService } from 'src/app/services/storage.service';
+import { AuthService, StorageService } from '@services';
 import { take } from 'rxjs';
 
 @Component({
@@ -57,16 +56,16 @@ export class LoginComponent implements OnInit {
     this.authService
       .login(this.username.trim(), this.password)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.storageService.saveUser(data);
           this.isLoading = false;
           this.router.navigate(['/n@dmin']);
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.error.message;
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
 }

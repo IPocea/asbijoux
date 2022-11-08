@@ -6,12 +6,14 @@ import {
   ICommentPreview,
   IProduct,
   IReplyComment,
-} from 'src/app/interfaces';
-import { CommentService } from 'src/app/services/comment.service';
-import { ImageService } from 'src/app/services/image.service';
-import { ProductService } from 'src/app/services/product.service';
-import { ReplyService } from 'src/app/services/reply.service';
-import { ScrollService } from 'src/app/services/scroll.service';
+} from '@interfaces';
+import {
+  CommentService,
+  ImageService,
+  ProductService,
+  ReplyService,
+  ScrollService,
+} from '@services';
 
 @Component({
   selector: 'app-comments',
@@ -72,8 +74,8 @@ export class CommentsComponent implements OnInit {
       this.commentService
         .addComment(comment)
         .pipe(take(1))
-        .subscribe(
-          (data) => {
+        .subscribe({
+          next: (data) => {
             this.clearForm();
             this.commentPreview = {
               name: data.name,
@@ -86,15 +88,15 @@ export class CommentsComponent implements OnInit {
               this.textBtn = 'Adaugati comentariul';
             }, 1000);
           },
-          (err) => {
+          error: (err) => {
             this.textBtn = err.message.message;
 
             setTimeout(() => {
               this.textBtn = 'Adaugati comentariul';
               this.isCommentLoading = false;
             }, 1000);
-          }
-        );
+          },
+        });
     }
   }
   addReplyComment(comment: IComment, index: number): void {
@@ -113,20 +115,20 @@ export class CommentsComponent implements OnInit {
     this.replyService
       .addReplyComment(this.API_KEY_COMMENTS, replyComment)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.product.comments[index].reply_comments.push(data);
           this.replyCommentId = 0;
           this.replyCommentText = '';
           this.isReplyActive = false;
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.message.message;
           this.isLoading = false;
           this.hideError();
-        }
-      );
+        },
+      });
   }
   cancelAddReply(): void {
     this.replyCommentId = 0;
@@ -146,8 +148,8 @@ export class CommentsComponent implements OnInit {
       this.replyService
         .deleteReplyComment(this.API_KEY_COMMENTS, reply.id)
         .pipe(take(1))
-        .subscribe(
-          (data) => {
+        .subscribe({
+          next: (data) => {
             let commentIndex = 0;
             for (let i = 0; i < this.product.comments.length; i++) {
               if (this.product.comments[i].id === reply.commentId) {
@@ -161,12 +163,12 @@ export class CommentsComponent implements OnInit {
             );
             this.isLoading = false;
           },
-          (err) => {
+          error: (err) => {
             this.errorMessage = err.message.message;
             this.isLoading = false;
             this.hideError();
-          }
-        );
+          },
+        });
     }
   }
   modifyAdminComment(reply: IReplyComment): void {
@@ -186,29 +188,29 @@ export class CommentsComponent implements OnInit {
     this.replyService
       .modifyReplyComment(this.API_KEY_COMMENTS, reply.id, replyComment)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.productService
             .getProductActiveComments(this.product.id)
             .pipe(take(1))
-            .subscribe(
-              (data) => {
+            .subscribe({
+              next: (data) => {
                 this.product = data;
                 this.imageService.sortImages(this.product);
                 this.isLoading = false;
                 this.commentService.sortComments(this.product);
               },
-              (err) => {
+              error: (err) => {
                 this.isLoading = false;
-              }
-            );
+              },
+            });
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.message.message;
           this.isLoading = false;
           this.hideError();
-        }
-      );
+        },
+      });
   }
   openEditAdminComment(reply: IReplyComment): void {
     this.replyEditCommentId = reply.id;

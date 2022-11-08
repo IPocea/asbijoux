@@ -9,9 +9,8 @@ import {
   IComment,
   IProduct,
   IReplyComment,
-} from 'src/app/interfaces';
-import { CommentService } from 'src/app/services/comment.service';
-import { ReplyService } from 'src/app/services/reply.service';
+} from '@interfaces';
+import { CommentService, ReplyService } from '@services';
 
 @Component({
   selector: 'app-comments-admin',
@@ -87,8 +86,8 @@ export class CommentsAdminComponent implements OnInit {
     this.replyService
       .addReplyComment(this.API_KEY_COMMENTS, replyComment)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.replyCommentText = '';
           this.replyCommentId = 0;
           this.isReplyActive = false;
@@ -117,14 +116,14 @@ export class CommentsAdminComponent implements OnInit {
           this.displayMessage(true, 'Comentariul a fost adaugat cu succes.');
           this.isDisabled = false;
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Va rugam sa incercati din nou.'
           );
           this.isDisabled = false;
-        }
-      );
+        },
+      });
   }
   cancelEditAdminComment(reply: IReplyComment): void {
     this.replyEditCommentId = 0;
@@ -162,8 +161,8 @@ export class CommentsAdminComponent implements OnInit {
       this.replyService
         .deleteReplyComment(this.API_KEY_COMMENTS, reply.id)
         .pipe(take(1))
-        .subscribe(
-          (data) => {
+        .subscribe({
+          next: (data) => {
             let commentIndex = this.findCommentIndexForReply(reply);
             let filteredCommentIndex =
               this.findFilteredCommentIndexForReply(reply);
@@ -181,14 +180,14 @@ export class CommentsAdminComponent implements OnInit {
             this.displayMessage(true, 'Comentariul a fost sters cu succes.');
             this.isDisabled = false;
           },
-          (err) => {
+          error: (err) => {
             this.displayMessage(
               false,
               'A intervenit o eroare. Va rugam sa incercati din nou.'
             );
             this.isDisabled = false;
-          }
-        );
+          },
+        });
     }
   }
   deleteFullComment(comment: IComment): void {
@@ -204,18 +203,18 @@ export class CommentsAdminComponent implements OnInit {
             comment.reply_comments[0].id
           )
           .pipe(take(1))
-          .subscribe(
-            (res) => {
+          .subscribe({
+            next: (res) => {
               this.deleteComment(comment);
             },
-            (err) => {
+            error: (err) => {
               this.displayMessage(
                 false,
                 'A intervenit o eroare. Va rugam sa incercati din nou.'
               );
               this.isDisabled = false;
-            }
-          );
+            },
+          });
       } else {
         this.deleteComment(comment);
       }
@@ -262,20 +261,20 @@ export class CommentsAdminComponent implements OnInit {
     this.replyService
       .modifyReplyComment(this.API_KEY_COMMENTS, reply.id, replyComment)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.getData();
           this.displayMessage(true, 'Comentariul a fost modificat cu succes.');
           this.isDisabled = false;
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Va rugam sa incercati din nou.'
           );
           this.isDisabled = false;
-        }
-      );
+        },
+      });
   }
   openEditAdminComment(reply: IReplyComment): void {
     this.replyEditCommentId = reply.id;
@@ -352,8 +351,8 @@ export class CommentsAdminComponent implements OnInit {
     this.commentService
       .deleteComment(this.API_KEY, comment.id)
       .pipe(take(1))
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (
             this.pageIndex > 0 &&
             this.pageIndex * this.pageSize >= this.length - 1
@@ -364,14 +363,14 @@ export class CommentsAdminComponent implements OnInit {
           this.displayMessage(true, 'Comentariul a fost sters cu succes.');
           this.isDisabled = false;
         },
-        (err) => {
+        error: (err) => {
           this.displayMessage(
             false,
             'A intervenit o eroare. Va rugam sa incercati din nou.'
           );
           this.isDisabled = false;
-        }
-      );
+        },
+      });
   }
   private displayMessage(type: boolean, message: string): void {
     if (type) {
@@ -416,8 +415,8 @@ export class CommentsAdminComponent implements OnInit {
     this.commentService
       .getComments(this.API_KEY)
       .pipe(take(1))
-      .subscribe(
-        (data) => {
+      .subscribe({
+        next: (data) => {
           this.deleteAllFilters();
           this.comments = data;
           this.commentService.sortCommentsByComments(data);
@@ -426,12 +425,12 @@ export class CommentsAdminComponent implements OnInit {
           this.selectPageAndFillWithData();
           this.isLoading = false;
         },
-        (err) => {
+        error: (err) => {
           this.errorMessage = err.message.message;
           this.isLoading = false;
           this.hideMessage();
-        }
-      );
+        },
+      });
   }
   private hideMessage(): void {
     setTimeout(() => {

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { ICarousel } from 'src/app/interfaces/carousel.interface';
-import { CarouselService } from 'src/app/services/carousel.service';
+import { ICarousel } from '@interfaces';
+import { CarouselService } from '@services';
 
 @Component({
   selector: 'app-carousel',
@@ -44,8 +44,8 @@ export class CarouselComponent implements OnInit, OnDestroy {
     this.carouselService
       .getAllImages()
       .pipe(take(1))
-      .subscribe(
-        (datas) => {
+      .subscribe({
+        next: (datas) => {
           if (datas.length >= 3) {
             this.indexMain = 1;
             this.indexRight = 2;
@@ -74,12 +74,12 @@ export class CarouselComponent implements OnInit, OnDestroy {
             this.isLoading = false;
           }
         },
-        (err) => {
+        error: (err) => {
           setTimeout(this.toggleImage.bind(this), 2000);
           this.int = setInterval(this.toggleImage.bind(this), 7000);
           this.isLoading = false;
-        }
-      );
+        },
+      });
   }
   goToProduct(src: string): void {
     if (this.carouselProducts.length) {

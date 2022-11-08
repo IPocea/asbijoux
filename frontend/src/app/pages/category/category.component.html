@@ -3,9 +3,8 @@
     <mat-spinner></mat-spinner>
   </div>
 </ng-container>
-
-<ng-container *ngIf="!isLoading && selectedProducts">
-  <div class="category-component-container">
+<div class="category-component-container">
+  <ng-container *ngIf="!isLoading && selectedProducts">
     <div class="category-result-number">
       <p *ngIf="products.length === 1">
         A fost identificat {{ products.length }} produs din categoria
@@ -54,5 +53,5 @@
       aria-label="Select page"
     >
     </mat-paginator>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
